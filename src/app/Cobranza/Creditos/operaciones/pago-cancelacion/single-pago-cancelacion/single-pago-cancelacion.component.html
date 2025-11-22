@@ -1,0 +1,207 @@
+<div class="section-container-title" *ngIf="creditoData">
+  <h3 class="title">Gestionar Pago Cancelacion<span class="text-muted">(Cod. {{ creditoData.ID }})</span></h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+
+<div class="section-container-img-form row">
+
+  <div class="section-container-img col-md-4">
+    <h4 class="subtitle mb-4">Foto del Cliente</h4>
+
+    <div class="contenedor-images text-center">
+     
+
+      <div class="contenedor-image mb-3">
+        <img 
+          [src]="mostrarAnverso 
+                  ? page_url + singleClienteData.Documento_Anverso 
+                  : page_url + singleClienteData.Documento_Reverso"
+          class="img-fluid rounded border"
+          [alt]="mostrarAnverso ? 'Documento Anverso' : 'Documento Reverso'"
+          style="max-height: 300px; object-fit: cover;"
+        >
+      </div>
+      
+        <button 
+        type="button"
+        class="btn btn-outline-primary btn-ver-anverso-reverso"
+        (click)="toggleDocumento()">
+        Ver {{ mostrarAnverso ? 'Reverso' : 'Anverso' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="section-container col-md-8 datos-cliente" *ngIf="creditoData">
+    <h4 class="subtitle mb-4">Datos del crédito</h4>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Cliente</label>
+            <input type="text" class="form-control" [value]="creditoData.Cliente" readonly />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Nro. Telefónico</label>
+            <input type="number" class="form-control" [value]="creditoData.Telefono" readonly />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Deuda Actual</label>
+            <input type="text" class="form-control" [value]="creditoData.Cuota" readonly />
+          </div>
+
+    
+          <div class="col-md-4">
+            <label class="form-label">Forma de Pago</label>
+            <input type="text" class="form-control" [value]="creditoData.Forma_Pago" readonly />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Estado del crédito</label>
+            <input type="text" class="form-control" [value]="creditoData.Estado_Credito" readonly />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Días de atraso</label>
+            <input type="text" class="form-control" [value]="creditoData.Atraso" readonly />
+          </div>
+    
+          <div class="col-md-2">
+            <label class="form-label">Cuotas pagadas</label>
+            <input type="text" class="form-control" [value]="creditoData.Cuotas_Pagadas + '/' + creditoData.Cuotas_Por_Pagar" readonly />
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Cuota Actual</label>
+            <input type="text" class="form-control" [value]="creditoData.Nro_Cuota" readonly />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Deuda Total (deuda fecha)</label>
+            <input type="text" class="form-control" [value]="creditoData.Prestamo_Actual_Capital" readonly />
+            <!-- <input type="text" class="form-control" [value]="creditoData.Deuda_Total" readonly /> -->
+          </div>
+
+          <div class="col-md-4" >
+            <label class="form-label">Deuda a pagar (Total Cuotas)</label>
+            <input type="text" class="form-control" [value]="creditoData.Prestamo_Actual" readonly style="background-color: #f1f1f1 !important;"/>
+          </div>
+        </div>
+  </div>
+
+</div>
+
+
+<form [formGroup]="nuevoPagoForm" class="form" *ngIf="nuevoPagoForm">
+  <div class="section-container  datos-cliente">
+
+
+
+    <div class="row mb-5">
+      <div class="col-md-3">
+        <h4 class="subtitle mb-3">Tipo de Aplicación</h4>
+        <input type="text" class="form-control" formControlName="tipo_aplicacion" readonly />
+      </div>
+    </div>
+
+
+
+
+    <h4 class="subtitle mb-3 mt-2">Realizar Pago</h4>
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <label class="form-label">Grado de dificultad del pago</label>
+        <select class="form-control" formControlName="v_flag_cobro">
+          <option value="Muy facil">Muy facil</option>
+          <option value="Facil">Facil</option>
+          <option value="Regular">Regular</option>
+          <option value="Dificil">Dificil</option>
+          <option value="Muy dificil">Muy Dificil</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Confirmar si abrió negocio</label>
+        <select class="form-control" formControlName="v_flag_abrio_negocio">
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="confirmar">Por confirmar</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Monto Pagado</label>
+        <input type="text" class="form-control" [value]="creditoData.Prestamo_Actual_Capital"  readonly />
+
+        <input type="number" step="0.01" class="form-control" formControlName="v_monto_cuota" readonly style="display: none;"/>
+  
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Monto cargado a Mora</label>
+        <input type="number" class="form-control" formControlName="v_mora" readonly />
+      </div>
+    </div>
+
+    <div class="row" [ngClass]="{ 'mb-4': mostrarCamposBanco }">
+        <div class="col-md-3">
+          <label class="form-label">Tipo de Pago</label>
+
+          <select class="form-control" formControlName="v_tipo_pago">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Banco">Banco</option>
+          </select>
+        </div>
+
+        <div class="col-md-3" *ngIf="mostrarCamposBanco" >
+            <label class="form-label">Banco</label>
+              <app-dynamic-select 
+              formControlName="Banco"
+              [groupId]="8"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar"
+              >
+            </app-dynamic-select>
+        </div>
+
+        <div class="col-md-3" *ngIf="mostrarCamposBanco" >
+          <label class="form-label">Fecha del Voucher</label>
+          <input type="date" class="form-control" formControlName="Fecha_Voucher">
+        </div>
+
+        <div class="col-md-3" *ngIf="mostrarCamposBanco" >
+          <label class="form-label">Nro. de Operación</label>
+          <input type="number" class="form-control" formControlName="Num_Operacion">
+        </div>
+    </div>
+
+    <div class="row" *ngIf="mostrarCamposBanco">
+      <div class="col-md-6" >
+        <label class="form-label text-center">Foto de Transferencia</label>
+        <div class="ratio ratio-4x3" style="min-height:500px; max-width:400px;">
+          <app-general-upload-input-img
+            type="new"
+            [aspectRatio]="8/12"
+            [width]="'100%'"
+            [height]="'100%'"
+            (fileSelected)="onFileSelected($event,'Imagen_Banco')">
+          </app-general-upload-input-img>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="d-flex justify-content-end align-items-center mt-5">
+    <app-submit-form
+      [form]="nuevoPagoForm"
+      [submitFn]="submitFn.bind(this)"
+      label="Registrar Pago"
+      [redirectRoute]="'/creditos/operacion/pago-cancelacion'"
+      [requiredFields]="[
+        'v_monto_cuota',
+        'v_flag_cobro',
+        'v_flag_abrio_negocio'
+      ]"
+    ></app-submit-form>
+  </div>
+
+</form>
+

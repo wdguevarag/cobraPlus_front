@@ -1,0 +1,36 @@
+<div *ngIf="singleClienteData; else noData">
+  <div *ngIf="type !== 'fic'" class="section-container-title d-flex justify-content-between align-items-center">
+    <h3 class="title">FIC</h3>
+  </div>
+
+  <div class="section-container" [ngClass]="{ 'p-0': type === 'fic' }">
+    <h4 class="subtitle mb-4">
+      {{ singleClienteData.Nombres + ' ' + singleClienteData.Apellido_Paterno + ' ' + singleClienteData.Apellido_Materno }}
+    </h4>
+    <div *ngIf="singleClienteData.ID">
+      <app-simple-cliente [type]="'fic'" [singleClienteIdInput]="singleClienteData.ID"></app-simple-cliente>
+
+      <app-general-tab-container [tabs]="ficTabs">
+        <ng-template>
+          <div class="section-container">
+            <app-general-table
+              [columns]="singleClienteCreditosColumns"
+              [data]="singleClienteCreditosData"
+              (rowClick)="onCreditoRowClick($event)"
+            ></app-general-table>
+          </div>
+        </ng-template>
+
+        <ng-template>
+          <div class="section-container px-0">
+            <app-cliente-tabs [singleClienteId]="singleClienteData?.ID" tipo="view"></app-cliente-tabs>
+          </div>
+        </ng-template>
+      </app-general-tab-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>No se encontraron datos para este Cliente.</p>
+</ng-template>

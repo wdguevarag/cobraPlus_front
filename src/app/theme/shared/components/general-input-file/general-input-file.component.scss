@@ -1,0 +1,164 @@
+.input-general-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.input-file-container {
+  position: relative;
+  cursor: pointer;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  text-align: center;
+  transition: background-color 0.2s;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.overlay-buttons {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.overlay-buttons button {
+  background-color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.overlay-buttons button:hover {
+  opacity: 1;
+}
+
+.crop-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.crop-buttons button {
+  opacity: 0.7;
+  background-color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.crop-buttons button:hover {
+  opacity: 1;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(197, 197, 197);
+
+  @media(max-width: 767px){
+    p , i {
+      font-size: 12px !important;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// .input-general-container {
+//   position: relative;
+// }
+
+// .input-file-container {
+//   position: relative;
+//   cursor: pointer;
+//   border: 2px dashed #ccc;
+//   border-radius: 5px;
+//   padding: 1rem;
+//   text-align: center;
+//   transition: background-color 0.2s;
+//   height: 300px;
+// }
+
+// .image-preview {
+//   width: 100%;
+//   height: auto;
+//   display: block;
+// }
+
+// .overlay-buttons {
+//   position: absolute;
+//   bottom: 10px;
+//   right: 10px;
+//   display: flex;
+//   gap: 10px;
+// }
+
+// .overlay-buttons button {
+//   background-color: #fff;
+//   border: none;
+//   padding: 8px 12px;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   transition: opacity 0.3s;
+// }
+
+// .overlay-buttons button:hover {
+//   opacity: 1;
+// }
+
+// .crop-buttons {
+//   display: flex;
+//   gap: 10px;
+//   margin-top: 10px;
+// }
+
+// .crop-buttons button {
+//   opacity: 0.7;
+//   background-color: #fff;
+//   border: none;
+//   padding: 8px 12px;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   transition: opacity 0.3s;
+// }
+
+// .crop-buttons button:hover {
+//   opacity: 1;
+// }
+
+// .input-file-container {
+//   .placeholder {
+//     height: 100%;
+//   }
+// }

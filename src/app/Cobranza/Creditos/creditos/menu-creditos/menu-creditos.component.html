@@ -1,0 +1,65 @@
+<div class="section-container-menu row">
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Solicitud Créditos')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-file-earmark-text display-5 text-primary"></i>
+                <h5 class="card-title mt-3">Solicitud Créditos</h5>
+                <a [routerLink]="['/creditos/credito/solicitud-credito']" class="btn btn-primary btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Traslado Cartera')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-folder-symlink display-5 text-danger"></i>
+                <h5 class="card-title mt-3">Traslado Cartera</h5>
+                <a [routerLink]="['/creditos/credito/traslado-cartera']" class="btn btn-danger btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Refinanciación')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-bank display-5 text-primary"></i>
+                <h5 class="card-title mt-3">Refinanciación</h5>
+                <a [routerLink]="['/creditos/credito/refinanciacion']" class="btn btn-primary btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Castigo Cartera')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-trash3 display-5 text-danger"></i>
+                <h5 class="card-title mt-3">Castigo Cartera</h5>
+                <a [routerLink]="['/creditos/credito/castigo-cartera']" class="btn btn-danger btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Condonación')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-emoji-smile display-5 text-primary"></i>
+                <h5 class="card-title mt-3">Condonación</h5>
+                <a [routerLink]="['/creditos/credito/condonacion']" class="btn btn-primary btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+    
+

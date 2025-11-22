@@ -1,0 +1,111 @@
+<div class="d-flex justify-content-between align-items-center">
+  <h4 class="subtitle mb-4">Nuevo Cuenta Asesor </h4>
+  <button class="btn btn-primary" (click)="goBack()">
+    <i class="bi bi-arrow-left"></i>
+  </button>
+</div>
+<form *ngIf="cuentaForm" [formGroup]="cuentaForm" class="form" >
+  <div class="section-container-img-form row p-0 mb-0">
+    <div class="section-container-img col-md-3 py-2">
+      <div class="contenedor-images">
+        <app-general-upload-input-img 
+          type="new" 
+          [width]="'100%'"
+          [aspectRatio]="10/14"  
+          (fileSelected)="onFileSelected($event, 'Url_Foto_Cuenta')">
+        </app-general-upload-input-img>
+      </div>
+    </div>
+
+    <div class="section-container col-md-9 py-2">
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <div class="d-flex py-2 align-items-center gap-2">
+            <app-general-plus-check-btn 
+              tipo="toggle" 
+              [currentValue]="cuentaForm.get('Principal')?.value" 
+              [onToggle]="updatePrincipal">
+            </app-general-plus-check-btn>
+            <input type="hidden" formControlName="Principal">
+            <span class="form-label mb-0">{{ cuentaForm.get('Principal')?.value == 1 ? 'Principal' : 'No Principal' }}</span>
+          </div>
+        </div> 
+      </div>
+      
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="banco" class="form-label">Banco</label>
+          <app-dynamic-select 
+            formControlName="Banco"
+            [groupId]="8"
+            [valueField]="'ID'"
+            [displayField]="'Nombre'"
+            placeholder="Seleccionar">
+          </app-dynamic-select>
+        </div>
+        <div class="col-md-4">
+          <label for="nroCuenta" class="form-label">Número de Cuenta</label>
+          <input type="text" class="form-control" id="nroCuenta" formControlName="Nro_Cuenta" onlyNumbers>
+        </div>
+        <div class="col-md-4">
+          <label for="cci" class="form-label">CCI</label>
+          <input type="text" class="form-control" id="cci" formControlName="CCI" onlyNumbers>
+        </div>
+      </div>
+      
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="titular" class="form-label">Titular</label>
+          <input type="text" class="form-control" formControlName="Titular">
+        </div>
+
+        <div class="col-md-4">
+          <label for="documento" class="form-label">Tipo Documento</label>
+            <app-dynamic-select 
+              formControlName="Documento"
+              [groupId]="4"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar"
+              >
+            </app-dynamic-select>
+        </div>
+        <div class="col-md-4">
+          <label for="nroDocumento" class="form-label">Número de Documento</label>
+          <input 
+            type="text"
+            class="form-control"
+            formControlName="Nro_Documento"
+            maxlength="8"
+            onlyNumbers
+            >
+        </div>
+      </div>
+      
+
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <app-submit-form 
+      [form]="cuentaForm" 
+      [submitFn]="submitFn.bind(this)" 
+      label="Crear Cuenta"
+      [reload]="true"
+      [requiredFields]="[
+        'Banco',
+        'Nro_Cuenta',
+        'CCI',
+        'Titular',
+        'Documento',
+        'Nro_Documento',
+      ]">
+    </app-submit-form>
+  </div>
+</form>
+    
+
+
+
+
+

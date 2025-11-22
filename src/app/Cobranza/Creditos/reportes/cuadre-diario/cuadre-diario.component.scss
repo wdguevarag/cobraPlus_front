@@ -1,0 +1,163 @@
+/* Variables de color */
+$primary-color: #1e2a38 !default;
+$secondary-color: #00B5AD !default;
+$text-light: #ffffff !default;
+
+/* Header de cada card de usuario */
+.user-card .card-header,
+.custom-card-header {
+  background-color: $primary-color !important;
+  color: $text-light;
+  font-size: 12px;
+  padding-top: 12px ;
+  padding-bottom: 12px ;
+
+}
+
+/* Contenedor de tabla con bordes redondeados */
+.user-card .table-responsive {
+  border-radius: 0 0 0.375rem 0.375rem;
+  overflow: hidden;
+}
+
+
+/* Ajustes móviles */
+@media (max-width: 576px) {
+  .custom-table thead th,
+  .custom-table tbody td {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+  }
+}
+
+/* Clase small-header (opcional, si quieres aplicarla en HTML) */
+.small-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.table-responsive {
+  max-height: 60vh;
+  overflow: auto;
+}
+.custom-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+
+/* Desactivar scale en hover sobre la card */
+.user-card .card:hover,
+.user-card .card:focus {
+  transform: none !important;
+}
+
+/* Eliminar transición de transform si existiera */
+.user-card .card {
+  transition: box-shadow 0.2s ease, transform 0s !important;
+}
+
+/* Si hubiera algún scale en filas de tabla (raro, pero por si acaso) */
+.custom-table tbody tr:hover {
+  transform: none !important;
+}
+
+
+
+
+
+.custom-table {
+  display: table;
+  min-width: 1200px; // ajusta según número de columnas
+  table-layout: auto;
+
+  thead {
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      padding: 0.4rem 0.6em;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      background-color: $primary-color;
+      color: $text-light;
+      &:not(:first-child){
+        text-align: right;
+        font-weight: 400;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      min-height: 2rem;
+    }
+
+    td {
+      padding: 0.3rem 0.3rem;
+      font-size: 0.7rem;
+      white-space: nowrap;
+
+      &:first-child,
+      &.metric-cell {
+        background-color: $secondary-color;
+        color: $text-light;
+        font-weight: 500;
+        font-size: 11px;
+        min-width: 180px;
+        text-align: left ;
+      }
+
+      &.user-monto , &.pago-total {
+        background-color: #d4d4d4;
+        color: #444444;
+        font-weight: bold;
+      }
+      
+    }
+  }
+
+  &.mb-0 {
+    margin-bottom: 0;
+  }
+}
+
+
+
+
+
+
+/* Scrollbar estilizado para WebKit (Chrome, Edge, Safari) */
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 181, 173, 0.4); // secondary con opacidad
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 181, 173, 0.7);
+}
+
+/* Scrollbar para Firefox */
+.table-responsive {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 181, 173, 0.4) transparent;
+}
+
+/* Asegurarse de que este div genera scroll */
+.table-responsive {
+  max-height: 60vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}

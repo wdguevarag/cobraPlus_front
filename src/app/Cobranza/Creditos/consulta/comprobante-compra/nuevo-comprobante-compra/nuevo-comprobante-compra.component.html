@@ -1,0 +1,210 @@
+
+<div>
+  <div class="section-container-title d-flex justify-content-between align-items-center">
+    <h3 class="title">Completa los Datos del Nuevo Comprobante de Compra</h3>
+    <app-general-back-btn [tipo]="'cancel'" [routerLink]="'../../'"></app-general-back-btn>
+  </div>
+
+  <form [formGroup]="comprobanteForm" class="form">
+    <div class="section-container">
+      <!-- Primera fila: Razón Social, RUC, Tipo de Comprobante -->
+      <div class="row datos-container">
+        <div class="col-md-4 mb-3">
+          <label for="razonSocial" class="form-label">Razón Social del Emisor</label>
+          <input
+            type="text"
+            id="razonSocial"
+            class="form-control"
+            formControlName="Razon_Social"
+            required
+            onlyMayus
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="ruc" class="form-label">RUC del Emisor</label>
+          <input
+            type="text"
+            id="ruc"
+            class="form-control"
+            formControlName="RUC"
+            maxlength="11"
+            onlyNumbers
+            required
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="tipoComprobante" class="form-label">Tipo de Comprobante</label>
+          <app-general-select-filter
+            formControlName="Tipo_Comprobante"
+            name="Tipo_Comprobante"
+            [service]="grupoDeDatoService"
+            method="getDetalleGrupoDatos"
+            [idGrupo]="tipoComprobanteId"
+            fieldValue="Valor"
+            fieldContent="Nombre"
+            required
+          >
+          </app-general-select-filter>
+        </div>
+
+        
+        <div class="col-md-3 mb-3">
+          <label for="serie" class="form-label">Serie</label>
+          <input
+            type="text"
+            id="serie"
+            class="form-control"
+            formControlName="Serie"
+            required
+          />
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="correlativo" class="form-label">Correlativo</label>
+          <input
+            type="number"
+            id="correlativo"
+            class="form-control"
+            formControlName="Correlativo"
+            min="1"
+            required
+          />
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="subTotal" class="form-label">SubTotal</label>
+          <input
+            type="number"
+            id="subTotal"
+            class="form-control"
+            formControlName="Subtotal"
+            min="0.01"
+            required
+          />
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="igv" class="form-label">Total IGV</label>
+          <input
+            type="number"
+            id="igv"
+            class="form-control"
+            formControlName="Total_IGV"
+            min="0.0"
+            required
+          />
+        </div>
+ 
+        
+        <div class="col-md-4 mb-3">
+          <label for="totalPagar" class="form-label">Total a Pagar</label>
+          <input
+            type="number"
+            id="totalPagar"
+            class="form-control"
+            formControlName="Total_Pagar"
+            min="0.01"
+            required
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="fechaEmision" class="form-label">Fecha de Emisión</label>
+          <input
+            type="date"
+            id="fechaEmision"
+            class="form-control"
+            formControlName="Fecha_Emision"
+            required
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="conceptoCompra" class="form-label">Concepto Compra</label>
+          <input
+            type="text"
+            id="conceptoCompra"
+            class="form-control"
+            formControlName="Concepto_Compra"
+            required
+          />
+        </div>
+
+        
+        <div class="col-md-4 mb-3">
+          <label for="medioPago" class="form-label">Método de Pago</label>
+          <app-general-select-filter
+            formControlName="Medio_Pago"
+            name="Medio_Pago"
+            [service]="grupoDeDatoService"
+            method="getDetalleGrupoDatos"
+            [idGrupo]="metodoPagoId"
+            fieldValue="ID"
+            fieldContent="Nombre"
+            required
+          >
+          </app-general-select-filter>
+        </div>
+
+        <div class="col-md-8 mb-3">
+          <label for="observacion" class="form-label">Observación</label>
+          <input
+            type="text"
+            id="observacion"
+            class="form-control"
+            formControlName="Observacion"
+          />
+        </div>
+      </div>
+
+      <!-- Quinta fila: Imagen del comprobante -->
+      <div class="row mb-3 d-flex justify-content-center">
+
+        <div class="col-md-6" style="max-width: 400px;" >
+            <label class="form-label text-center" >Foto del comprobante</label>
+            <div class="d-flex justify-content-center">
+              <div class="ratio ratio-4x3" style="min-height:500px; max-width:400px;">
+                <app-general-upload-input-img
+                  type="new"
+                  [aspectRatio]="8/12"
+                  [width]="'100%'"
+                  [height]="'100%'"
+                  (fileSelected)="onFileSelected($event, 'Imagen')"
+                >
+                </app-general-upload-input-img>
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+
+  <!-- Botón de envío con app-submit-form -->
+  <div class="d-flex justify-content-end align-items-center mt-4">
+    <app-submit-form
+      [form]="comprobanteForm"
+      [submitFn]="submitFn.bind(this)"
+      label="Crear Comprobante de Compra"
+      [requiredFields]="[
+        'Razon_Social',
+        'RUC',
+        'Tipo_Comprobante',
+        'Serie',
+        'Correlativo',
+        'Subtotal',
+        'Total_IGV',
+        'Total_Pagar',
+        'Fecha_Emision',
+        'Concepto_Compra',
+        'Medio_Pago',
+      ]"
+    >
+    </app-submit-form>
+  </div>
+
+
+  </form>
+
+</div>

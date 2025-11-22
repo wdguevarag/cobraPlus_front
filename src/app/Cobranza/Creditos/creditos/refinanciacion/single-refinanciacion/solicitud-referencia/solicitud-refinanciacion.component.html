@@ -1,0 +1,112 @@
+<div class="section-container">
+    <div class="row mb-3">
+        <div class="col-md-4 text-start">
+            <label class="form-label">Cliente</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Cliente" readonly>
+        </div>
+        <div class="col-md-4 text-start">
+            <label class="form-label">Asesor</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Asesor" readonly>
+        </div>
+        <div class="col-md-4 text-start">
+            <label class="form-label">Tipo Solicitud</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Tipo_Solicitud" readonly>
+        </div>
+        <div class="col-md-6 text-start">
+            <label class="form-label">Préstamo</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Prestamo" readonly>
+        </div>
+        <div class="col-md-6 text-start">
+            <label class="form-label">Periodicidad</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Periodicidad" readonly>
+        </div>
+
+        <div class="col-md-4 text-start">
+            <label class="form-label">Nro. Periodos</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Nro_Periodos" readonly>
+        </div>
+        <div class="col-md-4 text-start">
+            <label class="form-label">Tipo P. Gracia</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Tipo_P_Gracia" readonly>
+        </div>
+        <div class="col-md-4 text-start">
+            <label class="form-label">Nro. P. Gracia</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Nro_P_Gracia" readonly>
+        </div>
+
+        <div class="col-md-4 text-start">
+            <label class="form-label">TEM Oficial %</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.TEM_Oficial" readonly>
+        </div>
+        <div class="col-md-4 text-start">
+            <label class="form-label">TEA Oficial %</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.TEA_Oficial" readonly>
+        </div>
+        <div class="col-md-4 text-start">
+            <label class="form-label">Gasto Mensual %</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Gasto_Mensual" readonly>
+        </div>
+
+        <div class="col-md-4 text-start">
+            <label class="form-label">Plazo</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Plazo" readonly>
+        </div>
+        <div class="col-md-4 text-start">
+            <label class="form-label">F. Desembolso</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Fecha_Desembolso" readonly>
+        </div>
+        <div class="col-md-4 text-start">
+            <label class="form-label">F. Inicio</label>
+            <input type="text" class="form-control" [value]="refinanciacionData[0]?.Fecha_Inicio" readonly>
+        </div>
+    </div>
+    <div class="table-responsive pt-5">
+        <table class="table table-striped">
+            <thead style="background-color: #1E2A38; --bs-table-color-state: white;">
+                <tr>
+                    <th>N° Cuota</th>
+                    <th>F.Pago</th>
+                    <th>Capital</th>
+                    <th>Interes</th>
+                    <th>IGV</th>
+                    <th>G.Adm</th>
+                    <th>C.Total</th>
+                    <th>Saldo</th>
+                    <th>C.Actual</th>
+                    <th>Mora</th>
+                    <th>Atraso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of cronogramaData">
+                    <td>{{ item.Nro_Cuota }}</td>
+                    <td>{{ item.Fecha_Pago }}</td>
+                    <td>{{ item.Amortizado | number: '1.2-2' }}</td>
+                    <td>{{ item.Interes | number: '1.2-2' }}</td>
+                    <td>{{ item.IGV | number: '1.2-2' }}</td>
+                    <td>{{ item.Gastos_ADM | number: '1.2-2' }}</td>
+                    <td>{{ item.Cuota_Total | number: '1.2-2' }}</td>
+                    <td>{{ item.Capital | number: '1.2-2' }}</td>
+                    <td>{{ item.Cuota_Actual | number: '1.2-2' }}</td>
+                    <td>{{ item.Mora | number: '1.2-2' }}</td>
+                    <td>{{ item.Atraso }}</td>
+                </tr>
+            </tbody>
+            <tfoot style="background-color: #1E2A38; --bs-table-color-state: white;">
+                <tr>
+                    <td colspan="2" class="text-center"><strong>Totales</strong></td>
+                    <!-- <td>{{ getTotal('Capital') | number: '1.2-2' }}</td>  --> 
+                    <td>{{ getTotal('Amortizado') | number: '1.2-2' }}</td>
+                    <td>{{ getTotal('Interes') | number: '1.2-2' }}</td>
+                    <td>{{ getTotal('IGV') | number: '1.2-2' }}</td>
+                    <td>{{ getTotal('Gastos_ADM') | number: '1.2-2' }}</td>
+                    <td>{{ getTotal('Cuota_Total') | number: '1.2-2' }}</td>
+                    <td>0.00</td>
+                    <td>{{ getTotal('Cuota_Actual') | number: '1.2-2' }}</td>
+                    <td>{{ getTotal('Mora') | number: '1.2-2' }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

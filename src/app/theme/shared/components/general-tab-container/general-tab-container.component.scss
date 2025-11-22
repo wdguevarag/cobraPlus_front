@@ -1,0 +1,35 @@
+.custom-tab-group {
+  width: 100%;
+}
+/* Estilos personalizados para los labels de Angular Material */
+.mat-tab-label {
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+.mat-tab-label-active {
+  color: #fff !important;
+  background-color: #1E2A38 !important;
+  transform: scale(1.05);
+}
+
+/* Aseguramos que el contenedor de cada tab tenga overflow oculto para la animación */
+.tab-panel {
+  overflow: hidden;
+}
+/* Ajustes para que el componente sea responsive */
+@media (max-width: 600px) {
+  .mat-tab-label {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+  .tab-panel {
+    padding: 15px;
+
+    @media (max-width: 500px) {
+    padding: 0px !important;
+      
+    }
+  }
+}
+
+

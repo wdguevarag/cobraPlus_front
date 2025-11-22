@@ -1,0 +1,59 @@
+<div *ngIf="isLoading" class="text-center my-4">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading">
+  <!-- Mensaje informativo si estamos editando una meta existente -->
+  <div *ngIf="isEditMode" class="alert alert-info">
+    <strong>Ya existe una meta para este periodo.</strong><br>
+    Fecha: {{ metaExistente?.Fecha_Inicio_Periodo }} – {{ metaExistente?.Fecha_Final_Periodo }}
+  </div>
+
+  <!-- Formulario de creación/edición -->
+  <form [formGroup]="metaForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+    <table class="table tabla-vertical">
+      <tbody>
+        <tr>
+          <th>Clientes ≤ 7 días</th>
+          <td><input type="number" class="form-control" formControlName="Clientes_7d" min="0"></td>
+        </tr>
+        <tr>
+          <th>Cartera ≤ 7 días</th>
+          <td><input type="number" class="form-control" formControlName="Cartera_7d" min="0"></td>
+        </tr>
+        <tr>
+          <th>Cartera ≥ 8 días</th>
+          <td><input type="number" class="form-control" formControlName="Cartera_8d" min="0"></td>
+        </tr>
+        <tr>
+          <th>Mora 8 días</th>
+          <td><input type="number" class="form-control" formControlName="Mora_8d" min="0"></td>
+        </tr>
+        <tr>
+          <th>Crédito Promedio</th>
+          <td><input type="number" class="form-control" formControlName="Credito_Promedio" min="0"></td>
+        </tr>
+        <tr>
+          <th>Nº Desembolsos Nuevos</th>
+          <td><input type="number" class="form-control" formControlName="Desembolsos_Nuevos_Num" min="0"></td>
+        </tr>
+        <tr>
+          <th>Monto Desembolsos Nuevos</th>
+          <td><input type="number" class="form-control" formControlName="Desembolsos_Nuevos_Monto" min="0"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-end mt-4">
+      <button type="submit" class="btn btn-primary btn-letras" [disabled]="metaForm.invalid || isLoading">
+        <span *ngIf="!isLoading">{{ isEditMode ? 'Editar Meta' : 'Crear Meta' }}</span>
+        <span *ngIf="isLoading">Guardando...</span>
+      </button>
+      <button type="button" class="btn btn-primary ms-2 btn-letras" (click)="cerrar.emit()" [disabled]="isLoading">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

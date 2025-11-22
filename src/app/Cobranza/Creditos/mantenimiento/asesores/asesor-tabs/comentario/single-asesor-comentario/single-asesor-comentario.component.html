@@ -1,0 +1,86 @@
+<div *ngIf="asesorComentarioData; else noData" >
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="subtitle mb-4">{{ isEditing ? 'Editar Comentario' : 'Datos de la Comentario' }} : ( Comentario: {{ asesorComentarioData.Comentario }})     </h5>
+      <div class="d-flex gap-2">
+
+        <ng-container *ngIf="mode === 'edit'">
+          <app-general-plus-check-btn 
+            tipo="edit-single" 
+            (editStateChanged)="isEditing = $event">
+          </app-general-plus-check-btn>
+        </ng-container>
+
+        <button class="btn btn-secondary" (click)="goBack()">
+          <i class="fa fa-arrow-left"></i> LISTAR
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!isEditing">
+      <div class="section-container p-0 mb-0">
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label">Comentario</label>
+                <input type="text" class="form-control" value="{{asesorComentarioData.Comentario}}" >
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label">Estado</label>
+              <input type="text" class="form-control" value="{{asesorComentarioData.Estado == 1 ? 'activo' : 'inactivo'}}" >
+          </div>
+        
+         </div>
+       
+         
+      </div> 
+
+    </div>
+
+    <div *ngIf="isEditing">
+      <form [formGroup]="asesorComentarioForm" class="form" enctype="multipart/form-data" >
+        
+          <div class="section-container p-0 mb-0">
+
+            <div class="row mb-3">
+              <div class="col-md-12">
+                  <label class="form-label">Comentario</label>
+                  <input type="text" class="form-control" formControlName="Comentario" >
+              </div>
+           </div>
+           
+          <div class="row ">
+            <div class="col-md-3 text-start">
+                <label class="form-label">Estado</label>
+                <div class="d-flex py-2 align-items-center gap-2">
+                  <app-general-plus-check-btn 
+                    tipo="toggle" 
+                    [currentValue]="asesorComentarioForm.get('Estado')?.value" 
+                    [onToggle]="updateEstado">
+                  </app-general-plus-check-btn>
+                  <input type="hidden" formControlName="Estado">
+                  <span>{{ asesorComentarioForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+              </div> 
+          </div>
+
+    
+          </div>
+
+
+          <div class="d-flex justify-content-end">
+            <app-submit-form 
+            [form]="asesorComentarioForm" 
+            [submitFn]="submitFn.bind(this)" 
+            label="Actualizar Comentario">
+            </app-submit-form>
+          </div>
+
+        </form>
+    </div>
+</div>
+<ng-template #noData>
+<p>No se encontraron datos para esta Comentario.</p>
+</ng-template> 
+
+
+

@@ -1,0 +1,39 @@
+.custom-icon-large {
+  font-size: 10rem;  /* Tamaño grande */
+  color: #0d3b66;     /* Azul marino (puedes cambiarlo) */
+  color: #0d3b66;       /* Color del ícono (blanco) */
+  margin-right: 1rem;  /* Espaciado derecho */
+  margin-left: 1rem !important;
+  margin-top: -1rem !important;
+}
+
+.section-container-img {
+  @media(max-width: 767px) {
+    height: fit-content;
+  }
+
+}
+
+.btn-ver-anverso-reverso {
+  @media(max-width: 767px) {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+}
+
+.datos-cliente  {
+    @media(max-width: 767px) {
+      h4 {
+        font-size: 10px !important;
+      }
+    }
+  .row {
+      row-gap: 1rem;
+      @media(max-width: 767px) {
+          width: 100%; 
+          .col-md-6 , .col-md-2 , .col-md-4 , .col-md-3 , .col-md-8 {
+              width: 50% !important;
+          }
+      }
+  }
+}

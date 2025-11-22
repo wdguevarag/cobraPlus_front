@@ -1,0 +1,50 @@
+<div>
+    <div class="section-container-title">
+        <h3 class="title">Geolocalizacion del Cliente</h3>
+    </div>
+    <div class="section-container">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="asesores" class="form-label">Asesores</label>
+                <div *ngIf="!(asesores$ | async)?.length">Cargando asesores...</div>
+                <select *ngIf="(asesores$ | async) as asesores" id="asesores" class="form-control" (change)="onSelectionChange()">
+                    <option value="" selected disabled>Seleccionar</option>
+                    <option *ngFor="let usuario of asesores$ | async" [value]="usuario.ID">
+                        {{ usuario.Nombre }} {{ usuario.Apellido }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="tipoUbicacion" class="form-label">Tipo Ubicación</label>
+                <select id="tipoUbicacion" class="form-control" (change)="onSelectionChange()">
+                    <option value="" selected disabled>Seleccionar</option>
+                    <option value="domicilio">Domicilio</option>
+                    <option value="negocio">Negocio</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-container">
+        <div style="height: 600px;" class="mapa-inner">
+            <div class="container-mora">
+                <span>Dias de mora</span>
+                <div class="leyenda-item">
+                    <div class="leyenda-item-inner">
+                        <div class="color blue"></div>
+                        <span>Hasta 3 días</span>
+                    </div>
+                    <div class="leyenda-item-inner">
+                        <div class="color yellow"></div>
+                        <span>4 a 7 días</span>
+                    </div>
+                    <div class="leyenda-item-inner">
+                        <div class="color red"></div>
+                        <span>De 8 a más</span>
+                    </div>
+                </div>
+            </div>
+            <app-general-map [selectedUserId]="selectedUserId" [tipoUbicacion]="tipoUbicacion"></app-general-map>
+        </div>
+    </div>
+</div>

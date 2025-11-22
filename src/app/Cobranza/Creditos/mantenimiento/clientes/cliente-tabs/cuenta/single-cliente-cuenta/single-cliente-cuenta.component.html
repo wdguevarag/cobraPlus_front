@@ -1,0 +1,192 @@
+<div *ngIf="clienteCuentaData; else noData" >
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="subtitle mb-4">{{ isEditing ? 'Editar Cuenta' : 'Datos del Cuenta' }} : ( Nro Cuenta: {{ clienteCuentaData.Nro_Cuenta }})     </h4>
+    <div class="d-flex gap-2">
+
+      <button class="btn btn-primary" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+
+      <ng-container *ngIf="mode === 'edit'">
+        <app-general-plus-check-btn 
+          tipo="edit-single" 
+          (editStateChanged)="isEditing = $event">
+        </app-general-plus-check-btn>
+      </ng-container>
+      
+    </div>
+  </div>
+  
+  <form *ngIf="clienteCuentaForm" [formGroup]="clienteCuentaForm" class="form" enctype="multipart/form-data" >
+    <div class="section-container-img-form row mt-2">
+      <div class="section-container-img col-md-4">
+        <div class="contenedor-images">
+            <ng-container *ngIf="isEditing; else viewFoto">
+              <app-general-upload-input-img
+                type="edit"
+                [currentImage]="page_url + clienteCuentaData.Url_Foto_Cuenta"
+                [width]="'100%'"
+                [height]="'300px'"
+               [aspectRatio]="10/14"  
+                (fileSelected)="onFileSelected($event, 'Url_Foto_Cuenta')">
+              </app-general-upload-input-img>
+            </ng-container>
+            <ng-template #viewFoto>
+              <img [src]="page_url + clienteCuentaData.Url_Foto_Cuenta"
+                  class="img-fluid rounded border"
+                  alt="Foto Cuenta Cliente"
+                  style="height: 300px; object-fit: cover;">
+            </ng-template>
+        </div>
+      </div>
+
+      <div class="section-container col-md-8 py-2">
+        <div class="row mb-3 datos-container">
+        
+          <div class="col-md-12 text-start d-flex align-items-center gap-2" *ngIf="isEditing">
+              <app-general-plus-check-btn 
+                tipo="toggle" 
+                [currentValue]="clienteCuentaForm.get('Principal')?.value" 
+                [onToggle]="updatePrincipal">
+              </app-general-plus-check-btn>
+              <input type="hidden" formControlName="Principal">
+              <span class="form-label mb-0">{{ clienteCuentaForm.get('Principal')?.value == 1 ? 'Principal' : 'No Principal' }}</span>
+          </div> 
+        </div> 
+
+        <div class="row mb-3 datos-container">
+
+          <div class="col-md-6">
+              <label class="form-label">Banco</label>
+              <app-dynamic-select 
+              formControlName="Banco"
+              [groupId]="8"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar"
+              [editable]="isEditing">
+                </app-dynamic-select>
+          </div>
+          <div class="col-md-6">
+              <label class="form-label">Nro. Cuenta</label>
+              <input type="text" class="form-control" formControlName="Nro_Cuenta" [readonly]="!isEditing" onlyNumbers>
+          </div>
+
+          <div class="col-md-4">
+            <label for="documento" class="form-label">CCI</label>
+            <input type="text" class="form-control" formControlName="CCI" [readonly]="!isEditing" onlyNumbers>
+          </div>
+
+          <div class="col-md-4">
+            <label for="titular" class="form-label">Titular</label>
+            <div *ngIf="isEditing; else viewTitular">
+          
+
+
+
+              <select formControlName="Titular" class="form-control" [compareWith]="compareFn">
+                <option [ngValue]="null" disabled selected>Seleccione titular</option>
+                <option [ngValue]="'CLIENTE'">
+                  {{ singleClienteData?.Nombres + ' ' + singleClienteData?.Apellido_Paterno + ' (CLIENTE)' }}
+                </option>
+                <option *ngFor="let familiar of familiares" [ngValue]="{ type: 'familiar', data: familiar }">
+                  {{ familiar.Nombres + ' ' + familiar.Apellido_Paterno }}
+                </option>
+              </select>
+              
+
+
+
+            </div>
+            <ng-template #viewTitular>
+              <input type="text" class="form-control" formControlName="Titular" readonly>
+            </ng-template>
+          </div>
+
+          <div class="col-md-4">
+            <label for="documento" class="form-label">Tipo Documento</label>
+            <app-dynamic-select 
+              formControlName="Documento"
+              [groupId]="4"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar"
+              [editable]="false">
+            </app-dynamic-select>
+          </div>
+        
+        
+          <div class="col-md-4">
+            <label for="nroDocumento" class="form-label">Número de Documento</label>
+            <input 
+              type="text"
+              class="form-control"
+              formControlName="Nro_Documento"
+              maxlength="8"
+              onlyNumbers
+              readonly>
+          </div>
+
+          <div class="col-md-4" *ngIf="!hideParentesco && clienteCuentaForm.get('Parentesco')?.value != 0">
+            <label for="parentesco" class="form-label">Parentesco</label>
+            <app-dynamic-select 
+              formControlName="Parentesco"
+              [groupId]="20"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar"
+              [editable]="false">
+            </app-dynamic-select>
+          </div>
+
+          <div class="col-md-4 text-start">
+            <label class="form-label">Estado</label>
+            <div class="d-flex py-2 align-items-center gap-2" *ngIf="isEditing; else viewEstado">
+              <app-general-plus-check-btn 
+                tipo="toggle" 
+                [currentValue]="clienteCuentaForm.get('Estado')?.value" 
+                [onToggle]="updateEstado">
+              </app-general-plus-check-btn>
+              <input type="hidden" formControlName="Estado">
+              <span class="form-label mb-0">{{ clienteCuentaForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+            </div>
+            <ng-template #viewEstado>
+              <input type="text"
+                      class="form-control"
+                      [value]="clienteCuentaForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo'"
+                      readonly>
+            </ng-template>
+          </div> 
+
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="mode == 'edit' && isEditing" class="d-flex justify-content-end">
+      <app-submit-form 
+      [form]="clienteCuentaForm" 
+      [submitFn]="submitFn.bind(this)" 
+      label="Actualizar Cuenta"
+      [reload]="true">
+      </app-submit-form>
+    </div>
+
+  </form>
+
+</div>
+<ng-template #noData>
+<p>No se encontraron datos para este Cuenta.</p>
+</ng-template> 
+
+
+
+
+
+
+
+
+
+
+
+
+

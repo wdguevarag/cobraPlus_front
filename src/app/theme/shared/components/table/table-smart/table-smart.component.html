@@ -1,0 +1,19 @@
+<app-table-dumb
+  [value]="data$ | async"
+  [totalRecords]="total$ | async"
+  [columns]="columns"
+  [loading]="loading$ | async"
+  [suggestions]="suggestions"
+  [lastEvent]="lastEvent"
+  [searchInputs]="searchInputs"
+
+  (onLazy)="loadData($event)"
+  (onSuggest)="onSuggest($event)"
+  (onSearchApply)="onSearchApply($event)"
+
+  (exportExcel)="onExport('excel')"
+  (exportPdf)="onExport('pdf')"
+  (exportWord)="onExport('word')"
+  (exportPrint)="onPrint()"
+
+/>

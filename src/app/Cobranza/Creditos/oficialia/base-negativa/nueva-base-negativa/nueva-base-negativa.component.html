@@ -1,0 +1,80 @@
+<!-- nueva-base-negativa.component.html -->
+<div class="section-container-title">
+  <h3 class="title">Nueva Base Negativa</h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+<form [formGroup]="bnForm" class="form">
+  <div class="section-container">
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label class="form-label">Cliente</label>
+        <select
+          #clienteSelect
+          formControlName="Cliente_ID"
+          searchMode
+          class="form-control"
+          (change)="onClienteChange(clienteSelect.value)">
+          <option value="" disabled selected>Seleccionar</option>
+          <option *ngFor="let cliente of clienteData" [value]="cliente.ID">
+            {{ cliente.Nombres }} {{ cliente.Apellido_Paterno }}
+          </option>
+        </select>
+      </div>
+
+   
+      <div class="col-md-3">
+        <label class="form-label">Tipo Documento</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="selectedCliente.Tipo_Documento_Nombre"
+          readonly
+          onlyMayus>
+      </div>
+      
+      <div class="col-md-3">
+        <label class="form-label">Documento</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="selectedCliente.Documento"
+          readonly
+          onlyMayus>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Motivo</label>
+        <app-dynamic-select
+          formControlName="Motivo"
+          [groupId]="24"
+          [valueField]="'ID'"
+          [displayField]="'Nombre'"
+          placeholder="Seleccionar">
+        </app-dynamic-select>
+      </div>
+    </div>
+
+    <!-- Motivo y Comentario -->
+    <div class="row mb-3">
+ 
+      <div class="col-md-12">
+        <label class="form-label">Comentario</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="Comentario"
+          onlyMayus>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end align-items-center mt-5">
+    <app-submit-form
+      [form]="bnForm"
+      [submitFn]="submitFn.bind(this)"
+      label="Crear Base Negativa"
+      [requiredFields]="['Cliente_ID','Motivo','Comentario']">
+    </app-submit-form>
+  </div>
+</form>

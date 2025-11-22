@@ -1,0 +1,24 @@
+<div class="section-container-menu row">
+    <div class="col-12 col-md-4"  *ngIf="allowedAccesses.includes('Documentos')" >
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-file-earmark-text display-5 text-primary"></i>
+                <h5 class="card-title mt-3">Documentos</h5>
+                <a [routerLink]="['/creditos/documento/documentos']" class="btn btn-primary btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4"  *ngIf="allowedAccesses.includes('Firma')" >
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-pencil display-5 text-success"></i>
+                <h5 class="card-title mt-3">Firma</h5>
+                <a [routerLink]="['/creditos/documento/documentos']" class="btn btn-success btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

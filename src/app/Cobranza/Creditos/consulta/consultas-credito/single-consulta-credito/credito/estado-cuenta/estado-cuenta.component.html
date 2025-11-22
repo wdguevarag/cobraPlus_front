@@ -1,0 +1,75 @@
+<div class="table-responsive tabla-cronograma">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th style="min-width: 60px;">Fecha Program.</th>
+                <th>Cuotas</th>
+                <th>Capital</th>
+                <th>Interés</th>
+                <th>Mora</th>
+                <th>Días Mora</th>
+                <th>Saldo Pendiente</th>
+                <th style="min-width: 60px;">Fecha de Pago</th>
+                <th>Pagos Realiz.</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="cronogramaData.length === 0">
+                <td colspan="11" class="text-center">No hay datos disponibles.</td>
+            </tr>
+            <tr *ngFor="let cuota of cronogramaData">
+                <td>{{ cuota.Nro_Cuota }}</td>
+                <td>{{ cuota.Fecha_Programada }}</td>
+                <td>{{ cuota.Cuota_Total }}</td>
+                <td>{{ cuota.Amortizado }}</td>
+                <td>{{ cuota.Interes }}</td>
+                <td>{{ cuota.Mora }}</td>
+                <td>{{ cuota.Atraso }}</td>
+                <td>{{ cuota.Cuota_Actual }}</td>
+                <td>{{ cuota.Fecha_Pago ? cuota.Fecha_Pago : '' }}</td>
+                <td>{{ cuota.Total_Pagar ? cuota.Total_Pagar : '' }}</td>
+              
+
+                <td>
+                <span
+                    [ngClass]="{
+                    'text-primary': creditoClientData?.Estado_Deuda == '1' || cuota.Estado_Cuota == '1',
+                    'text-danger': creditoClientData?.Estado_Deuda !== '1' && cuota.Estado_Cuota == '0'
+                    }"
+                    style="font-weight: bolder;"
+                >
+                {{ 
+                    (creditoClientData?.Estado_Deuda == 1 && (!cuota.Fecha_Pago || cuota.Fecha_Pago === '')) 
+                        ? 'Cancelado' 
+                        : (creditoClientData?.Estado_Deuda == 1 || cuota.Estado_Cuota == '1') 
+                        ? 'Pagado' 
+                        : 'Pendiente' 
+                    }}
+                </span>
+                </td>
+
+
+
+
+
+            </tr>
+        </tbody>
+        <tfoot class="table-primary">
+            <tr>
+                <td colspan="2"><strong>TOTALES</strong></td>
+                <td>{{ getTotal('Cuota_Total') | number:'1.2-2' }}</td>
+                <td>{{ getTotal('Amortizado') | number:'1.2-2' }}</td>
+                <td>{{ getTotal('Interes') | number:'1.2-2' }}</td>
+                <td>{{ getTotal('Mora') | number:'1.2-2' }}</td>
+                <td></td>
+                <td>{{ getTotal('Cuota_Actual') | number:'1.2-2' }}</td>
+                <td></td>
+                <td>{{ getTotal('Total_Pagar') | number:'1.2-2' }}</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <p *ngIf="cronogramaData.length === 0">No hay datos disponibles.</p>
+</div>

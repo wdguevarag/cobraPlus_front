@@ -1,0 +1,124 @@
+<div *ngIf="isLoading" class="spinner-container">
+  <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <span class="spinner-border"></span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading">
+  <div *ngIf="singleAplicacionData; else noData">
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+          <h3 class="title">{{ isEditing ? 'Editar Aplicacion : ' : 'Detalles de la Aplicacion : ' }} <span class="text-muted"> {{singleAplicacionData.Nombre}} (Cod {{singleAplicacionData.ID}}) </span></h3>
+          <app-general-plus-check-btn 
+          tipo="edit-single" 
+          (editStateChanged)="isEditing = $event">
+        </app-general-plus-check-btn>
+    </div> 
+
+    <div *ngIf="!isEditing">
+      <div class="section-container">
+          <form>
+            <div class="row mb-3">
+              <div class="text-start col-md-4">
+                  <label class="form-label ">Codigo</label>
+                  <input class="form-control" value="{{ singleAplicacionData.ID }} " readonly />
+              </div>
+              <div class="text-start col-md-4">
+                  <label class="form-label ">Nombre</label>
+                  <input class="form-control" value="{{ singleAplicacionData.Nombre }} " readonly />
+              </div>
+              <div class="text-start col-md-4">
+                  <label for="ruta" class="form-label ">Ruta</label>
+                  <input class="form-control" id="ruta" value="{{ singleAplicacionData.Ruta }} " readonly />
+              </div>
+            </div>
+
+
+            <div class="row mb-3">
+              <div class="text-start col-md-4">
+                  <label class="form-label ">Icono</label>
+                  <input class="form-control" value="{{ singleAplicacionData.Icono }} " readonly />
+              </div>
+              <div class="text-start col-md-4">
+                  <label class="form-label ">Descripcion</label>
+                  <input class="form-control" value="{{ singleAplicacionData.Descripcion }} " readonly />
+              </div>
+              <div class="text-start col-md-4">
+                    <label class="form-label ">Estado</label>
+                    <input class="form-control" value="{{ singleAplicacionData.Estado == 1 ? 'Activo' : 'Inactivo'}} " readonly />
+              </div>
+            </div>
+          </form>
+      </div>
+      <!-- <div class="section-container">
+        <h4 class="subtitle mb-4">Lista de Roles Asignados </h4>
+        <app-general-table 
+        [columns]="rolesAsignadosColumns" 
+        [data]="rolesAsignadosData" 
+        >
+        </app-general-table>
+      </div> -->
+    </div>
+
+    <div  *ngIf="isEditing" >
+      <form [formGroup]="aplicacionForm" class="form">
+        <div class="section-container">
+          <div class="row mb-3">
+            <div class="text-start col-md-4">
+                <label for="nombre" class="form-label ">Nombre</label>
+                <input class="form-control" id="nombre" formControlName="Nombre"  />
+            </div>
+            <div class="text-start col-md-4">
+                <label for="ruta" class="form-label ">Ruta</label>
+                <input class="form-control" id="ruta" formControlName="Ruta"  />
+            </div>
+            <div class="text-start col-md-4">
+              <label for="icono" class="form-label ">Icono</label>
+                <app-general-select-filter
+                formControlName="Icono"
+                [service]="iconService"
+                method="getIcons"
+                fieldValue="ID"
+                fieldContent="Nombre"
+                name="Icono">
+              </app-general-select-filter>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="text-start col-md-4">
+                <label for="descripcion" class="form-label ">Descripcion</label>
+                <input class="form-control" id="descripcion" formControlName="Descripcion"  />
+            </div>
+            <div class="col-md-4 text-start">
+              <label class="form-label">Estado</label>
+              <div class="d-flex py-2 align-items-center gap-2">
+                <app-general-plus-check-btn 
+                  tipo="toggle" 
+                  [currentValue]="aplicacionForm.get('Estado')?.value" 
+                  [onToggle]="updateEstado">
+                </app-general-plus-check-btn>
+                <input type="hidden" formControlName="Estado">
+                <span>{{ aplicacionForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+      
+        <div class="d-flex justify-content-end mt-5">
+          <app-submit-form
+            [form]="aplicacionForm"
+            [submitFn]="submitFn.bind(this)"
+            label="Crear Aplicacion">
+          </app-submit-form>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+
+  <ng-template #noData>
+  <p>No se encontraron datos para esta Aplicación.</p>
+  </ng-template>
+
+</div>

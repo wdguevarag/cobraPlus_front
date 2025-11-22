@@ -1,0 +1,78 @@
+<button 
+  *ngIf="tipo === 'plus'" 
+  [routerLink]="routerLink" 
+  class="btn btn-success rounded-circle d-flex justify-content-center align-items-center"
+  style="width: 3.5em; height: 3.5em;">
+  <i class="bi bi-plus" style="font-size: 2rem;"></i>
+</button>
+
+
+<button 
+  *ngIf="tipo === 'plus-show'" 
+  class="btn btn-success rounded-circle d-flex justify-content-center align-items-center"
+  style="width: 3.5em; height: 3.5em;"
+  (click)="plusShow()">
+  <i class="bi bi-plus" style="font-size: 2rem;"></i>
+</button>
+
+
+<button 
+  *ngIf="tipo === 'check'" 
+  class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center"
+  style="width: 3.5em; height: 3.5em;"
+  (click)="check()">
+  <i class="bi bi-check" style="font-size: 2rem;"></i>
+</button>
+
+<button 
+  *ngIf="tipo === 'cancel'" 
+  [routerLink]="routerLink" 
+  class="btn btn-primary w-auto"
+  style="width: 5.5em; height: 3.5em;"
+  [innerText]="contentBtn ? contentBtn : 'CANCELAR'">
+</button>
+
+
+
+<button 
+  *ngIf="tipo === 'edit-single'" 
+  class="btn btn-primary w-auto px-4 edit-single"
+  style="width: 5.5em; height: 3.5em;"
+  (click)="toggleEditSingle()">
+  {{ isEditing ? 'CANCELAR' : 'EDITAR' }}
+</button>
+
+<button 
+  *ngIf="tipo === 'toggle'" 
+  class="toggle-btn"
+  [ngClass]="{ 'active': currentValue == 1 }"  
+  (click)="toggle()">
+  <span class="toggle-ball"></span>
+</button>
+
+<button
+  *ngIf="tipo === 'check-form'"
+  class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center"
+  style="width: 3.5em; height: 3.5em;"
+  [disabled]="isLoading"
+  (click)="handleSubmit()">
+
+
+  <span *ngIf="!isLoading">
+    <i class="bi bi-check" style="font-size: 2rem;"></i>
+  </span>
+  <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+</button>
+
+
+
+
+
+
+
+<div *ngIf="showPopup" class="popup-overlay">
+  <div class="popup-content">
+    <p>{{ popupMessage }}</p>
+    <button (click)="closePopup()">Cerrar</button>
+  </div>
+</div>

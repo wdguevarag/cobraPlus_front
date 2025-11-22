@@ -1,0 +1,123 @@
+<div>
+    <div class="d-flex justify-content-between align-items-center">
+      <h4 class="subtitle mb-4">Nuevo Familiar Cliente: {{singleClienteData?.Nombre}} {{singleClienteData?.Apellido_Paterno}}</h4>
+      <button class="btn btn-primary" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+    </div>
+  
+    <form [formGroup]="familiarForm" (ngSubmit)="submitFn(familiarForm.value)">
+      <div class="section-container p-0 mb-0">
+        <div class="row mb-3 datos-container">
+          <div class="col-md-4">
+            <label for="parentesco" class="form-label">Parentesco</label>
+              <app-dynamic-select 
+              formControlName="Parentesco"
+              [groupId]="20"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar">
+            </app-dynamic-select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Nombres</label>
+            <input type="text" class="form-control" formControlName="Nombres" onlyMayus>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Apellido Paterno</label>
+            <input type="text" class="form-control" formControlName="Apellido_Paterno" onlyMayus>
+          </div>
+
+          <div class="col-md-4">
+            <label  class="form-label">Apellido Materno</label>
+            <input type="text" class="form-control" formControlName="Apellido_Materno" onlyMayus>
+          </div>
+          <div class="col-md-4">
+            <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+              <app-dynamic-select 
+              formControlName="Tipo_Documento"
+              [groupId]="4"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar">
+            </app-dynamic-select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Número de Documento</label>
+            <input 
+            type="text"
+            class="form-control"
+            formControlName="Nro_Documento"
+            maxlength="8"
+            onlyNumbers>
+          </div>
+
+
+          <div class="col-md-4">
+            <label for="genero" class="form-label">Género</label>
+            <app-dynamic-select 
+            formControlName="Genero"
+            [groupId]="10"
+            [valueField]="'ID'"
+            [displayField]="'Nombre'"
+            placeholder="Seleccionar">
+          </app-dynamic-select>
+          </div>
+          <div class="col-md-4">
+            <label for="estadoCivil" class="form-label">Estado Civil</label>
+              <app-dynamic-select 
+              formControlName="Estado_Civil"
+              [groupId]="9"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar">
+            </app-dynamic-select>
+           
+          </div>
+          <div class="col-md-4">
+            <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" id="fechaNacimiento" formControlName="Fecha_Nacimiento">
+          </div>
+
+          <div class="col-md-6">
+            <label for="lugarNacimiento" class="form-label">Lugar de Nacimiento</label>
+            <app-general-input-ubicacion 
+            formControlName="Lugar_Nacimiento"
+            >
+            </app-general-input-ubicacion>
+          </div>
+          <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input 
+            type="text"
+            class="form-control"
+            formControlName="Telefono"
+            maxlength="9"
+            onlyNumbers>
+          </div>
+        </div>
+    
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <app-submit-form 
+            [form]="familiarForm" 
+            [submitFn]="submitFn.bind(this)" 
+            label="Crear Familiar"
+            [requiredFields]="
+            [
+            'Parentesco',
+            'Nombres',
+            'Apellido_Paterno',
+            'Apellido_Materno',
+            'Tipo_Documento',
+            'Nro_Documento',
+            'Telefono',
+            ]"
+             [reload]="true">
+        </app-submit-form>
+      </div>
+      
+    </form>
+</div>
+  

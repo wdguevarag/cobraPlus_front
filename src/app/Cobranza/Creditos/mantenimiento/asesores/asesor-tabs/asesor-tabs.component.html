@@ -1,0 +1,75 @@
+<app-general-tab-container [tabs]="asesoresTabs" [visibleTabIndices]="visibleTabIndices">
+  
+    <!-- Pestaña 0: Cuentas -->
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(0)" class="section-container" >
+        <div *ngIf="activeCuentaView === 'list'">
+          <h4 class="mb-4">Lista de Cuentas</h4>
+          <app-general-table 
+            [columns]="asesorCuentasColumns" 
+            [data]="asesorCuentasData" 
+            tableName="Cuentas" 
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+          <div class="d-flex justify-content-end align-items-center mt-0">
+            <app-general-plus-check-btn 
+              tipo="plus-show" 
+              (plusShowEvent)="plusShowCuentas()">
+            </app-general-plus-check-btn>
+          </div>
+        </div>
+        <div *ngIf="activeCuentaView === 'single'">
+          <app-single-asesor-cuenta 
+            [asesorCuentaId]="selectedCuentaId"
+            [singleAsesorId]="singleAsesorId"
+            [mode]="tipo"  
+            (back)="goBackCuentas()">
+          </app-single-asesor-cuenta>
+        </div>
+        <div *ngIf="activeCuentaView === 'new'">
+          <app-single-asesor-nueva-cuenta 
+            [singleAsesorId]="singleAsesorId"
+            (back)="goBackCuentas()">
+          </app-single-asesor-nueva-cuenta>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Pestaña 1: Comentarios Cobros 
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(1)" class="section-container" >
+        <div *ngIf="activeComentarioCobroView === 'list'">
+          <h4 class="mb-4">Lista de Comentarios Cobros</h4>
+          <app-general-table 
+            [columns]="asesorComentariosCobrosColumns" 
+            [data]="asesorComentariosCobrosData" 
+            tableName="Comentarios-Cobros" 
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+          <div class="d-flex justify-content-end align-items-center mt-0">
+            <app-general-plus-check-btn 
+              tipo="plus-show" 
+              (plusShowEvent)="plusShowComentariosCobros()">
+            </app-general-plus-check-btn>
+          </div>
+        </div>
+        <div *ngIf="activeComentarioCobroView === 'single'">
+          <app-single-asesor-comentario 
+            [asesorComentarioId]="selectedComentarioCobroId"
+            [singleAsesorId]="singleAsesorId"
+            [mode]="tipo"  
+            (back)="goBackComentariosCobros()">
+          </app-single-asesor-comentario>
+        </div>
+        <div *ngIf="activeComentarioCobroView === 'new'">
+          <app-single-asesor-nuevo-comentario 
+            [singleAsesorId]="singleAsesorId"
+            (back)="goBackComentariosCobros()">
+          </app-single-asesor-nuevo-comentario>
+        </div>
+      </div>
+    </ng-template>
+    -->
+  
+  </app-general-tab-container>
+  

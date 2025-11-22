@@ -1,0 +1,81 @@
+<div>
+    <div *ngIf="type == 'normal' " class="section-container-title">
+        <h3 class="title">Documentos del Cliente</h3>
+    </div> 
+
+    <div *ngIf="type !== 'normal' ">
+        <h4 class="subtitle">Documentos del Cliente</h4>
+    </div> 
+
+    <div [ngClass]="type === 'normal' ? 'section-container' : ''">
+
+
+
+        <h4 class="subtitle mb-3">Datos del Cliente</h4>
+        <div class="row datos-container mb-3" style="margin-bottom: 1rem !important;">
+          <div class="col-md-2">
+            <label class="form-label">Nombre: </label>
+            <span class="form-control">{{ clienteData?.Nombres }}</span>
+          </div>
+          <div class="col-md-1">
+            <label class="form-label">ID: </label>
+            <span class="form-control">{{ clienteData?.ID }}</span>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Apellido Paterno: </label>
+            <span class="form-control">{{ clienteData?.Apellido_Paterno }}</span>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Apellido Materno: </label>
+            <span class="form-control">{{ clienteData?.Apellido_Materno }}</span>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">DNI: </label>
+            <span class="form-control">{{ clienteData?.Documento }}</span>
+          </div>
+        </div>
+        
+        <h4 class="subtitle mb-3">Datos del Cliente </h4>
+        <div class="row datos-container mb-3"  style="margin-bottom: 1rem !important;">
+          <div class="col-md-3">
+            <label class="form-label">Crédito ID: </label>
+            <span class="form-control">{{ creditoData?.ID }}</span>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Estado Deuda: </label>
+            <span class="form-control">{{ creditoData?.Estado_Deuda == '1' ? 'NO TIENE DEUDA' : 'TIENE DEUDA'}} </span>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Aval: </label>
+            <span class="form-control">{{ creditoData?.Estado_Aval == 1 ? 'SI' : 'NO' }}</span>
+          </div>
+        </div>
+    </div>
+
+
+    <app-documentos-creditos-tabs [documentos]="documentosCreditoFirmado" [pageUrl]="page_url"></app-documentos-creditos-tabs>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

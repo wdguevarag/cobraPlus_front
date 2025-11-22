@@ -1,0 +1,75 @@
+<div class="section-container-menu row">
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Simulador')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-calculator display-5 text-primary"></i>
+                <h5 class="card-title mt-3">Simulador</h5>
+                <a [routerLink]="['/creditos/consulta/simulador']" class="btn btn-primary btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                 </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Consultas Crédito')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-credit-card display-5 text-danger"></i>
+                <h5 class="card-title mt-3">Consultas Crédito</h5>
+                <a [routerLink]="['/creditos/consulta/consulta-credito']" class="btn btn-danger btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                 </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Fic')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-person-badge display-5 text-primary"></i>
+                <h5 class="card-title mt-3">Fic</h5>
+                <a [routerLink]="['/creditos/consulta/fic']" class="btn btn-primary btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                 </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Comprobante Compra')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-receipt display-5 text-danger"></i>
+                <h5 class="card-title mt-3">Comprobante Compra</h5>
+                <a [routerLink]="['/creditos/consulta/comprobante-compra']" class="btn btn-danger btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                 </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Ruta del Gestor')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-map display-5 text-primary"></i>
+                <h5 class="card-title mt-3">Ruta del Gestor</h5>
+                <a [routerLink]="['/creditos/consulta/ruta-del-gestor']" class="btn btn-primary btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                 </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Cartera del Cliente')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-wallet2 display-5 text-danger"></i>
+                <h5 class="card-title mt-3">Cartera del Cliente</h5>
+                <a [routerLink]="['/creditos/consulta/cartera-del-cliente']" class="btn btn-danger btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                 </a>
+            </div>
+        </div>
+    </div>
+
+</div>

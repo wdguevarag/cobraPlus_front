@@ -1,0 +1,201 @@
+<div *ngIf="singleClienteData; else noData">
+
+    <div *ngIf="type == 'normal'" class="section-container-title">
+      <h3 class="title">
+        Detalles del Cliente: {{ singleClienteData.Nombres }} (Cod: {{ singleClienteData.ID }})
+      </h3>
+      <app-general-plus-check-btn 
+        tipo="edit-single" 
+        (editStateChanged)="isEditing = $event">
+      </app-general-plus-check-btn>
+    </div>
+  
+    <div *ngIf="type !== 'normal'" class="section-container-title pt-0 px-0">
+      <h3 class="title">
+        Detalles del Cliente: {{ singleClienteData.Nombres }} (Cod: {{ singleClienteData.ID }})
+      </h3>
+    </div>
+  
+    <form *ngIf="clienteForm" [formGroup]="clienteForm" class="form" enctype="multipart/form-data">
+      <div class="section-container-img-form row" >
+        <div class="section-container-img col-md-5">
+          <div class="contenedor-images">
+            <div class="contenedor-image">
+              <label class="form-label mb-0 fs-4 fw-regular">Anverso</label>
+              <ng-container *ngIf="isEditing; else viewAnverso">
+                <app-general-upload-input-img
+                  type="edit"
+                  [currentImage]="page_url + singleClienteData.Documento_Anverso"
+                  [width]="'100%'"
+                  (fileSelected)="onFileSelected($event, 'Documento_Anverso')">
+                </app-general-upload-input-img>
+              </ng-container>
+              <ng-template #viewAnverso>
+                <img [src]="page_url + singleClienteData.Documento_Anverso"
+                     class="img-fluid rounded border"
+                     alt="Documento Anverso"
+                     style="max-height: 300px; object-fit: cover;">
+              </ng-template>
+            </div>
+
+            <div class="contenedor-image">
+                <label class="form-label mb-0 fs-4 fw-regular">Reverso</label>
+                <ng-container *ngIf="isEditing; else viewReverso">
+                <app-general-upload-input-img
+                  type="edit"
+                  [currentImage]="page_url + singleClienteData.Documento_Reverso"
+                  [width]="'100%'"
+                  (fileSelected)="onFileSelected($event, 'Documento_Reverso')">
+                </app-general-upload-input-img>
+              </ng-container>
+              <ng-template #viewReverso>
+                <img [src]="page_url + singleClienteData.Documento_Reverso"
+                     class="img-fluid rounded border"
+                     alt="Documento Reverso"
+                     style="max-height: 300px; object-fit: cover;">
+              </ng-template>
+            </div>
+
+          </div>
+        </div>
+    
+        <div class="section-container col-md-7">
+          <div class="row mb-3 g-4 datos-container">
+
+            <div class="col-md-4 text-start">
+              <label class="form-label">Nombres</label>
+              <input type="text"
+                     class="form-control"
+                     formControlName="Nombres"
+                     [readonly]="!isEditing" onlyMayus>
+            </div>
+            <div class="col-md-4 text-start">
+              <label class="form-label">Apellido Paterno</label>
+              <input type="text"
+                     class="form-control"
+                     formControlName="Apellido_Paterno"
+                     [readonly]="!isEditing" onlyMayus>
+            </div>
+            <div class="col-md-4 text-start">
+              <label class="form-label">Apellido Materno</label>
+              <input type="text"
+                     class="form-control"
+                     formControlName="Apellido_Materno"
+                     [readonly]="!isEditing" onlyMayus>
+            </div>
+
+
+            <div class="col-md-4">
+            <label class="form-label">Tipo de Documento</label>
+            <app-dynamic-select 
+                formControlName="Tipo_Documento"
+                [groupId]="4"
+                [valueField]="'ID'"
+                [displayField]="'Nombre'"
+                placeholder="Seleccionar"
+                [editable]="isEditing">
+            </app-dynamic-select>
+            </div>
+            <div class="col-md-4 text-start">
+              <label class="form-label">Documento</label>
+              <input 
+              type="text"
+              class="form-control"
+              formControlName="Documento"
+              maxlength="8"
+              [readonly]="!isEditing"
+              onlyNumbers>
+            </div>
+            <div class="col-md-4 text-start">
+              <label class="form-label">Género</label>
+                <app-dynamic-select 
+                formControlName="Genero"
+                [groupId]="10"
+                [valueField]="'ID'"
+                [displayField]="'Nombre'"
+                placeholder="Seleccionar"
+                [editable]="isEditing">
+                 </app-dynamic-select>
+            </div>
+
+    
+            <div class="col-md-8 text-start">
+                <label class="form-label">Fecha de Nacimiento</label>
+                <input type="date"
+                       class="form-control"
+                       formControlName="Fecha_Nacimiento"
+                       [readonly]="!isEditing">
+            </div>
+            <div class="col-md-4 text-start">
+              <label class="form-label">Estado Civíl</label>
+                <app-dynamic-select 
+                formControlName="Estado_Civil"
+                [groupId]="9"
+                [valueField]="'ID'"
+                [displayField]="'Nombre'"
+                placeholder="Seleccionar"
+                [editable]="isEditing">
+                </app-dynamic-select>
+            </div>
+           
+
+            <div class="col-md-8 text-start">
+              <label for="Lugar_Nacimiento" class="form-label">Lugar de Nacimiento</label>
+
+
+                <app-general-input-ubicacion 
+                formControlName="Lugar_Nacimiento"
+                [editable]="isEditing"
+                >
+                </app-general-input-ubicacion>
+         
+
+            </div>
+            <div class="col-md-4 text-start">
+                <label class="form-label">Estado</label>
+                <div class="d-flex justify-content-start align-items-center gap-2"  *ngIf="isEditing; else viewEstado">
+                  <app-general-plus-check-btn 
+                    tipo="toggle" 
+                    [currentValue]="clienteForm.get('Estado')?.value" 
+                    [onToggle]="updateEstado">
+                  </app-general-plus-check-btn>
+                  <input type="hidden" formControlName="Estado">
+                  <span class="form-label mb-0">{{ clienteForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+                <ng-template #viewEstado>
+                  <input type="text"
+                         class="form-control"
+                         [value]="clienteForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo'"
+                         readonly>
+                </ng-template>
+            </div>
+
+          </div>
+    
+   
+    
+        </div>
+      </div>
+    
+      <div *ngIf="isEditing" class="d-flex justify-content-end mt-5">
+        <app-submit-form 
+          [form]="clienteForm" 
+          [submitFn]="submitFn.bind(this)" 
+          label="Actualizar Cliente"
+          [reload]="true">
+        </app-submit-form>
+      </div>
+    </form>
+  
+    <div *ngIf="type !== 'fic' && !isEditing">
+        <app-cliente-tabs 
+          [singleClienteId]="singleClienteId" 
+          tipo="edit">
+        </app-cliente-tabs>          
+    </div>
+  
+</div>
+  
+<ng-template #noData>
+<p>No se encontraron datos para este Cliente.</p>
+</ng-template>

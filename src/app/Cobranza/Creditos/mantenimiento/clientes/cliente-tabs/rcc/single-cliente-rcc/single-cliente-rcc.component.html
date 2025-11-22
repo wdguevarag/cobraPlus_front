@@ -1,0 +1,85 @@
+<div *ngIf="clienteRccData; else noData" >
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h4 class="subtitle mb-4">{{ isEditing ? 'Editar Rcc' : 'Datos del Rcc' }} : ( Teléfono: {{ clienteRccData.ID }})</h4>
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i>
+        </button>
+        <ng-container *ngIf="mode === 'edit'">
+          <app-general-plus-check-btn 
+            tipo="edit-single" 
+            (editStateChanged)="isEditing = $event">
+          </app-general-plus-check-btn>
+        </ng-container>
+      </div>
+    </div>
+
+
+    <form   [formGroup]="clienteRccForm" class="form" enctype="multipart/form-data" >
+
+      <div class="section-container p-0 mb-0">
+        <div class="row mb- mt-4">
+            <div class="col-md-10">
+                <label class="form-label">Comentario</label>
+                <input type="text" class="form-control" formControlName="Comentario" [readonly]="!isEditing">
+            </div>
+
+            <div class="col-md-2 text-start">
+              <label class="form-label">Estado</label>
+              <div class="d-flex py-2 align-items-center gap-2" *ngIf="isEditing; else viewEstado">
+                <app-general-plus-check-btn 
+                  tipo="toggle" 
+                  [currentValue]="clienteRccForm.get('Estado')?.value" 
+                  [onToggle]="updateEstado">
+                </app-general-plus-check-btn>
+                <input type="hidden" formControlName="Estado">
+                <span class="form-label mb-0">{{ clienteRccForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+              </div>
+              <ng-template #viewEstado>
+                <input type="text"
+                      class="form-control"
+                      [value]="clienteRccForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo'"
+                      readonly>
+              </ng-template>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-left mt-4" style="max-width: 500px; margin: 0px;">
+
+            <ng-container *ngIf="isEditing; else viewRcc">
+              <span class="form-label" style="opacity: 0.9;">Archivo actual: {{ clienteRccData.Ruta_Documento.split('/').pop() }}</span>
+
+              <input
+                type="file"
+                class="form-control"
+                (change)="onFileSelected($event)"
+                accept=".pdf"
+              />
+            </ng-container>
+            
+            <ng-template #viewRcc>
+              <a class="btn btn-primary btn-letras text-white" style="max-width: 350px;" [href]="page_url + clienteRccData.Ruta_Documento" target="_blank">Ver Documento</a>
+            </ng-template>
+        </div>
+      </div>
+
+      <div  *ngIf="mode == 'edit' && isEditing" class="d-flex justify-content-end">
+        <app-submit-form 
+          [form]="clienteRccForm" 
+          [submitFn]="submitFn.bind(this)" 
+          label="Actualizar Rcc"
+          [reload]="true">
+          </app-submit-form>
+      </div>
+
+    </form>
+
+  </div>
+  <ng-template #noData>
+    <p>No se encontraron datos para este rcc.</p>
+  </ng-template> 
+
+
+
+
+

@@ -1,0 +1,47 @@
+<app-navigation
+  class="pc-sidebar"
+  [ngClass]="{
+    'navbar-collapsed': navCollapsed,
+    'mob-open': navCollapsedMob
+  }"
+  (NavCollapse)="this.navCollapsed = !this.navCollapsed"
+/>
+
+<app-nav-bar
+  (NavCollapsedMob)="navMobClick()"
+  (NavCollapse)="this.navCollapsed = !this.navCollapsed"
+/>
+
+<div class="pc-container">
+  <div class="coded-wrapper">
+    <div class="coded-content">
+      <div class="coded-inner-content">
+        <div class="main-body">
+          <div class="page-wrapper">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="pc-menu-overlay"
+    (click)="closeMenu()"
+    (keydown)="handleKeyDown($event)"
+    tabindex="0"
+  ></div>
+</div>
+
+
+
+<!-- POPUP HTML PARA CIERRE -->
+<div class="popup-overlay" *ngIf="mostrarPopupCierre">
+
+  <div class="popup-modal">
+    <img src="../../../../assets/images/Cobrix-Logo.png" alt="Logo">
+
+    <h2>Cierre del Día</h2>
+    <p>La empresa <strong>ID {{ empresaCierre }}</strong> ha cerrado el día.</p>
+    <button class="btn btn-primary text-white" (click)="cerrarPopupYSalir()">Aceptar</button>
+  </div>
+</div>

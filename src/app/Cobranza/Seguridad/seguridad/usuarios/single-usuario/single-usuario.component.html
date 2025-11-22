@@ -1,0 +1,343 @@
+<div *ngIf="singleUsuarioData; else noData">
+  
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+      <h3 class="title">
+        {{ isEditing ? 'Editar Usuario:' : 'Detalles del Usuario:' }}
+        <span class="text-muted"> {{ singleUsuarioData.Nombre }} (Cod {{ singleUsuarioData.ID }})</span>
+      </h3>
+      <app-general-plus-check-btn 
+        tipo="edit-single" 
+        (editStateChanged)="isEditing = $event">
+      </app-general-plus-check-btn>
+    </div>
+  
+    <form *ngIf="usuarioForm"  [formGroup]="usuarioForm" class="form" enctype="multipart/form-data">
+      <div class="section-container-img-form row">
+          <div class="section-container-img col-md-5">
+              <div class="contenedor-images">
+                <div class="contenedor-image">
+                  <label class="form-label mb-0 fs-4 fw-regular">Anverso</label>
+                  <ng-container *ngIf="isEditing; else viewAnverso">
+                    <app-general-upload-input-img
+                      type="edit"
+                      [currentImage]="page_url + singleUsuarioData.Documento_Anverso"
+                      [width]="'100%'"
+                      (fileSelected)="onFileSelected($event, 'Documento_Anverso')">
+                    </app-general-upload-input-img>
+                  </ng-container>
+                  <ng-template #viewAnverso>
+                    <img [src]="page_url + singleUsuarioData.Documento_Anverso"
+                          class="img-fluid rounded border"
+                          alt="Documento Anverso"
+                          style="max-height: 300px; object-fit: cover;">
+                  </ng-template>
+                </div>
+                <div class="contenedor-image">
+                  <label class="form-label mb-0 fs-4 fw-regular">Reverso</label>
+                  <ng-container *ngIf="isEditing; else viewReverso">
+                    <div style="max-height: 300px; ">
+
+                    <app-general-upload-input-img
+                      type="edit"
+                      [currentImage]="page_url + singleUsuarioData.Documento_Reverso"
+                      [width]="'100%'"
+                      (fileSelected)="onFileSelected($event, 'Documento_Reverso')">
+                    </app-general-upload-input-img>
+                    </div>
+
+                  </ng-container>
+                  <ng-template #viewReverso>
+                    <img [src]="page_url + singleUsuarioData.Documento_Reverso"
+                          class="img-fluid rounded border"
+                          alt="Documento Reverso"
+                          style="max-height: 300px; object-fit: cover;">
+                  </ng-template>
+                </div>
+              </div>
+          </div>
+    
+          <div class="section-container col-md-7">
+            <div class="row mb-3 datos-container">
+              <div class="col-md-4 ">
+                <label class="form-label">Nombres</label>
+                <input type="text"
+                class="form-control"
+                formControlName="Nombre"
+                [readonly]="!isEditing" onlyMayus>
+    
+              </div>
+              <div class="col-md-4 ">
+                <label for="Apellido" class="form-label">Apellido</label>
+                <input type="text"
+                class="form-control"
+                formControlName="Apellido"
+                [readonly]="!isEditing" onlyMayus>
+              </div>
+              <div class="col-md-4 ">
+                <label for="nombreCorto" class="form-label">Nombre Corto</label>
+                <input type="text"
+                class="form-control"
+                formControlName="Nombre_Corto"
+                [readonly]="!isEditing" onlyMayus>
+              </div>
+
+
+              <div class="col-md-4 ">
+                <label for="direccion" class="form-label">Dirección</label>
+                <app-general-input-ubicacion 
+                formControlName="Direccion"
+                [editable]="isEditing"
+                >
+                </app-general-input-ubicacion>
+              </div>
+              <div class="col-md-4 ">
+                <label for="correo" class="form-label">Correo</label>
+                <input type="email"
+                class="form-control"
+                formControlName="Email"
+                [readonly]="!isEditing">
+              </div>
+
+       
+
+              <div class="col-md-4">
+                <label class="form-label">Contraseña</label>
+
+                <!-- Modo normal -->
+                <div *ngIf="!isEditingPassword; else editPwdMode" class="d-flex">
+                  <input type="password" class="form-control mt-2" value="********" readonly>
+                   <button
+                    *ngIf="isEditing"
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    (click)="enablePasswordEdit()">
+                    <i class="bi bi-pencil fs-5 fs-sm-6"></i>
+                  </button>
+                </div>
+
+                <!-- Modo edición -->
+                <ng-template #editPwdMode>
+                  <div class="input-group">
+                    <input
+                      [type]="showPassword ? 'text' : 'password'"
+                      class="form-control"
+                      formControlName="Contrasena">
+                    <div class="d-flex" style="flex-direction: column;">
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        (click)="showPassword = !showPassword">
+                        <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        (click)="confirmPasswordEdit()">
+                        <i class="bi bi-check"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        (click)="cancelPasswordEdit()">
+                        <i class="bi bi-x"></i>
+                      </button>
+                    </div>
+                      
+                  </div>
+                </ng-template>
+              </div>
+
+
+
+
+              <div class="col-md-4 ">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input 
+                type="text"
+                class="form-control"
+                formControlName="Telefono"
+                maxlength="9"
+                onlyNumbers
+                [readonly]="!isEditing"
+                >
+              </div>
+              <div class="col-md-4 ">
+                <label for="dni" class="form-label">DNI</label>
+                <input 
+                type="text"
+                class="form-control"
+                formControlName="DNI"
+                maxlength="8"
+                onlyNumbers
+                [readonly]="!isEditing"
+                >
+              </div>
+              <div class="col-md-4 ">
+                <label class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" formControlName="Fecha_Nacimiento" [readonly]="!isEditing">
+              </div>
+
+              <div class="col-md-4 ">
+                <label class="form-label">Fecha de Ingreso</label>
+                <input type="date" class="form-control" formControlName="Fecha_Ingreso" [readonly]="!isEditing">
+              </div>
+    
+              <div class="col-md-4 ">
+                <label class="form-label">Seguimiento</label>
+                <div class="d-flex justify-content-start align-items-center gap-2"  *ngIf="isEditing; else viewSeguimiento">
+                  <app-general-plus-check-btn 
+                    tipo="toggle" 
+                    [currentValue]="usuarioForm.get('Seguimiento')?.value" 
+                    [onToggle]="updateSeguimiento">
+                  </app-general-plus-check-btn>
+                  <input type="hidden" formControlName="Seguimiento">
+                  <span class="form-label mb-0">{{ usuarioForm.get('Seguimiento')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+                <ng-template #viewSeguimiento>
+                  <input type="text"
+                          class="form-control"
+                          [value]="usuarioForm.get('Seguimiento')?.value == 1 ? 'Activo' : 'Inactivo'"
+                          readonly>
+                </ng-template>
+              </div>
+    
+              <div class="col-md-4 ">
+                <label class="form-label">Estado</label>
+                <div class="d-flex justify-content-start align-items-center gap-2"  *ngIf="isEditing; else viewEstado">
+                  <app-general-plus-check-btn 
+                    tipo="toggle" 
+                    [currentValue]="usuarioForm.get('Estado')?.value" 
+                    [onToggle]="updateEstado">
+                  </app-general-plus-check-btn>
+                  <input type="hidden" formControlName="Estado">
+                  <span class="form-label mb-0">{{ usuarioForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+                <ng-template #viewEstado>
+                  <input type="text"
+                          class="form-control"
+                          [value]="usuarioForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo'"
+                          readonly>
+                </ng-template>
+              </div>
+    
+    
+              
+              <div class="col-md-4 ">
+                <label class="form-label">Editar Token</label>
+                <div class="d-flex justify-content-start align-items-center gap-2"  *ngIf="isEditing; else viewEditarToken">
+                  <app-general-plus-check-btn 
+                    tipo="toggle" 
+                    [currentValue]="usuarioForm.get('Editar_Token')?.value" 
+                    [onToggle]="updateEditarToken">
+                  </app-general-plus-check-btn>
+                  <input type="hidden" formControlName="Editar_Token">
+                  <span class="form-label mb-0">{{ usuarioForm.get('Editar_Token')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+                <ng-template #viewEditarToken>
+                  <input type="text"
+                          class="form-control"
+                          [value]="usuarioForm.get('Editar_Token')?.value == 1 ? 'Activo' : 'Inactivo'"
+                          readonly>
+                </ng-template>
+              </div>
+    
+              <div class="col-md-4 ">
+                <label class="form-label">Multiple Sesión</label>
+                <div class="d-flex justify-content-start align-items-center gap-2"  *ngIf="isEditing; else viewMultipleSesion">
+                  <app-general-plus-check-btn 
+                    tipo="toggle" 
+                    [currentValue]="usuarioForm.get('Multiple_Sesion')?.value" 
+                    [onToggle]="updateMultipleSesion">
+                  </app-general-plus-check-btn>
+                  <input type="hidden" formControlName="Multiple_Sesion">
+                  <span class="form-label mb-0">{{ usuarioForm.get('Multiple_Sesion')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+                <ng-template #viewMultipleSesion>
+                  <input type="text"
+                          class="form-control"
+                          [value]="usuarioForm.get('Multiple_Sesion')?.value == 1 ? 'Activo' : 'Inactivo'"
+                          readonly>
+                </ng-template>
+              </div>
+    
+              <div class="col-md-4 ">
+                <label class="form-label">Seguimiento Ubicación</label>
+                <div class="d-flex justify-content-start align-items-center gap-2"  *ngIf="isEditing; else viewSeguimientoUbicacion">
+                  <app-general-plus-check-btn 
+                    tipo="toggle" 
+                    [currentValue]="usuarioForm.get('Seguimiento_Ubicacion')?.value" 
+                    [onToggle]="updateSeguimientoUbicacion">
+                  </app-general-plus-check-btn>
+                  <input type="hidden" formControlName="Seguimiento_Ubicacion">
+                  <span class="form-label mb-0">{{ usuarioForm.get('Seguimiento_Ubicacion')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+                <ng-template #viewSeguimientoUbicacion>
+                  <input type="text"
+                          class="form-control"
+                          [value]="usuarioForm.get('Seguimiento_Ubicacion')?.value == 1 ? 'Activo' : 'Inactivo'"
+                          readonly>
+                </ng-template>
+              </div>
+    
+
+            <!-- Rol -->
+              <div class="col-md-4" *ngIf="singleUsuarioData.Perfil_ID == '3'">
+                <label class="form-label">Rol</label>
+                <ng-container *ngIf="isEditing; else viewRol">
+                  <select class="form-control" formControlName="Rol_ID">
+                    <option [ngValue]="null">-- Seleccione Rol --</option>
+                    <option *ngFor="let rol of rolesFiltrados" [ngValue]="rol.ID">
+                      {{ rol.Nombre }}
+                    </option>
+                  </select>
+                </ng-container>
+                <ng-template #viewRol>
+                  <input
+                    class="form-control"
+                    [value]="getRolNombre()"
+                    readonly>
+                </ng-template>
+              </div>
+
+              <!-- Oficina -->
+              <div class="col-md-4" *ngIf="singleUsuarioData.Perfil_ID == '3'">
+                <label class="form-label">Oficina</label>
+                <ng-container *ngIf="isEditing; else viewOficina">
+                  <select class="form-control" formControlName="Oficina_ID">
+                    <option [ngValue]="null">-- Seleccione Oficina --</option>
+                    <option *ngFor="let oficina of oficinasFiltradas" [ngValue]="oficina.ID">
+                      {{ oficina.Nombre }}
+                    </option>
+                  </select>
+                </ng-container>
+                <ng-template #viewOficina>
+                  <input
+                    class="form-control"
+                    [value]="getOficinaNombre()"
+                    readonly>
+                </ng-template>
+              </div>
+
+            </div>
+          </div>
+
+          
+      </div>
+    
+      <div *ngIf="isEditing" class="d-flex justify-content-end mt-5">
+        <app-submit-form 
+          [form]="usuarioForm" 
+          [submitFn]="submitFn.bind(this)" 
+          label="Actualizar Usuario">
+        </app-submit-form>
+      </div>
+    
+    </form>
+
+  </div>
+  
+  <ng-template #noData>
+    <p>No se encontraron datos para este Usuario.</p>
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  </ng-template>
+  

@@ -1,0 +1,65 @@
+<div class="table-responsive tabla-cronograma">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>F. Pago</th>
+                <th>Días Mora</th>
+                <th>Operación</th>
+                <th>Total</th>
+                <th>Capital</th>
+                <th>Interes</th>
+                <th>IGV</th>
+                <th>G. Adm</th>
+                <th>Mora</th>
+                <th>Usuario</th>
+                <th>Dif. Cobro</th>
+                <th>Abrio Neg.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="cronogramaData.length === 0">
+                <td colspan="12" class="text-center">No hay datos disponibles.</td>
+            </tr>
+            <tr *ngFor="let desembolso of desembolsoData">
+                <td>{{ desembolso.Fecha_Pago }}</td>
+                <td>0.00</td>
+                <td style="text-transform: uppercase;" style="color: red;"> {{ desembolso.Tipo }}</td>
+                <td>{{ desembolso.Total_Entregar }}</td>
+                <td>{{ desembolso.Total_Entregar }}</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>{{ desembolso.Usuario }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr *ngFor="let cuota of cronogramaData">
+                <td>{{ cuota.Pago }}</td>
+                <td>{{ cuota.Atraso }}</td>
+                <td style="text-transform: uppercase;">PAGO {{ cuota.Tipo_Pago }}</td>
+                <td>{{ cuota.Cuota_Total }}</td>
+                <td>{{ cuota.Amortizado }}</td>
+                <td>{{ cuota.Interes }}</td>
+                <td>{{ cuota.IGV }}</td>
+                <td>{{ cuota.Gastos_ADM }}</td>
+                <td>{{ cuota.Mora }}</td>
+                <td>{{ cuota.Usuario }}</td>
+                <td>{{ cuota.Flag_Cobro }}</td>
+                <td>{{ cuota.Flag_Abrio_Negocio }}</td>
+            </tr>
+        </tbody>
+        <tfoot class="table-primary">
+            <tr>
+                <td colspan="3"><strong>TOTALES</strong></td>
+                <td>{{ getTotal('Cuota_Total') | number:'1.2-2' }}</td>
+                <td>{{ getTotal('Amortizado') | number:'1.2-2' }}</td>
+                <td>{{ getTotal('Interes') | number:'1.2-2' }}</td>
+                <td>{{ getTotal('IGV') | number:'1.2-2' }}</td>
+                <td>{{ getTotal('Gastos_ADM') | number:'1.2-2' }}</td>
+                <td>{{ getTotal('Mora') | number:'1.2-2' }}</td>
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

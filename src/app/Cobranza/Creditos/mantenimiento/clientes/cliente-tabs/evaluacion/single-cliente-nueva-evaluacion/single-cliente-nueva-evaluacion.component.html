@@ -1,0 +1,186 @@
+<div class="container my-4" [ngStyle]="{ 'pointer-events': isSubmitted ? 'none' : 'auto', opacity: isSubmitted ? '0.6' : '1' }">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="subtitle">
+        Nueva Evaluación para: {{ singleClienteData?.Nombres }} {{ singleClienteData?.Apellido_Paterno }} {{ singleClienteData?.Apellido_Materno }}
+      </h4>
+      <button class="btn btn-primary  btn-letras" (click)="volverAAnterior()">ATRÁS</button>
+    </div>
+  
+    <!-- Formulario para Ingresos/Egresos -->
+    <form [formGroup]="evaluacionForm" class="form" enctype="multipart/form-data">
+      <div class="table-responsive shadow-sm rounded">
+        <table class="table  table-hover align-middle mb-0">
+          <!-- Encabezado principal -->
+          <thead class="text-center text-white">
+            <tr>
+              <th style="width: 20%">DESCRIPCIÓN</th>
+              <th>Lunes</th>
+              <th>Martes</th>
+              <th>Miércoles</th>
+              <th>Jueves</th>
+              <th>Viernes</th>
+              <th>Sábado</th>
+              <th>Domingo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- INGRESOS -->
+            <tr class="ingresos-header text-white text-center">
+              <td colspan="8"><strong>INGRESOS</strong></td>
+            </tr>
+            <tr>
+              <td class="desc-col">Ventas</td>
+              <td><input type="number" class="form-control" formControlName="Ventas_Lunes"></td>
+              <td><input type="number" class="form-control" formControlName="Ventas_Martes"></td>
+              <td><input type="number" class="form-control" formControlName="Ventas_Miercoles"></td>
+              <td><input type="number" class="form-control" formControlName="Ventas_Jueves"></td>
+              <td><input type="number" class="form-control" formControlName="Ventas_Viernes"></td>
+              <td><input type="number" class="form-control" formControlName="Ventas_Sabado" value="0" [disabled]="false" style="display: none;">0</td>
+              <td><input type="number" class="form-control" formControlName="Ventas_Domingo" value="0" [disabled]="false" style="display: none;">0</td>
+            </tr>
+            <tr class="total-ingresos">
+              <td><strong>Total Ingresos</strong></td>
+              <td>{{ getTotalIngresos('Lunes') }}</td>
+              <td>{{ getTotalIngresos('Martes') }}</td>
+              <td>{{ getTotalIngresos('Miercoles') }}</td>
+              <td>{{ getTotalIngresos('Jueves') }}</td>
+              <td>{{ getTotalIngresos('Viernes') }}</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+  
+            <!-- EGRESOS -->
+            <tr class="egresos-header text-white text-center">
+              <td colspan="8"><strong>EGRESOS</strong></td>
+            </tr>
+            <!-- Compras -->
+            <tr>
+              <td class="desc-col">Compras</td>
+              <td><input type="number" class="form-control" formControlName="Compras_Lunes"></td>
+              <td><input type="number" class="form-control" formControlName="Compras_Martes"></td>
+              <td><input type="number" class="form-control" formControlName="Compras_Miercoles"></td>
+              <td><input type="number" class="form-control" formControlName="Compras_Jueves"></td>
+              <td><input type="number" class="form-control" formControlName="Compras_Viernes"></td>
+              <td><input type="number" class="form-control" formControlName="Compras_Sabado" value="0" [disabled]="false" style="display: none;">0</td>
+              <td><input type="number" class="form-control" formControlName="Compras_Domingo" value="0" [disabled]="false" style="display: none;">0</td>
+            </tr>
+            <!-- Alquileres -->
+            <tr>
+              <td class="desc-col">Alquileres</td>
+              <td><input type="number" class="form-control" formControlName="Alquileres_Lunes"></td>
+              <td><input type="number" class="form-control" formControlName="Alquileres_Martes"></td>
+              <td><input type="number" class="form-control" formControlName="Alquileres_Miercoles"></td>
+              <td><input type="number" class="form-control" formControlName="Alquileres_Jueves"></td>
+              <td><input type="number" class="form-control" formControlName="Alquileres_Viernes"></td>
+              <td><input type="number" class="form-control" formControlName="Alquileres_Sabado" value="0" [disabled]="false" style="display: none;">0</td>
+              <td><input type="number" class="form-control" formControlName="Alquileres_Domingo" value="0" [disabled]="false" style="display: none;">0</td>
+            </tr>
+            <!-- Alimentación -->
+            <tr>
+              <td class="desc-col">Alimentación</td>
+              <td><input type="number" class="form-control" formControlName="Alimentacion_Lunes"></td>
+              <td><input type="number" class="form-control" formControlName="Alimentacion_Martes"></td>
+              <td><input type="number" class="form-control" formControlName="Alimentacion_Miercoles"></td>
+              <td><input type="number" class="form-control" formControlName="Alimentacion_Jueves"></td>
+              <td><input type="number" class="form-control" formControlName="Alimentacion_Viernes"></td>
+              <td><input type="number" class="form-control" formControlName="Alimentacion_Sabado" value="0" [disabled]="false" style="display: none;">0</td>
+              <td><input type="number" class="form-control" formControlName="Alimentacion_Domingo" value="0" [disabled]="false" style="display: none;">0</td>
+            </tr>
+            <!-- Pasajes -->
+            <tr>
+              <td class="desc-col">Pasajes</td>
+              <td><input type="number" class="form-control" formControlName="Pasajes_Lunes"></td>
+              <td><input type="number" class="form-control" formControlName="Pasajes_Martes"></td>
+              <td><input type="number" class="form-control" formControlName="Pasajes_Miercoles"></td>
+              <td><input type="number" class="form-control" formControlName="Pasajes_Jueves"></td>
+              <td><input type="number" class="form-control" formControlName="Pasajes_Viernes"></td>
+              <td><input type="number" class="form-control" formControlName="Pasajes_Sabado" value="0" [disabled]="false" style="display: none;">0</td>
+              <td><input type="number" class="form-control" formControlName="Pasajes_Domingo" value="0" [disabled]="false" style="display: none;">0</td>
+            </tr>
+            <!-- Otros -->
+            <tr>
+              <td class="desc-col">Otros</td>
+              <td><input type="number" class="form-control" formControlName="Otros_Lunes"></td>
+              <td><input type="number" class="form-control" formControlName="Otros_Martes"></td>
+              <td><input type="number" class="form-control" formControlName="Otros_Miercoles"></td>
+              <td><input type="number" class="form-control" formControlName="Otros_Jueves"></td>
+              <td><input type="number" class="form-control" formControlName="Otros_Viernes"></td>
+              <td><input type="number" class="form-control" formControlName="Otros_Sabado" value="0" [disabled]="false" style="display: none;">0</td>
+              <td><input type="number" class="form-control" formControlName="Otros_Domingo" value="0" [disabled]="false" style="display: none;">0</td>
+            </tr>
+            <!-- Total Egresos -->
+            <tr class="total-egresos">
+              <td><strong>Total Egresos</strong></td>
+              <td>{{ getTotalEgresos('Lunes') }}</td>
+              <td>{{ getTotalEgresos('Martes') }}</td>
+              <td>{{ getTotalEgresos('Miercoles') }}</td>
+              <td>{{ getTotalEgresos('Jueves') }}</td>
+              <td>{{ getTotalEgresos('Viernes') }}</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            <!-- Ingresos - Egresos -->
+            <tr class="diferencia-row">
+              <td><strong>Ingresos - Egresos</strong></td>
+              <td>{{ getDiferencia('Lunes') }}</td>
+              <td>{{ getDiferencia('Martes') }}</td>
+              <td>{{ getDiferencia('Miercoles') }}</td>
+              <td>{{ getDiferencia('Jueves') }}</td>
+              <td>{{ getDiferencia('Viernes') }}</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="container mt-3 totales-promedio">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-2">
+            <label class="form-label fw-bold">Saldo Total</label>
+            <input type="text" class="form-control text-center" [value]="calcularAcumulado()" disabled>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label fw-bold">Prom. Diario</label>
+            <input type="text" class="form-control text-center" [value]="promedioSaldoDiario(calcularAcumulado())" disabled>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label fw-bold">Max Cuota Diario</label>
+            <input type="text" class="form-control text-center" [value]="maxCuotaDiaria(calcularAcumulado())" disabled>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label fw-bold">Max Cuota Semanal</label>
+            <input type="text" class="form-control text-center" [value]="maxCuotaSemanal(calcularAcumulado())" disabled>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label fw-bold">Max Cuota Quincenal</label>
+            <input type="text" class="form-control text-center" [value]="maxCuotaQuincenal(calcularAcumulado())" disabled>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label fw-bold">Max Cuota Mensual</label>
+            <input type="text" class="form-control text-center" [value]="maxCuotaMensual(calcularAcumulado())" disabled>
+          </div>
+        </div>
+
+        
+        <div *ngIf="erroresPromedios.length > 0" class="mt-2">
+          <div *ngFor="let err of erroresPromedios" class="text-danger fw-bold">
+            {{ err }}
+          </div>
+        </div>
+
+        
+      </div>
+      
+      <!-- Botón para enviar el formulario -->
+      <div class="d-flex justify-content-end align-items-center mt-3">
+            <button
+            *ngIf="!isSubmitted"
+            class="btn btn-primary  btn-crear-evaluacion"
+            (click)="onSubmit()">
+            Crear Evaluación
+          </button>
+      </div>
+    </form>
+  </div>
+  

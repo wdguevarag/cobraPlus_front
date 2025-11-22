@@ -1,0 +1,13 @@
+<div class="section-container-title">
+    <h4 class="title">Lista de Grupo de Datos</h4> 
+</div> 
+
+<div class="section-container">
+    <app-general-table 
+    [columns]="grupoDeDatosColumns" 
+    [data]="grupoDeDatosData" 
+    (rowClick)="onRowClick($event)" 
+    >
+  </app-general-table>
+</div>
+

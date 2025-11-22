@@ -1,0 +1,37 @@
+<div class="section-container-title">
+    <h3 class="title">
+    Refinanciacion (Cod: {{singleRefinanciacionId}})
+    </h3>
+</div>
+<div class="section-container">
+    <mat-tab-group>
+        <mat-tab label="SOLICITUD">
+             <app-single-solicitud-refinanciacion [refinanciamientoCreditoID]="creditoId" [refinanciamientoID]="this.singleRefinanciacionId"></app-single-solicitud-refinanciacion>
+        </mat-tab>
+        <mat-tab label="CLIENTE">
+            <div class="pt-4">
+                <app-single-cliente [type]="'fic'" [singleClienteIdInput]="clienteId"></app-single-cliente>
+            </div>
+        </mat-tab>
+        <mat-tab label="EVALUACIÓN">
+            <div class="section-container">
+                <ng-container *ngIf="evaluacionId">
+                    <app-single-cliente-evaluacion
+                        *ngIf="evaluacionId !== 0"
+                        [singleClienteId]="clienteId"
+                        [clienteEvaluacionId]="evaluacionId"
+                        [mode]="'edit'"
+                        [use]="'fic'">
+                    </app-single-cliente-evaluacion>
+
+                    <app-single-cliente-nueva-evaluacion
+                        *ngIf="evaluacionId === 0"
+                        [singleClienteId]="clienteId">
+                    </app-single-cliente-nueva-evaluacion>
+                </ng-container>
+            </div>           
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+

@@ -1,0 +1,13 @@
+ul {
+    align-items: center;
+    li {
+        height: fit-content;
+        align-items: center;
+        a {
+            @media(max-width: 500px) {
+                font-size: 15px !important;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,219 @@
+<div *ngIf="comprobanteCompraData; else noData" >
+
+<div class="section-container-title">
+    <h3 class="title">Comprobante Compra (Cod: {{comprobanteCompraData.ID}})</h3>
+</div>
+<div *ngIf="!isEditing">
+
+    <div class="section-container">
+        <h4 class="subtitle mb-4">Datos del Comprobante</h4>
+        <form>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="razonSocial" class="form-label">Razon Social del Emisor</label>
+                    <input type="text" id="razonSocial" class="form-control" value="{{comprobanteCompraData.Razon_Social}}" readonly>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="ruc" class="form-label">Ruc del Emisor</label>
+                    <input type="text" id="ruc" class="form-control" value="{{comprobanteCompraData.RUC}}" readonly>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="tipoComprobante" class="form-label">Tipo de Comprobante</label>
+                    <input type="text" id="tipoComprobante" class="form-control" value="{{comprobanteCompraData.Tipo_Comprobante}}" readonly>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="serie" class="form-label">Serie</label>
+                    <input type="text" id="serie" class="form-control" value="{{comprobanteCompraData.Serie}}" readonly>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="correlativo" class="form-label">Correlativo</label>
+                    <input type="text" id="correlativo" class="form-control" value="{{comprobanteCompraData.Correlativo}}" readonly>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="subTotal" class="form-label">SubTotal</label>
+                    <input type="text" id="subTotal" class="form-control" value="{{comprobanteCompraData.Subtotal}}" readonly>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label for="igv" class="form-label">Total IGV</label>
+                    <input type="text" id="igv" class="form-control" value="{{comprobanteCompraData.Total_IGV}}" readonly>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="totalPagar" class="form-label">Total a Pagar</label>
+                    <input type="text" id="totalPagar" class="form-control" value="{{comprobanteCompraData.Total_Pagar}}" readonly>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="fechaEmision" class="form-label">Fecha de Emision</label>
+                    <input type="text" id="fechaEmision" class="form-control" value="{{comprobanteCompraData.Fecha_Emision}}" readonly>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="conceptoCompra" class="form-label">Concepto de Compra</label>
+                    <input type="text" id="conceptoCompra" class="form-control" value="{{comprobanteCompraData.Concepto_Compra}}" readonly>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="efectivo" class="form-label">Metodo de Pago</label>
+                    <input type="text" id="medioPago" class="form-control" value="{{comprobanteCompraData.Medio_Pago}}" readonly>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="observacion" class="form-label">Observacion</label>
+                    <input type="text" id="observacion" class="form-control" value="{{comprobanteCompraData.Observacion}}" readonly>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="efectivo" class="form-label">Estado</label>
+                    <input type="text" id="estado" class="form-control" value="{{comprobanteCompraData.Estado == 1 ? 'Activo' : 'Inactivo'}}" readonly>
+                </div>
+            </div>
+
+          
+
+        
+
+            <div class="row mb-3 d-flex justify-content-center">
+
+                <div class="col-md-6" style="max-width: 400px;" >
+                    <label  class="form-label text-center" >Foto del comprobante</label>
+                    <div class="d-flex justify-content-center">
+                    <div class="ratio ratio-4x3" style="min-height:500px; max-width:400px;">
+                        <img [src]="page_url + comprobanteCompraData.Imagen" alt="Foto Comprobante" style="max-height: 200px;object-fit: contain;">
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+
+<div *ngIf="isEditing">
+    <div class="section-container">
+        <h4 class="subtitle mb-4">Editar el Comprobante</h4>
+        <form>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="razonSocial" class="form-label">Razon Social del Emisor</label>
+                    <input type="text" id="razonSocial" class="form-control" name="Razon_Social" [(ngModel)]="comprobanteCompraData.Razon_Social" >
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="ruc" class="form-label">Ruc del Emisor</label>
+                    <input type="text" id="ruc" class="form-control" name="RUC" [(ngModel)]="comprobanteCompraData.RUC" >
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="tipoComprobante" class="form-label">Tipo de Comprobante</label>
+                  <app-general-select-filter
+                    [(ngModel)]="comprobanteCompraData.Tipo_Comprobante"
+                    name="Tipo_Comprobante"
+                    [service]="GrupoDeDatoService"
+                    method="getDetalleGrupoDatos"
+                    [idGrupo]="tipoComprobanteId"
+                    fieldValue="ID"
+                    fieldContent="Nombre">
+                </app-general-select-filter>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="serie" class="form-label">Serie</label>
+                    <input type="text" id="serie" class="form-control" name="Serie" [(ngModel)]="comprobanteCompraData.Serie" >
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="correlativo" class="form-label">Correlativo</label>
+                    <input type="text" id="correlativo" class="form-control" name="Correlativo" [(ngModel)]="comprobanteCompraData.Correlativo" >
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="subTotal" class="form-label">SubTotal</label>
+                    <input type="text" id="subTotal" class="form-control" name="Subtotal" [(ngModel)]="comprobanteCompraData.Subtotal" >
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label for="igv" class="form-label">Total IGV</label>
+                    <input type="text" id="igv" class="form-control" name="Total_IGV" [(ngModel)]="comprobanteCompraData.Total_IGV" >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="totalPagar" class="form-label">Total a Pagar</label>
+                    <input type="text" id="totalPagar" class="form-control" name="Total_Pagar" [(ngModel)]="comprobanteCompraData.Total_Pagar" >
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="fechaEmision" class="form-label">Fecha de Emision</label>
+                    <input type="text" id="fechaEmision" class="form-control" name="Fecha_Emision" [(ngModel)]="comprobanteCompraData.Fecha_Emision" >
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="conceptoCompra" class="form-label">Concepto Compra</label>
+                    <input type="text" id="conceptoCompra" class="form-control" name="Concepto_Compra" [(ngModel)]="comprobanteCompraData.Concepto_Compra" >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="metodoPago" class="form-label">Metodo de Pago</label>
+                  <app-general-select-filter
+                      [(ngModel)]="comprobanteCompraData.Medio_Pago"
+                      name="Medio_Pago"
+                      [service]="GrupoDeDatoService"
+                      method="getDetalleGrupoDatos"
+                      [idGrupo]="metodoPagoId"
+                      fieldValue="ID"
+                      fieldContent="Nombre"
+                      name="Medio_Pago">
+                  </app-general-select-filter>
+                </div>
+                <div class="col-md-8 mb-3">
+                    <label for="observacion" class="form-label">Observacion</label>
+                    <input type="text" id="observacion" class="form-control" name="Observacion" [(ngModel)]="comprobanteCompraData.Observacion" >
+                </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-3 text-start">
+                <label class="form-label">Estado</label>
+                  <div class="d-flex py-2 gap-3">
+                    <app-general-plus-check-btn
+                    tipo="toggle"
+                    [currentValue]="comprobanteCompraData?.Estado"
+                    [onToggle]="updateEstado">
+                    </app-general-plus-check-btn>
+                    <span>
+                        {{ comprobanteCompraData.Estado == 1 ? 'Activo' : 'Inactivo'}}
+                    </span>
+                  </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end mt-5">
+              <app-general-plus-check-btn
+              tipo="check-form"
+              [submitFn]="submitFn"
+              [formData]="comprobanteCompraData"
+          ></app-general-plus-check-btn>
+          </div>
+        </form>
+    </div>
+</div>
+
+</div>
+
+
+<ng-template #noData>
+    <p>No se encontraron datos para este domicilio.</p>
+</ng-template>

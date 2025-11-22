@@ -1,0 +1,69 @@
+<div class="section-container-title">
+  <h3 class="title">Documentos Créditos</h3>
+</div>
+
+<div class="section-container">
+  <div class="row mb-3">
+    <h4 class="subtitle mb-4">Buscar Crédito</h4>
+    <div class="col-md-6">
+      <!-- Input para búsqueda por ID del crédito -->
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="Ingrese el ID del crédito..."
+        [(ngModel)]="busquedaCredito"
+        (input)="onSearch()"
+      />
+      <!-- Lista de sugerencias basada en el ID -->
+      <ul class="list-group" *ngIf="busquedaCredito && creditosSugerencias.length">
+        <li 
+          class="list-group-item list-group-item-action" 
+          *ngFor="let credito of creditosSugerencias" 
+          (mousedown)="selectCredito(credito)">
+          ID: {{ credito.ID }} - Cliente: {{ credito.Cliente_Nombre }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Se muestra la información del crédito seleccionado solo al hacer clic en una sugerencia -->
+<div class="section-container" *ngIf="selectedCredito">
+  <div class="row py-3 px-4 align-items-stretch border rounded mb-4 container-data" style="background-color: rgb(250, 250, 250);">
+    <div class="col-md-6 mb-3">
+      <div class="h-100 d-flex flex-column justify-content-center">
+        <span class="d-block fs-4 fw-bold text-dark mb-2">
+          Nombre del Cliente: {{ selectedCredito.Cliente_Nombre }}
+        </span>
+        <span class="d-block fs-4 text-secondary mb-2">
+          ID del Cliente: {{ selectedCredito.Cliente_ID }}
+        </span>
+        <span class="d-block fs-4 text-secondary mb-3">
+          ID del Crédito: {{ selectedCredito.ID }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Estado de firma del desembolso -->
+    <div class="col-md-3 mb-3 d-flex justify-content-center align-items-center">
+      <span *ngIf="selectedCredito.Estado_Firma_Documentos == '1' "  class="btn-falta-firmar bg-success p-3 text-white fw-bold rounded-3 text-center" style="min-width: 150px;">
+        FIRMADO
+      </span>
+      <span *ngIf="selectedCredito.Estado_Firma_Documentos !== '1'" 
+            class="btn-falta-firmar btn-letras bg-danger p-3 text-white fw-bold rounded-3 text-center" style="min-width: 150px;">
+        FALTA FIRMAR
+      </span>
+    </div>
+
+    <div class="col-md-3 mb-3 d-flex justify-content-center align-items-center">
+      <button type="button" class="btn btn-primary btn-ver-documentos btn-lg" [routerLink]="['./single-documento', selectedCredito.Cliente_ID, selectedCredito.ID]">
+        VER DOCUMENTOS
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Mensaje opcional si no se encuentran sugerencias -->
+<div *ngIf="busquedaCredito && creditosSugerencias.length === 0 && !selectedCredito">
+  <p>No se encontró ningún crédito con ese ID.</p>
+</div>

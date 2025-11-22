@@ -1,0 +1,46 @@
+<div class="table-responsive tabla-cronograma">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>N° Cuota</th>
+        <th>N° Días</th>
+        <th>N° Días Acum</th>
+        <th>F. Vencimiento</th>
+        <th>Capital</th>
+        <th>Interés</th>
+        <th>IGV</th>
+        <th>G. Adm</th>
+        <th>Cuota</th>
+        <th>Saldo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="cronogramaData.length === 0">
+        <td colspan="10" class="text-center">No hay datos disponibles.</td>
+      </tr>
+      <tr *ngFor="let cuota of cronogramaData">
+        <td>{{ cuota.Nro_Cuota }}</td>
+        <td>{{ cuota.days }}</td>
+        <td>{{ cuota.daysAcum }}</td>
+        <td>{{ cuota.F_Vencimiento }}</td>
+        <td>{{ cuota.Amortizado | number:'1.2-2' }}</td>
+        <td>{{ cuota.Interes   | number:'1.2-2' }}</td>
+        <td>{{ cuota.IGV       | number:'1.2-2' }}</td>
+        <td>{{ cuota.Gastos_ADM| number:'1.2-2' }}</td>
+        <td>{{ cuota.Cuota_Total| number:'1.2-2' }}</td>
+        <td>{{ cuota.saldo      | number:'1.2-2' }}</td>
+      </tr>
+    </tbody>
+    <tfoot class="table-primary">
+      <tr>
+        <td colspan="4"><strong>TOTALES</strong></td>
+        <td>{{ getTotal('Amortizado')   | number:'1.2-2' }}</td>
+        <td>{{ getTotal('Interes')      | number:'1.2-2' }}</td>
+        <td>{{ getTotal('IGV')          | number:'1.2-2' }}</td>
+        <td>{{ getTotal('Gastos_ADM')   | number:'1.2-2' }}</td>
+        <td>{{ getTotal('Cuota_Total')  | number:'1.2-2' }}</td>
+        <td>0.00</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

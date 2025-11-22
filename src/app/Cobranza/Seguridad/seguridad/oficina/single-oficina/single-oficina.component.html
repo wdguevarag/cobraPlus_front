@@ -1,0 +1,82 @@
+<div *ngIf="singleOficinaData; else noData">
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+            <h3 class="title">{{ isEditing ? 'Editar Oficina : ' : 'Detalles de la Oficina : ' }} <span class="text-muted"> {{singleOficinaData.Nombre}} (Cod {{singleOficinaData.ID}}) </span></h3>
+            <app-general-plus-check-btn 
+            tipo="edit-single" 
+            (editStateChanged)="isEditing = $event">
+            </app-general-plus-check-btn>
+    </div> 
+
+    <form [formGroup]="oficinaForm" class="form" enctype="multipart/form-data">
+        <div class="section-container" style="margin-bottom: 1rem !important;">
+            <div class="row datos-container">
+                <div class="col-md-6 text-start">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre"  formControlName="Nombre"  [readonly]="!isEditing" onlyMayus>
+                </div>
+
+                <div class="col-md-6 text-start">
+                    <label for="descripcion" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" id="descripcion"  formControlName="Descripcion"  [readonly]="!isEditing" onlyMayus>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Ubicacion</label>
+                    <app-general-input-ubicacion formControlName="Ubicacion" [editable]="isEditing">
+                    </app-general-input-ubicacion>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Coordenada_Y</label>
+                    <input type="text" class="form-control" formControlName="Coordenada_Y"  [readonly]="!isEditing" onlyMayus>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Coordenada_X</label>
+                    <input type="text" class="form-control" formControlName="Coordenada_X"  [readonly]="!isEditing" onlyMayus>
+                </div>
+
+                <div class="col-md-4 text-start">
+                    <label class="form-label">Estado</label>
+                    <div class="d-flex gap-2 align-items-center" *ngIf="isEditing; else viewEstado">
+                        <app-general-plus-check-btn 
+                        tipo="toggle" 
+                        [currentValue]="oficinaForm.get('Estado')?.value" 
+                        [onToggle]="updateEstado">
+                        </app-general-plus-check-btn>
+                        <input type="hidden" formControlName="Estado">
+                        <span class="form-label mb-0">{{ oficinaForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                    </div>
+
+                    <ng-template #viewEstado>
+                    <input type="text" class="form-control"
+                            [value]="oficinaForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo'"
+                            readonly>
+                    </ng-template>
+
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="isEditing" class="d-flex justify-content-end mt-0">
+            <app-submit-form 
+            [form]="oficinaForm" 
+            [submitFn]="submitFn.bind(this)" 
+            label="Actualizar Oficina"
+            [requiredFields]="[
+            'Nombre',
+            'Descripcion',
+            'Ubicacion',
+            'Coordenada_Y',
+            'Coordenada_X',
+            ]"
+            >
+            </app-submit-form>
+        </div>
+    </form>
+</div>
+
+
+<ng-template #noData>
+<p>No se encontraron datos para esta Oficina.</p>
+</ng-template>

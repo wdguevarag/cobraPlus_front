@@ -1,0 +1,8 @@
+:host.invalid-field {
+    border: 1px solid transparent !important;
+    background-color: transparent !important;
+    .form-control {
+        border-color: #dc3545;
+        background-color: #ffe6e6 ;
+      }
+}

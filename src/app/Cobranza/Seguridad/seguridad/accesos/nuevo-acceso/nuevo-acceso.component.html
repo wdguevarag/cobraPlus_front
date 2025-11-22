@@ -1,0 +1,91 @@
+<div class="section-container-title">
+  <h3 class="title">Nuevo Acceso</h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+<form [formGroup]="accesoForm" class="form">
+  <div class="section-container">
+    <div class="row mb-3">
+
+      <div class="text-start col-md-4">
+        <label for="Aplicacion_ID" class="form-label">Aplicacion</label>
+        <app-general-select-filter
+          formControlName="Aplicacion_ID"
+          [service]="aplicacionService"
+          method="getAplicaciones"
+          fieldValue="ID"
+          fieldContent="Nombre"
+          name="Aplicacion_ID">
+        </app-general-select-filter>
+
+      </div>
+
+      <div class="text-start col-md-4">
+        <label for="Modulo_ID" class="form-label">Módulo</label>
+        <app-general-select-filter
+        formControlName="Modulo_ID"
+        [service]="moduloService"
+        method="getModulos"
+        fieldValue="ID"
+        fieldContent="Nombre"
+        name="Modulo_ID">
+      </app-general-select-filter>
+
+      </div>
+
+
+      <div class="col-md-4">
+        <label for="Nombre" class="form-label">Nombre</label>
+        <input
+          type="text"
+          id="Nombre"
+          class="form-control"
+          formControlName="Nombre"
+          name="Nombre">
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4">
+        <label for="Ruta" class="form-label">Ruta</label>
+        <input
+          type="text"
+          id="Ruta"
+          class="form-control"
+         formControlName="Ruta"
+          name="Ruta">
+      </div>
+
+      <div class="col-md-4">
+        <label for="Descripcion" class="form-label">Descripción</label>
+        <input
+          type="text"
+          id="Descripcion"
+          class="form-control"
+         formControlName="Descripcion"
+          name="Descripcion">
+      </div>
+
+      <div class="col-md-4">
+        <label for="Icono" class="form-label">Icono</label>
+        <app-general-select-filter
+        formControlName="Icono"
+        [service]="iconService"
+        method="getIconsAcceso"
+        fieldValue="ID"
+        fieldContent="Nombre"
+        name="Icono">
+      </app-general-select-filter>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="d-flex justify-content-end align-items-center mt-5">
+    <app-submit-form
+      [form]="accesoForm"
+      [submitFn]="submitFn.bind(this)"
+      label="Crear Empresa">
+    </app-submit-form>
+  </div>
+</form>

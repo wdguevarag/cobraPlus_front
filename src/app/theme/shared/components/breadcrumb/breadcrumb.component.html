@@ -1,0 +1,35 @@
+<!-- @for (breadcrumb of navigationList; track breadcrumb; let last = $last) {
+  @if (last && breadcrumb.breadcrumbs !== false) {
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-left">
+          <div class="col-md-12">
+            <ul class="breadcrumb d-flex flex-nowrap">
+              <li class="breadcrumb-item ">
+                @if (type === 'theme2') {
+                  <a [routerLink]="['/']" title="Home" class="home"><i class="feather icon-home"></i></a>
+                }
+                @if (type === 'theme1') {
+                  <a [routerLink]="['/']" class="home"><i class="bi bi-house-fill fs-3"></i>
+                  </a>
+                }
+              </li>
+              @for (breadcrumb of navigationList; track breadcrumb) {
+                @if (breadcrumb.url !== false) {
+                  <li class="breadcrumb-item d-flex flex-nowrap">
+                    <a [routerLink]="breadcrumb.url" class="f-18 f-w-600">{{ breadcrumb.title }}</a>
+                  </li>
+                }
+                @if (breadcrumb.url === false && breadcrumb.type !== 'group') {
+                  <li class="breadcrumb-item d-flex flex-nowrap">
+                    <a href="javascript:">{{ breadcrumb.title }}</a>
+                  </li>
+                }
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+} -->

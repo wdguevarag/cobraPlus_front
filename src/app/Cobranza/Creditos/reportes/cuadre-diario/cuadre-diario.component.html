@@ -1,0 +1,97 @@
+<!-- cuadre-diario.component.html -->
+<div>
+  <div class="section-container-title d-flex justify-content-between align-items-center mb-3">
+    <h3 class="title">Cuadre Diario</h3>
+  </div>
+
+  <ng-container *ngIf="cuadre?.length; else sinDatos">
+    <div *ngFor="let user of cuadre" class="user-card mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <strong>{{ user.usuario }}</strong>
+        </div>
+        <div class="card-body p-0">
+    
+          <div class="table-responsive"style="overflow-x: auto; width: 100%;">
+            <table class="table table-bordered table-striped table-hover table-sm mb-0 custom-table">
+              <thead>
+                <tr>
+                  <th class="small-header">Usuario / Métrica</th>
+                  <th *ngFor="let fecha of fechas" class="small-header">{{ fecha }}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                  <!-- Métricas diarias -->
+                  <tr>
+                    <td class="row-label user-monto">USUARIO MONTO</td>
+                    <td *ngFor="let d of user.datos" class="text-end user-monto">{{ d.usuario_monto | number:'1.2-2' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">DEPÓSITOS BANCO</td>
+                    <td *ngFor="let d of user.datos" class="text-end">{{ d.depositos_banco | number:'1.2-2' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">DESEMBOLSO - TRANSFERENCIA ASESOR</td>
+                    <td *ngFor="let d of user.datos" class="text-end">{{ d.desembolso_transferencia_asesor | number:'1.2-2' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">DESEMBOLSO - EFECTIVO</td>
+                    <td *ngFor="let d of user.datos" class="text-end">{{ d.desembolso_efectivo | number:'1.2-2' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">PAGOS - EFECTIVO</td>
+                    <td *ngFor="let d of user.datos" class="text-end">{{ d.pagos_efectivo | number:'1.2-2' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">PAGOS - BANCO</td>
+                    <td *ngFor="let d of user.datos" class="text-end">{{ d.pagos_banco | number:'1.2-2' }}</td>
+                  </tr>
+
+                  <!-- Fila de totales diarios de pagos -->
+                  <tr>
+                    <td class="row-label pago-total">TOTAL PAGOS</td>
+                    <td *ngFor="let d of user.datos" class="text-end pago-total">
+                      {{ (d.pagos_efectivo + d.pagos_banco) | number:'1.2-2' }}
+                    </td>
+                  </tr>
+              </tbody>
+
+
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #sinDatos>
+    <p class="text-muted">No hay datos para mostrar.</p>
+  </ng-template>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

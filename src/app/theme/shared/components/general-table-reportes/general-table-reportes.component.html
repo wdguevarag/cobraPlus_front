@@ -1,0 +1,257 @@
+<div class="container-general-table">
+  <div class="container-top-table">
+        <div class="container-sort" *ngIf="functionSort">
+          <button (click)="toggleSortOrder()" title="Ordenar">
+            <i class="bi" [ngClass]="sortOrder === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down'"></i>
+          </button>
+        </div>
+
+      <div class="container-select-filter" *ngIf="(filters && filters.length) || enableDateFilter">
+          <!-- Filtro de fecha único -->
+          <div *ngIf="enableDateFilter && dateFilterField" class="filter-item">
+            <label>{{ dateFilterLabel }}</label>
+            <input
+              type="date"
+              class="form-control"
+              [(ngModel)]="selectedDate"
+              (change)="currentPage = 1; updatePaginatedData()"
+              [max]="maxDate"
+            />
+          </div>
+
+          <div *ngFor="let filter of filters" class="filter-item">
+              <!-- Filtros tipo select -->
+              <ng-container *ngIf="filter.type === 'select'">
+              <label>{{ filter.title }}</label>
+              <select [(ngModel)]="selectedFilters[filter.field]" (change)="onFilterChange(filter.field)" class="form-control">
+                  <option value="">-- Seleccionar --</option>
+                  <option *ngFor="let option of filterOptions[filter.field]" [value]="option">
+                      {{ option }}
+                  </option>
+              </select>
+              </ng-container>
+
+
+              <ng-container *ngIf="filter.type==='date-start'">
+                <label>{{filter.title}}</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  [max]="maxDate"
+                  [(ngModel)]="dateFilters[filter.field].startStr"
+                  (ngModelChange)="onDateFilterChange(filter.field,'start',$event)"
+                />
+              </ng-container>
+
+              <ng-container *ngIf="filter.type==='date-end'">
+                <label>{{filter.title}}</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  [max]="maxDate"
+                  [(ngModel)]="dateFilters[filter.field].endStr"
+                  (ngModelChange)="onDateFilterChange(filter.field,'end',$event)"
+                />
+              </ng-container>
+
+
+          </div>
+      </div>
+
+      <div class="container-top-buttons">
+          <button title="Exportar" class="btn-exportar" (click)="toggleExportMenu()">
+          <i class="bi bi-upload fs-4"></i>
+          <div *ngIf="showExportMenu" class="export-menu">
+              <button (click)="exportToWord()">Word</button>
+              <button (click)="exportToPDF()">PDF</button>
+              <button (click)="exportToExcel()">Excel</button>
+          </div>
+          </button>
+
+          <button title="Imprimir" class="btn-imprimir" (click)="printTable()">
+          <i class="bi bi-printer fs-4"></i>
+          </button>
+      </div>
+
+      <div class="container-search">
+          <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar..." (input)="updatePaginatedData()" class="form-control">
+          <select [(ngModel)]="filterProperty" (change)="onFilterPropertyChange(filterProperty)" class="form-control">
+          <option *ngFor="let column of getFilteredCustomColumns()" [value]="column.field">
+              {{ column.header }}
+          </option>
+          </select>
+      </div>
+  </div>
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let column of columns" [hidden]="!column.show">
+            {{ column.header }}
+          </th>
+        </tr>
+      </thead>
+
+      <!-- Animación en el tbody según currentPage -->
+      <tbody [@pageAnimation]="currentPage">
+        <tr *ngIf="loading">
+          <td [attr.colspan]="columns.length">
+            <span role="status" aria-hidden="true"></span>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && paginatedData.length === 0">
+          <td [attr.colspan]="columns.length" style="text-transform: none !important;">
+            No se encontraron resultados.
+          </td>
+        </tr>
+
+
+        <tr *ngFor="let row of paginatedData; let i = index"
+        (click)="onRowClick(row.ID)"
+        [ngClass]="{'row-active': row.rowActive}">
+          <td *ngFor="let column of columns" [hidden]="!column.show"
+              (click)="column.type === 'button' ? onButtonClick(column.field, row.id, $event) : null">
+
+
+            <!-- === Nuevo bloque para 'btn-img-popup' === -->
+            <ng-container *ngIf="column.type === 'btn-img-popup'">
+              <button
+                class="btn btn-link p-0 button-img-popup"
+                (click)="
+                  $event.stopPropagation();
+                  openImagePopup(row[column.field], column.imgDescripcion || '')
+                ">
+                {{ column.btnLabel || 'Ver' }}
+              </button>
+            </ng-container>
+
+
+
+            <ng-container *ngIf="column.type === 'btn-toggle'">
+              <button
+                class="toggle-switch"
+                [disabled]="row.isUpdating"
+                [ngClass]="{'activo': row[column.field] == trueValue}"
+                (click)="onToggleClick(column.field, row[toggleIdField], $event)">
+                <span
+                class="toggle-ball"
+                ></span>
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="column.type === 'button'">
+              <button
+                (click)="onButtonClick(column.contentField, row.ID, $event)"
+                [ngClass]="'button-td ' + column['btnClass']">
+                {{ column.contentField }}
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="column.type === 'img'">
+              <img src="{{ row[column.field] }}" class="td-img" alt="row-img">
+            </ng-container>
+
+            <ng-container *ngIf="column.type === 'button-delete'">
+              <button (click)="onDeleteClick(row, $event, column)">
+                {{ column.label ? column.label : 'Eliminar' }}
+              </button>
+            </ng-container>
+
+
+
+
+            <ng-container *ngIf="(column.contentField || column.field) && column.type !== 'button' && column.type !== 'btn-img-popup' && column.type !== 'btn-toggle' && column.type !== 'img'">
+              <ng-container *ngIf="column.type === 'binario'; else noBinario">
+                {{ row[column.field] == 1 ? (column.trueValue ? column.trueValue : 'Activo') : (column.falseValue ? column.falseValue : 'Inactivo') }}
+              </ng-container>
+              <ng-template #noBinario>
+                <ng-container *ngIf="(row[column.field] === true || row[column.field] === false) && (column.trueValue || column.falseValue); else normalValue">
+                  {{ row[column.field] ? (column.trueValue ? column.trueValue : trueValue) : (column.falseValue ? column.falseValue : falseValue) }}
+                </ng-container>
+             
+
+
+                 <ng-template #normalValue>
+                  <ng-container *ngIf="
+                      !column.noNumeric
+                      && isNumericValue(row[column.field])
+                    ; else rawValue">
+                    {{ formatValue(
+                        column.viewPalabra
+                          ? getSelectedWords(row[column.field], column.viewPalabra)
+                          : row[column.field]
+                      ) }}
+                  </ng-container>
+                  <ng-template #rawValue>
+                    {{ column.viewPalabra
+                        ? getSelectedWords(row[column.field], column.viewPalabra)
+                        : row[column.field]
+                    }}
+                  </ng-template>
+                </ng-template>
+                
+
+              </ng-template>
+            </ng-container>
+          </td>
+        </tr>
+
+        
+        <tr *ngIf="showFooter" class="footer-row">
+          <td *ngFor="let column of columns" [hidden]="!column.show">
+            <ng-container *ngIf="column.sumable">
+              {{ formatValue(totals[column.field]) }}
+            </ng-container>
+            <ng-container *ngIf="!column.sumable && column.totalLabel">
+              {{ column.totalLabel }}
+            </ng-container>
+          </td>
+        </tr>
+
+    
+
+
+
+
+
+
+     
+
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td [attr.colspan]="columns.length">
+            <div class="paginator-container">
+              <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <span>{{ currentPage }} de {{ getTotalPages() }}</span>
+              <button [disabled]="currentPage === getTotalPages()" (click)="changePage(currentPage + 1)">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+
+
+
+
+<!-- === Al final del template (por fuera de la tabla), incluimos el modal condicional === -->
+<div *ngIf="showImageModal" class="image-popup-overlay">
+  <div class="image-popup-content">
+    <div class="top-pop-pup-container d-flex justify-content-between align-items-center">
+      <p class="image-popup-description">{{ modalImageDescripcion }}</p>
+      <button class="close-popup-btn" (click)="closeImagePopup()">&times;</button>
+      <!-- Si quieres, agrega un título o descripción encima -->
+    </div>
+
+    <img [src]="modalImageUrl" alt="{{ modalImageDescripcion }}" class="image-popup-img" />
+  </div>
+</div>

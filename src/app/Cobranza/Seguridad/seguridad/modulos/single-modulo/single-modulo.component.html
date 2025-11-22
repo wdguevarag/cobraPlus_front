@@ -1,0 +1,132 @@
+<div *ngIf="isLoading" class="spinner-container">
+  <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <span class="spinner-border"></span>
+  </div>
+</div>
+
+
+<div  *ngIf="!isLoading">
+  <div *ngIf="singleModuloData; else noData">
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+          <h3 class="title">{{ isEditing ? 'Editar Modulo : ' : 'Detalles del Modulo : ' }} <span class="text-muted"> {{singleModuloData.Nombre}} (Cod {{singleModuloData.ID}}) </span></h3>
+          <app-general-plus-check-btn 
+          tipo="edit-single" 
+          (editStateChanged)="isEditing = $event">
+          </app-general-plus-check-btn>
+    </div> 
+
+    <div *ngIf="!isEditing">
+      <div class="section-container">
+          <div class="row mb-3">
+            <div class="text-start col-md-6">
+                <label class="form-label">Nombre</label>
+                <input class="form-control" value="{{ singleModuloData.Nombre }} " readonly />
+            </div>
+            <div class="text-start col-md-6">
+                <label class="form-label">Nombre Aplicación</label>
+                <input class="form-control" value="{{ singleAccesoAplicacion.Nombre }} " readonly />
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="text-start col-md-6">
+                <label class="form-label">Descripcion</label>
+                <input class="form-control" value="{{ singleModuloData.Descripcion }} " readonly />
+            </div>
+            <div class="text-start col-md-6">
+              <label class="form-label">Estado</label>
+              <input class="form-control" value="{{ singleModuloData.Estado == 1 ? 'Activo' : 'Inactivo'}}" readonly />
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+    <div  *ngIf="isEditing" >
+      <form [formGroup]="moduloForm" class="form" enctype="multipart/form-data" >
+        <div class="section-container">
+            <div class="row mb-3">
+              <div class="text-start col-md-6">
+                  <label for="nombre" class="form-label ">Nombre</label>
+                  <input class="form-control" id="nombre" formControlName="Nombre"  />
+              </div>
+
+              <div class="text-start col-md-6">
+                <label for="nombreModulo" class="form-label ">Nombre Aplicacion</label>
+                  <app-general-select-filter
+                  name="Aplicacion_ID"
+                  [service]="aplicacionService"
+                  method="getAplicaciones"
+                  fieldValue="ID"
+                  fieldContent="Nombre"
+                  formControlName="Aplicacion_ID">
+                  </app-general-select-filter>
+              </div>
+
+            </div>
+
+
+            <div class="row mb-3">
+              <div class="text-start col-md-4">
+                <label for="icono" class="form-label ">Icono</label>
+                  <app-general-select-filter
+                  formControlName="Icono"
+                  [service]="iconService"
+                  method="getIconsModulo"
+                  fieldValue="ID"
+                  fieldContent="Nombre"
+                  name="Icono">
+                </app-general-select-filter>
+              </div>
+
+
+              <div class="text-start col-md-4">
+                  <label for="descripcion" class="form-label ">Descripcion</label>
+                  <input class="form-control" id="descripcion" formControlName="Descripcion" />
+              </div>
+
+              <div class="text-start col-md-4">
+                <label for="Ruta" class="form-label ">Ruta</label>
+                <input class="form-control" id="Ruta" formControlName="Ruta" />
+              </div>
+
+
+
+             </div>
+
+            <div class="row">
+
+              <div class="col-md-4 text-start">
+                <label class="form-label">Estado</label>
+                <div class="d-flex py-2 gap-2 align-items-center">
+                    <app-general-plus-check-btn 
+                    tipo="toggle" 
+                    [currentValue]="moduloForm.get('Estado')?.value" 
+                    [onToggle]="updateEstado">
+                    </app-general-plus-check-btn>
+                    <input type="hidden" formControlName="Estado">
+                    <span>{{ moduloForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+              </div>
+
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-5">
+          <app-submit-form 
+          [form]="moduloForm" 
+          [submitFn]="submitFn.bind(this)" 
+          label="Actualizar Módulo">
+          </app-submit-form>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+
+  <ng-template #noData>
+  <p>No se encontraron datos para este Modulo.</p>
+  </ng-template>
+</div>

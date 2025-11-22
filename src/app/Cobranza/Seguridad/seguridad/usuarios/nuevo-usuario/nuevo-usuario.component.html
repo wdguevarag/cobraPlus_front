@@ -1,0 +1,144 @@
+<div class="section-container-title">
+  <h3 class="title">Nuevo Usuario</h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+<form [formGroup]="usuarioForm" class="form">
+  <div class="section-container-img-form row">
+    <div class="section-container-img col-md-5">
+      <div class="contenedor-images">
+        <div class="contenedor-image">
+          <label class="form-label mb-0 fs-4 fw-regular d-block">Anverso</label>
+          <app-general-upload-input-img 
+            type="new"
+            [width]="'100%'"
+            [height]="'300px'"
+            (fileSelected)="onFileSelected($event, 'Documento_Anverso')">
+          </app-general-upload-input-img>
+
+          
+        </div>
+        <div class="contenedor-image">
+          <label class="form-label mb-0 fs-4 fw-regular d-block">Reverso</label>
+          <app-general-upload-input-img 
+            type="new"
+            [width]="'100%'"
+            [height]="'300px'"
+            (fileSelected)="onFileSelected($event, 'Documento_Reverso')">
+          </app-general-upload-input-img>
+        </div>
+      </div>
+    </div>
+    <div class="section-container col-md-7">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="Nombre" class="form-label">Nombre</label>
+          <input type="text" id="Nombre" class="form-control" formControlName="Nombre" required onlyMayus>
+        </div>
+    
+        <div class="col-md-4">
+          <label for="Apellido" class="form-label">Apellido</label>
+          <input type="text" id="Apellido" class="form-control" formControlName="Apellido" required onlyMayus>
+        </div>
+        <div class="col-md-4">
+          <label for="Nombre_Corto" class="form-label">Nombre Corto</label>
+          <input type="text" id="Nombre_Corto" class="form-control" formControlName="Nombre_Corto" required onlyMayus>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="Email" class="form-label">Email</label>
+          <input type="email" id="Email" class="form-control" formControlName="Email" required>
+        </div>
+        <div class="col-md-4">
+          <label for="Contrasena" class="form-label">Contraseña</label>
+          <input type="password" id="Contrasena" class="form-control" formControlName="Contrasena" required>
+        </div>
+        <div class="col-md-4">
+          <label for="DNI" class="form-label">DNI</label>
+          <input 
+          type="text"
+          class="form-control"
+          formControlName="DNI"
+          maxlength="8"
+          onlyNumbers>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="Telefono" class="form-label">Teléfono</label>
+          <input 
+          type="text"
+          class="form-control"
+          formControlName="Telefono"
+          maxlength="9"
+          onlyNumbers>
+        </div>
+        <div class="col-md-4">
+          <label for="Direccion" class="form-label">Dirección</label>
+          <app-general-input-ubicacion 
+          formControlName="Direccion"
+          >
+          </app-general-input-ubicacion>
+        </div>
+        <div class="col-md-4">
+          <label for="Fecha_Nacimiento" class="form-label">Fecha Nacimiento</label>
+          <input type="date" id="Fecha_Nacimiento" class="form-control" formControlName="Fecha_Nacimiento" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="Fecha_Ingreso" class="form-label">Fecha Ingreso</label>
+          <input type="date" id="Fecha_Ingreso" class="form-control" formControlName="Fecha_Ingreso" required>
+        </div>
+        <div class="col-md-4">
+          <label  class="form-label">Rol</label>
+            <select class="form-control" id="Rol_ID" formControlName="Rol_ID">
+              <option [ngValue]="null" >-- Seleccione rol --</option>
+              <option *ngFor="let rol of rolesFiltrados" [ngValue]="rol.ID">
+                {{ rol.Nombre }}
+              </option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+          <label  class="form-label">Oficina</label>
+            <select class="form-control" id="Oficina_ID" formControlName="Oficina_ID">
+              <option [ngValue]="null">-- Seleccione oficina --</option>
+              <option *ngFor="let oficina of oficinasFiltradas" [ngValue]="oficina.ID">
+                {{ oficina.Nombre }}
+              </option>
+            </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón de envío -->
+  <div class="d-flex justify-content-end align-items-center mt-5">
+    <app-submit-form 
+      [form]="usuarioForm" 
+      [submitFn]="submitFn.bind(this)" 
+      label="Crear Usuario"
+      [requiredFields]="
+      [
+      'Nombre', 
+      'Nombre_Corto', 
+      'Apellido', 
+      'Rol_ID',
+      'DNI', 
+      'Contrasena', 
+      'Direccion', 
+      'Telefono', 
+      'Email',
+      'Fecha_Nacimiento', 
+      'Fecha_Ingreso', 
+      'Seguimiento', 
+      'Editar_Token', 
+      'Seguimiento_Ubicacion', 
+      'Multiple_Sesion', 
+      ]"
+      >
+    </app-submit-form>
+  </div>
+</form>

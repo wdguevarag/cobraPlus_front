@@ -1,0 +1,35 @@
+.btn-design-credit{
+    background: #1E2A38;
+    appearance: none;
+    border: none;
+    padding: 6px 12px;
+    font-size: 12px;
+    &:hover{
+        background: #0056B3;
+    }
+}
+
+thead tr th , tbody tr td , tfoot tr td {
+    @media (max-width: 500px){
+    font-size: 8px !important;
+    padding: 5px !important;
+    }
+}
+
+
+@media (max-width: 500px) {
+    button {
+        font-size: 8px !important;
+        padding: 4px 15px !important;
+        min-width: fit-content !important;
+        height: fit-content !important;
+        i {
+            font-size: 10px;
+            margin-right: 5px;
+        }
+    }
+
+    .pager-text {
+        font-size: 8px !important;
+    }
+}

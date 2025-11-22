@@ -1,0 +1,105 @@
+<form [formGroup]="usuarioForm" class="form">
+<div class="section-container-img-form row mb-0">
+    <div class="section-container-img col-md-4">
+    <div class="contenedor-images">
+        <div class="contenedor-image">
+        <label>Documento Anverso:</label>
+        <!-- Componente para la imagen en modo "new" -->
+        <app-general-upload-input-img 
+            type="new"
+            (fileSelected)="onFileSelected($event, 'Documento_Anverso')">
+        </app-general-upload-input-img>
+        </div>
+        <div class="contenedor-image">
+        <label>Documento Reverso:</label>
+        <app-general-upload-input-img 
+            type="new"
+            (fileSelected)="onFileSelected($event, 'Documento_Reverso')">
+        </app-general-upload-input-img>
+        </div>
+    </div>
+    </div>
+    <div class="section-container col-md-8">
+    <!-- Campos de texto -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+        <label for="Nombre" class="form-label">Nombre</label>
+        <input type="text" id="Nombre" class="form-control" formControlName="Nombre" required>
+        </div>
+
+        <div class="col-md-4">
+        <label for="Apellido" class="form-label">Apellido</label>
+        <input type="text" id="Apellido" class="form-control" formControlName="Apellido" required>
+        </div>
+
+        <div class="col-md-4">
+        <label for="Nombre_Corto" class="form-label">Nombre Corto</label>
+        <input type="text" id="Nombre_Corto" class="form-control" formControlName="Nombre_Corto" required>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+        <label for="Email" class="form-label">Email</label>
+        <input type="email" id="Email" class="form-control" formControlName="Email" required>
+        </div>
+        <div class="col-md-4">
+        <label for="Contrasena" class="form-label">Contraseña</label>
+        <input type="password" id="Contrasena" class="form-control" formControlName="Contrasena" required>
+        </div>
+        <div class="col-md-4">
+        <label for="DNI" class="form-label">DNI</label>
+        <input type="number" id="DNI" class="form-control" formControlName="DNI" required>
+        </div>
+    </div>
+    <!-- Otros campos: Teléfono, Dirección, Fecha_Nacimiento, Fecha_Ingreso, etc. -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+        <label for="Telefono" class="form-label">Teléfono</label>
+        <input type="number" id="Telefono" class="form-control" formControlName="Telefono" required>
+        </div>
+        <div class="col-md-4">
+        <label for="Direccion" class="form-label">Dirección</label>
+        <input type="text" id="Direccion" class="form-control" formControlName="Direccion" required>
+        </div>
+        <div class="col-md-4">
+        <label for="Fecha_Nacimiento" class="form-label">Fecha Nacimiento</label>
+        <input type="date" id="Fecha_Nacimiento" class="form-control" formControlName="Fecha_Nacimiento" required>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+        <label for="Fecha_Ingreso" class="form-label">Fecha Ingreso</label>
+        <input type="date" id="Fecha_Ingreso" class="form-control" formControlName="Fecha_Ingreso" required>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end align-items-center mt-5">
+        <!-- Componente SubmitForm para manejar la validación, envío, popup y redirección -->
+        <app-submit-form 
+        [form]="usuarioForm" 
+        [submitFn]="submitFn.bind(this)" 
+        label="Crear Usuario Empresa"
+        [reload]="true"
+        [requiredFields]="[
+        'Nombre',
+        'Nombre_Corto',
+        'Apellido',
+        'Rol_ID',
+        'DNI',
+        'Contrasena',
+        'Direccion',
+        'Telefono',
+        'Email',
+        'Fecha_Nacimiento',
+        'Fecha_Ingreso',
+        ]"
+        
+        >
+        </app-submit-form>
+    </div>
+    </div>
+
+</div>
+
+
+</form>
+  

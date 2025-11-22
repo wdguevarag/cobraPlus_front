@@ -1,0 +1,114 @@
+<div class="container-general-table">
+
+  <div class="container-top-table">
+
+    <!-- Botón ordenar -->
+
+    <!-- Botones exportar e imprimir -->
+    <div class="container-top-buttons">
+        <button (click)="toggleSortOrder()" title="Ordenar">
+        <i class="bi fs-4" [ngClass]="sortOrder === 'asc' ? 'bi-sort-up' : 'bi-sort-down'"></i>
+        </button>
+
+        <button title="Exportar" class="btn-exportar" (click)="showExportMenu = !showExportMenu">
+            <i class="bi bi-download fs-4"></i>
+            <div *ngIf="showExportMenu" class="export-menu">
+                    <button (click)="exportToWord()">Word</button>
+                    <button (click)="exportToPDF()">PDF</button>
+                    <button (click)="exportToExcel()">Excel</button>
+            </div>
+        </button>
+
+        <button title="Imprimir" class="btn-imprimir" (click)="printTable()">
+            <i class="bi bi-printer fs-4"></i>
+        </button>
+    </div>
+
+
+
+    <!-- Filtros -->
+    <div class="container-select-filter" *ngIf="(filters && filters.length) || enableDateFilter">
+      
+      <!-- Filtro de fecha -->
+      <div *ngIf="enableDateFilter && dateFilterField" class="filter-item">
+        <label>{{ dateFilterLabel }}</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="selectedDate"
+          (change)="onFilterChanged()"
+          [max]="maxDate"
+        />
+      </div>
+
+      <!-- Otros filtros -->
+      <div *ngFor="let f of filters" class="filter-item">
+        <label>{{ f.title }}</label>
+        <ng-container [ngSwitch]="f.type">
+          <select *ngSwitchCase="'select'" class="form-control" [(ngModel)]="selectedFilters[f.field]" (change)="onFilterChanged()">
+            <option value="">--</option>
+            <option *ngFor="let o of filterOptions[f.field]" [value]="o">{{ o }}</option>
+          </select>
+
+          <input *ngSwitchCase="'date-start'" type="date" class="form-control" [(ngModel)]="dateFilters[f.field].startStr" (ngModelChange)="onFilterChanged()" [max]="maxDate" />
+          <input *ngSwitchCase="'date-end'" type="date" class="form-control" [(ngModel)]="dateFilters[f.field].endStr" (ngModelChange)="onFilterChanged()" [max]="maxDate" />
+        </ng-container>
+      </div>
+    </div>
+
+
+    <!-- Buscador -->
+    <div class="container-search">
+      <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Buscar..." (input)="onFilterChanged()" />
+      <select class="form-control" [(ngModel)]="filterProperty" (change)="onFilterChanged()">
+        <option *ngFor="let c of columns" [value]="c.field">{{ c.header }}</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let c of columns" [hidden]="!c.show">{{ c.header }}</th>
+        </tr>
+      </thead>
+
+      <tbody [@pageAnimation]="1">
+        <tr *ngIf="loading">
+          <td [attr.colspan]="columns.length">Cargando...</td>
+        </tr>
+
+        <tr *ngIf="!loading && filteredData.length === 0">
+          <td [attr.colspan]="columns.length">Sin datos</td>
+        </tr>
+
+        <tr *ngFor="let row of filteredData" [class.fila-total]="row.ID === 'TOTAL'">
+          <td *ngFor="let c of columns" [hidden]="!c.show">
+            <ng-container *ngIf="c.type === 'btn-img-popup'">
+              <button class="btn btn-link p-0 button-img-popup" (click)="openImagePopup(row[c.field], c.imgDescripcion || '')">
+                {{ c.btnLabel || 'Ver' }}
+              </button>
+
+
+            </ng-container>
+            <ng-container *ngIf="!c.type">
+              {{ c.viewPalabra ? row[c.field] : row[c.field] }}
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal imagen -->
+  <div *ngIf="showImageModal" class="image-popup-overlay">
+    <div class="image-popup-content">
+      <p>{{ modalImageDescripcion }}</p>
+      <button (click)="closeImagePopup()">✖</button>
+      <img [src]="modalImageUrl" alt="{{ modalImageDescripcion }}" />
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,365 @@
+
+<div>
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+      <h3 class="title">Nueva Campaña</h3>
+    </div> 
+    <div class="section-container">
+        <app-general-tab-container [tabs]="tabs">
+            <ng-template>
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <h4 class="text-center mb-4">Buscar Cliente</h4>
+                            <!-- Buscador visual -->
+                            <div class="search-box mb-4">
+                                <input
+                                    type="text"
+                                    class="form-control custom-input"
+                                    placeholder=""
+                                    aria-label="Buscar Cliente"
+                                />
+                                <span class="search-icon">
+                                    🔍
+                                </span>
+                            </div>
+                            <!-- Input de monto -->
+                            <div class="mb-3">
+                                <label for="montoOferta" class="form-label">Ingresar Monto de la Oferta</label>
+                                <input
+                                    type="text"
+                                    class="form-control custom-input"
+                                    id="montoOferta"
+                                    placeholder=""
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template>
+                <div class="container mt-4">
+                    <h3>Búsqueda del Cliente</h3>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <p class="text-secondary fw-bold">CLIENTE</p>
+                            <p class="fw-bold">José Ramírez</p>
+                            <div class="line"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-secondary fw-bold">DOCUMENTO</p>
+                            <p class="fw-bold">67766787</p>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <app-general-tab-container [tabs]="tabs2">
+                    <ng-template>
+                        <div class="container mt-4">
+                            <h3>Lista de Domicilios</h3>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <p class="text-secondary fw-bold">UBICACIÓN</p>
+                                    <p class="fw-bold">LIMA / LIMA / SAN MARTIN DE PORRES</p>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="text-secondary fw-bold">DIRECCIÓN</p>
+                                    <p class="fw-bold">ASOCIACION LOS OLIVOS DE SANTA ROSA . AV</p>
+                                    <div class="line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template>
+                    </ng-template>
+                    <ng-template>
+                    </ng-template>
+                    <ng-template>
+                    </ng-template>
+                    <ng-template>
+                    </ng-template>
+                </app-general-tab-container>   
+                <br>     
+                <app-general-tab-container [tabs]="tabs3">
+                    <ng-template>
+                        <div class="container mt-4">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>N° Prest</th>
+                                            <th>Fecha desembolso</th>
+                                            <th>Monto desembolso</th>
+                                            <th>Estado</th>
+                                            <th>f. Último pago</th>
+                                            <th>TNIM%</th>
+                                            <th>Plazo</th>
+                                            <th>Cuota</th>
+                                            <th>Saldo Capital</th>
+                                            <th>Deuda</th>
+                                            <th>Asesor</th>
+                                            <th>Días mora</th>
+                                            <th>Atraso prom</th>
+                                            <th>Atraso max</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>22720</strong></td>
+                                            <td>21/10/24</td>
+                                            <td>500.00</td>
+                                            <td><strong>VIGENTE</strong></td>
+                                            <td>22/10/24</td>
+                                            <td>14.58</td>
+                                            <td>25</td>
+                                            <td>23.50</td>
+                                            <td>481.09</td>
+                                            <td>481.09</td>
+                                            <td><strong>COBRANZA</strong></td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </ng-template>
+                </app-general-tab-container>  
+            </ng-template>
+               
+            <ng-template>
+                <div class="container mt-4">
+                    <h3 class="text-center">Datos del Cliente</h3>
+                    <div class="row mt-4">
+                        <!-- Anverso -->
+                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/DNI_peruano.jpg" class="img-fluid border" alt="Anverso">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Apellido Paterno</strong>
+                                    <div>CAPUÑAY</div>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Apellido Materno</strong>
+                                    <div>ACURCIO</div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Nombres</strong>
+                                    <div>ROCIO PILAR</div>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Tipo de Documento</strong>
+                                    <div>DNI</div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Documento</strong>
+                                    <div>67766787</div>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Género</strong>
+                                    <div>FEMENINO</div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Estado Civil</strong>
+                                    <div>CASADO</div>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Fecha de Nacimiento</strong>
+                                    <div>17/05/1980</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <app-general-tab-container [tabs]="tabs4">
+                        <ng-template>
+                            <div class="mt-5">
+                                <h4 class="text-center">Lista de Domicilios</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th>UBICACIÓN</th>
+                                                <th>DIRECCIÓN</th>
+                                                <th>REFERENCIA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>LIMA\LIMA\SAN MARTIN DE PORRES</td>
+                                                <td>ASOCIACION: LOS OLIVOS DE SANTA ROSA</td>
+                                                <td>COLEGIO VIRGEN MARIA</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template>
+                            <div class="mt-5">
+                                <h4 class="text-center">Lista de Negocios</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th>RAZÓN SOCIAL</th>
+                                                <th>RUC</th>
+                                                <th>TIPO DE NEGOCIO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>NEGOCIOS SAC</td>
+                                                <td>20458796452</td>
+                                                <td>COMERCIAL</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template>
+                            <div class="mt-5">
+                                <h4 class="text-center">Lista de Contactos</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th>NOMBRE</th>
+                                                <th>TELÉFONO</th>
+                                                <th>CORREO ELECTRÓNICO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>JUAN PÉREZ</td>
+                                                <td>987654321</td>
+                                                <td>juan.perezemail.com</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template>
+                            <div class="mt-5">
+                                <h4 class="text-center">Lista de Documentos</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th>TIPO DE DOCUMENTO</th>
+                                                <th>NÚMERO</th>
+                                                <th>FECHA DE EMISIÓN</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>DNI</td>
+                                                <td>12345678</td>
+                                                <td>01/01/2000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template>
+                            <div class="mt-5">
+                                <h4 class="text-center">Lista de Familiares</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th>NOMBRE</th>
+                                                <th>PARENTESCO</th>
+                                                <th>EDAD</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>MARÍA PÉREZ</td>
+                                                <td>HERMANA</td>
+                                                <td>30</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template>
+                            <div class="mt-5">
+                                <h4 class="text-center">Lista de Cuentas</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th>BANCO</th>
+                                                <th>NÚMERO DE CUENTA</th>
+                                                <th>TIPO DE CUENTA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>BCP</td>
+                                                <td>1234567890123456</td>
+                                                <td>AHORROS</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template>
+                            <div class="mt-5">
+                                <h4 class="text-center">Lista de RCC</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th>ENTIDAD</th>
+                                                <th>MONTO</th>
+                                                <th>FECHA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>INTERBANK</td>
+                                                <td>S/ 15,000</td>
+                                                <td>01/12/2023</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                        
+                       
+                    </app-general-tab-container>        
+
+                </div>
+            
+            </ng-template>
+        </app-general-tab-container>        
+    </div>
+    <div class="d-flex justify-content-end mt-5">
+        <app-general-plus-check-btn [tipo]="'check'"></app-general-plus-check-btn>
+      </div>
+</div>
+  

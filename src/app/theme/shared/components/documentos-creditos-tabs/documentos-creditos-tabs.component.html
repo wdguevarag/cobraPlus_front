@@ -1,0 +1,22 @@
+<ul class="nav nav-tabs card-header-tabs mb-3">
+    <li class="nav-item" *ngFor="let group of documentosGrouped; let i = index">
+      <a class="nav-link text-secondary rounded-3 mr-3 fw-bold shadow-sm"
+         [ngClass]="{'active bg-primary text-white': activeTabIndex === i}"
+         href="#tab{{ i }}"
+         (click)="activeTabIndex = i; $event.preventDefault()">
+        {{ group.tipo }}
+      </a>
+    </li>
+  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane fade"
+         [ngClass]="{'show active': activeTabIndex === i}"
+         id="tab{{ i }}"
+         *ngFor="let group of documentosGrouped; let i = index">
+      <div *ngFor="let doc of group.docs" class="mb-3">
+        <embed [src]="doc.safeUrl" type="application/pdf" class="w-100 rounded shadow" style="height: 700px;">
+      </div>
+    </div>
+  </div>
+  

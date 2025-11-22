@@ -1,0 +1,150 @@
+
+.btn-style {
+    background-color: white;
+    border: 1px solid #1e2a38 ;
+    transition: all 0.3s ease-in-out;
+    width: fit-content;
+    i {
+        transition: all 0.3s ease-in-out;
+        color: #1e2a38;
+    }
+
+    &:hover {
+        background-color: #1e2a38;
+        border: #1e2a38 ;
+        i {
+            color: #ffffff;
+        }
+    }
+
+}
+
+
+table {
+    border: 3px solid white  ;
+
+    thead {
+        tr {
+            th {
+                background-color: white;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            transition: all 0.3 ease-in-out;
+            &:hover {
+                background-color:#f7f7f7;
+                cursor: pointer;
+            }
+        }
+    }
+
+    tr {
+        border-color: #f1f1f1;
+    }
+
+    th, td {
+        text-align: center;
+    }
+}
+
+
+.search-cliente-container {
+    position: relative; 
+
+    .search-list {
+        position: absolute;
+        width: 100%;
+        ul {
+            li {
+                transition: all 0.3s ease-in-out;
+                &:hover {
+                    background-color: #ebebeb;
+                }
+            }
+        }
+    }
+
+}
+
+
+.btn-anular {
+    background-color: #DC3545;
+    transition: all 0.3 ease-in-out;
+    &:hover {
+        background-color: #af2d3a;
+    }
+}
+
+
+
+.pop-pup-visible {
+    .modal-dialog {
+        transform: translateY(-50%);
+        top: 50%;
+        max-width: 300px;
+        margin: 0 auto;
+        position: relative;
+        .btn-cerrar {
+            position: absolute;
+            border-radius: 50%;
+            border: none;
+            color: #fff ;
+            background-color: #1e2a38;
+            top: -12px;
+            width: 25px;
+            height: 25px;
+            display: block;
+            right: -6px;
+            z-index: 5;
+            cursor: pointer;
+        }
+
+        p {
+            text-align: center;
+
+        }
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            button {
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+
+.container-buttons {
+    button {
+        @media(max-width: 767px) {
+            padding: 6px;
+            i {
+                font-size: 10px !important;
+                line-height: 1;
+                display: block;
+            }
+        }
+    }
+}
+
+.container-datos {
+    @media(max-width: 767px) {
+        justify-content: left !important;
+        margin: 5px 0px;
+        label , span {
+            font-size: 10px !important;
+        }
+    } 
+}
+
+ul.list-group {
+    li {
+        @media(max-width: 767px) {
+            font-size: 10px !important;
+            padding: 5px !important;
+        } 
+    }
+}

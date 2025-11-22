@@ -1,0 +1,239 @@
+<!-- src/app/Cobranza/Incentivos/incentivos.component.html -->
+<div class="section-container-title">
+  <h3 class="mb-3">Incentivos</h3>
+</div>
+
+<div class="section-container">
+  <div class="row mb-4 datos-container">
+    <div class="col-md-3">
+      <label for="fecha" class="form-label">Fecha:</label>
+      <input type="month" id="fecha" class="form-control"
+             [(ngModel)]="fechaSeleccionada"
+             (change)="onFilterChange()">
+    </div>
+
+    <div class="col-md-3">
+      <label for="analista" class="form-label">Analista:</label>
+      <select id="analista" class="form-control"
+              [(ngModel)]="analistaSeleccionado"
+              (change)="onFilterChange()">
+        <option [ngValue]="null">Todos</option>
+        <option *ngFor="let asesor of analistas" [ngValue]="asesor.ID">
+          {{ asesor.Nombre }}
+        </option>
+      </select>
+    </div>
+
+
+    <div class="col-md-6 d-flex gap-2">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <button class="btn btn-primary" (click)="toggleMostrarImagen()">
+          <i class="bi" [ngClass]="{ 'bi-image': !mostrarImagen, 'bi-x-lg': mostrarImagen }"></i>
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <button class="btn btn-primary" (click)="descargarExcel()">
+        <i class="bi bi-download"></i>
+      </button>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+
+<!-- Imagen -->
+<div class="section-container" *ngIf="mostrarImagen">
+  <div class="d-flex justify-content-center">
+    <img src="../../../../../assets/images/Incentivos.png" alt="Incentivos" style="width: 100%;">
+  </div>
+</div>
+
+<!-- Tablas -->
+<div class="section-container" *ngIf="!mostrarImagen">
+
+  <div class="table-responsive mt-4" *ngIf="incentivoData.length">
+
+    <!-- Tabla MES ACTUAL -->
+    <h4 class="mt-3 mb-2">Tabla Mes Actual</h4>
+    <table class="table table-bordered text-center mb-4" *ngIf="incentivoActualList.length">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th style="min-width: 100px !important;" >Analista</th>
+          <th style="min-width: 60px !important;">Mes</th>
+          <th>Periodo</th>
+          <th>Clientes Nuevos</th>
+          <th>Mora ≤7d</th>
+          <th>Mora ≥8d</th>
+          <th>% Mora ≤7d</th>
+          <th>% Mora ≥8d</th>
+          <th>Bono Total</th>
+          <th>Aceleración</th>
+          <th>Bono Final</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fila of incentivoActualList">
+          <td>{{ fila.Nombre }}</td>
+          <td>{{ fila.Fecha }}</td>
+          <td>{{ fila.Periodo }}</td>
+          <td>{{ fila.Clientes_Nuevos }}</td>
+          <td>{{ fila.Clientes_Mora_7d }}</td>
+          <td>{{ fila.Clientes_Mora_8d }}</td>
+          <td>{{ fila.Porcentaje_Mora_7d | number:'1.2-2' }}%</td>
+          <td>{{ fila.Porcentaje_Mora_8d | number:'1.2-2' }}%</td>
+          <td>{{ fila.BonoTotal }}</td>
+          <td>{{ fila.Aceleracion | number:'1.2-2' }}</td>
+          <td>{{ fila.BonoFinal | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="analistaSeleccionado === null">
+        <tr>
+          <th colspan="8" class="text-end">Totales:</th>
+          <th>{{ totalBonoTotalActual }}</th>
+          <th>{{ totalAceleracionActual | number:'1.2-2' }}</th>
+          <th>{{ totalBonoFinalActual | number:'1.2-2' }}</th>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Tabla MES ANTERIOR -->
+    <h4 class="mt-3 mb-2">Tabla Mes Anterior</h4>
+    <table class="table table-bordered text-center" *ngIf="incentivoAnteriorList.length">
+      <thead class="bg-secondary text-white">
+        <tr>
+          <th style="min-width: 100px !important;" >Analista</th>
+          <th style="min-width: 60px !important;">Mes</th>
+          <th>Periodo</th>
+          <th>Clientes Nuevos</th>
+          <th>Mora ≤7d</th>
+          <th>Mora ≥8d</th>
+          <th>% Mora ≤7d</th>
+          <th>% Mora ≥8d</th>
+          <th>Bono Total</th>
+          <th>Aceleración</th>
+          <th>Bono Final</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fila of incentivoAnteriorList">
+          <td>{{ fila.Nombre }}</td>
+          <td>{{ fila.Fecha }}</td>
+          <td>{{ fila.Periodo }}</td>
+          <td>{{ fila.Clientes_Nuevos }}</td>
+          <td>{{ fila.Clientes_Mora_7d }}</td>
+          <td>{{ fila.Clientes_Mora_8d }}</td>
+          <td>{{ fila.Porcentaje_Mora_7d | number:'1.2-2' }}%</td>
+          <td>{{ fila.Porcentaje_Mora_8d | number:'1.2-2' }}%</td>
+          <td>{{ fila.BonoTotal }}</td>
+          <td>{{ fila.Aceleracion | number:'1.2-2' }}</td>
+          <td>{{ fila.BonoFinal | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="analistaSeleccionado === null">
+        <tr>
+          <th colspan="8" class="text-end">Totales:</th>
+          <th>{{ totalBonoTotalAnterior }}</th>
+          <th>{{ totalAceleracionAnterior | number:'1.2-2' }}</th>
+          <th>{{ totalBonoFinalAnterior | number:'1.2-2' }}</th>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+
+  <!-- Resumen y tabs -->
+  <div *ngIf="analistaSeleccionado !== null && incentivoActivo" class="mt-4 table-responsive">
+    <table class="table table-bordered text-center table-resumen-analista">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th colspan="2">Resumen de Incentivos Calculados</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Incentivo Clientes Nuevos</th>
+          <td>{{ incentivoActivo?.Incentivo_Clientes_Nuevos }}</td>
+        </tr>
+        <tr>
+          <th>Variación Clientes Nuevos</th>
+          <td>{{ incentivoActivo?.Variacion_Clientes_Nuevos }}</td>
+        </tr>
+        <tr>
+          <th>Incentivo Mora ≥8 días</th>
+          <td>{{ incentivoActivo?.Incentivo_Mora_8d }}</td>
+        </tr>
+        <tr>
+          <th>Variación Mora ≥8 días</th>
+          <td>{{ incentivoActivo?.Variacion_Mora_8d }}</td>
+        </tr>
+        <tr>
+          <th>Rango Fecha</th>
+          <td>{{ incentivoActivo?.Rango_Fecha }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!incentivoData.length" class="alert alert-info mt-3">
+    No hay datos para mostrar con los filtros seleccionados.
+  </div>
+
+  <!-- Tabs Mes Actual / Anterior -->
+  <div *ngIf="analistaSeleccionado !== null && incentivoData.length" class="mt-5">
+    <ul class="nav nav-tabs mb-4">
+      <li class="nav-item">
+        <button class="nav-link"
+                [class.active]="periodoActivo === 'actual'"
+                (click)="periodoActivo = 'actual'">
+          MES ACTUAL
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link"
+                [class.active]="periodoActivo === 'anterior'"
+                (click)="periodoActivo = 'anterior'">
+          MES ANTERIOR
+        </button>
+      </li>
+    </ul>
+
+    <div *ngIf="selectedIncentivo" class="detalle-incentivos p-4 ">
+      <table class="table table-borderless w-50 mx-auto">
+        <h4 class="mb-4">
+          Detalle Incentivos — <span class="text-muted ms-2">{{ selectedIncentivo.Fecha }}</span>
+        </h4>
+        <tr>
+          <th class="text-start">Clientes Nuevos Desembolsados</th>
+          <td>{{ selectedIncentivo.Clientes_Nuevos }}</td>
+        </tr>
+        <tr>
+          <th class="text-start">Clientes hasta 7 días de Mora</th>
+          <td>{{ selectedIncentivo.Clientes_Mora_7d }}</td>
+        </tr>
+        <tr>
+          <th class="text-start">Gestión Mora ≥8 días</th>
+          <td>{{ selectedIncentivo.Clientes_Mora_8d }}</td>
+        </tr>
+        <tr class="space"><td colspan="2"><hr /></td></tr>
+        <tr>
+          <th class="text-start">Bono Total</th>
+          <td>{{ bonoTotal }}</td>
+        </tr>
+        <tr class="space"><td colspan="2"><hr /></td></tr>
+        <tr>
+          <th class="text-start">Aceleración Bono Total</th>
+          <td>{{ aceleracion }}</td>
+        </tr>
+        <tr class="space"><td colspan="2"><hr /></td></tr>
+        <tr style="background-color: #1e2a380e !important;">
+          <th class="text-start">Bono Final</th>
+          <td>{{ bonoFinal }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

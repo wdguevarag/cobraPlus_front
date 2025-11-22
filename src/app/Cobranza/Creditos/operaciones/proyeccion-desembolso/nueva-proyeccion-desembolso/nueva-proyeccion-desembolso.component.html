@@ -1,0 +1,273 @@
+<div *ngIf="!clienteEncontrado">
+    <div class="section-container-title">
+        <h3 class="title">Nueva Proyeccion Desembolso</h3>
+    </div>
+    
+    <div class="section-container">
+        <h4 class="subtitle mb-5">Buscar Cliente</h4>
+        <app-general-table 
+        [columns]="clientesColumns" 
+        [data]="clientesData" 
+        (rowClick)="onRowClick($event)" 
+        >
+      </app-general-table>
+    </div>
+</div>
+
+<div *ngIf="clienteEncontrado">
+    
+
+    <app-general-tab-container  [type]="'top'" [tabs]="nuevaProyeccionDesembolsoTabs">
+        <ng-template >
+                <div class="section-container">
+                    <div class="row mb-5">
+                        <div class="col-md-3 mb-3">
+                            <label for="fechaDesembolso" class="form-label">Fecha Desembolso</label>
+                            <input type="date" id="fechaDesembolso" class="form-control"   >
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label for="montoPresupuesto" class="form-label">Monto Presupuesto</label>
+                            <input type="text" id="montoPresupuesto" class="form-control"   >
+                        </div>
+                    
+                        <div class="col-md-3 mb-3">
+                            <label for="plazoPresupuesto" class="form-label">Plazo Presupuesto</label>
+                            <input type="text" id="plazoPresupuesto" class="form-control"   >
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="horaDesembolso" class="form-label">Hora Desembolso</label>
+                            <input type="text" id="horaDesembolso" class="form-control"   >
+                        </div>
+                    </div>
+
+                    <div class="row mb-5">
+                        <div class="col-md-3 mb-3">
+                            <h4 class="subtitle mb-5">Toma de Firma en:</h4>
+                            <div class="d-flex gap-5">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tomaFirma" id="oficina">
+                                    <label  for="oficina">Oficina</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tomaFirma" id="campo">
+                                    <label  for="campo">Campo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <h4 class="subtitle mb-5">Tipo de Desembolso</h4>
+                            <div class="d-flex gap-5">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tipoDesembolso" id="transferencia">
+                                    <label  for="transferencia">Transferencia</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tipoDesembolso" id="efectivo">
+                                    <label  for="efectivo">Efectivo</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tipoDesembolso" id="efectivo-transferencia">
+                                    <label  for="efectivo-transferencia">Efectivo + Transferencia</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tipoDesembolso" id="transferencia-asesor">
+                                    <label  for="transferencia-asesor">Transferencia Asesor</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            
+
+
+        </ng-template>
+
+        <ng-template >
+            <div class="section-container-img-form row">
+                <div class="section-container-img col-md-4" >
+                    <div class="mb-4">
+                        <p class="fw-bold">Anverso</p>
+                        <input type="image" src="{{singleClienteData.imgDniAnverso}}" class="img-fluid rounded border" readonly>
+                    </div>
+                    <div>
+                        <p class="fw-bold">Reverso</p>
+                        <input type="image" src="{{singleClienteData.imgDniReverso}}" class="img-fluid rounded border" readonly>
+                    </div>
+                </div>
+                <div class="section-container col-md-7">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-3 text-start">
+                                <label for="apePaterno" class="form-label">Apellido Paterno:</label>
+                                <input type="text" class="form-control" id="apePaterno" value="{{singleClienteData.apePaterno}}" readonly>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label for="apeMaterno" class="form-label">Apellido Materno</label>
+                                <input type="text" class="form-control" id="apeMaterno" value="{{singleClienteData.apeMaterno}}" readonly>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label for="nombre" class="form-label">Nombres</label>
+                                <input type="text" class="form-control" id="nombre" value="{{singleClienteData.nombre}}" readonly>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label for="tipoDoc" class="form-label">Tipo Documento</label>
+                                <input type="text" class="form-control" id="tipoDoc" value="{{singleClienteData.tipoDoc}}" readonly>
+                            </div>
+                        </div>
+        
+                        <div class="row mb-3">
+                            <div class="col-md-3 text-start">
+                                <label for="doc" class="form-label">Documento</label>
+                                <input type="text" class="form-control" id="doc" value="{{singleClienteData.doc}}" readonly>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label for="genero" class="form-label">Género</label>
+                                <input type="text" class="form-control" id="genero" value="{{singleClienteData.genero}}" readonly>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label for="estadoCivil" class="form-label">Estado Cívil</label>
+                                <input type="text" class="form-control" id="estadoCivil" value="{{singleClienteData.estadoCivil}}" readonly>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label for="fechaNac" class="form-label">Fecha de Nacimiento</label>
+                                <input type="text" class="form-control" id="fechaNac" value="{{singleClienteData.fechaNac}}" readonly>
+                            </div>
+                        </div>
+        
+                        <div class="row mb-3">
+                            <div class="col-md-8 text-start">
+                                <label for="lugarNac" class="form-label">Lugar de Nacimiento</label>
+                                <input type="text" class="form-control" id="lugarNac" value="{{singleClienteData.lugarNac}}" readonly>
+                            </div>
+                            <div class="col-md-4 text-start">
+                                <label for="estado" class="form-label">Estado</label>
+                                <input type="text" class="form-control" id="estado" value="{{singleClienteData.estado}}" readonly>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template>
+
+            
+                <div class="section-container-title d-flex justify-content-between align-items-center">
+                    <h3 class="title">Busqueda del Cliente</h3>
+                </div> 
+                <div class="section-container">
+                    <div class="row mb-3">
+                        <div class="col-md-6 text-start">
+                            <label for="nombre" class="form-label">Cliente</label>
+                            <input type="text" class="form-control" id="nombre" value="" readonly>
+                        </div>
+                        <div class="col-md-6 text-start">
+                            <label for="doc" class="form-label">Documento</label>
+                            <input type="text" class="form-control" id="doc" value="" readonly>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="section-container">   
+                    <app-general-tab-container [tabs]="ficClientesTabs">
+                        <ng-template >
+                            <h5 class="mb-0">Lista de Domicilios</h5>
+                            <app-general-table 
+                            [columns]="clienteDomiciliosColumns" 
+                            [data]="clienteDomiciliosData" 
+                            tableName="tabla1" 
+                            (rowClick)="onRowClick($event)" 
+                            >
+                            </app-general-table>
+                            
+                        </ng-template>
+                        
+                        <ng-template>
+                            <h5 class="mb-0">Lista de Negocios</h5>
+                            <app-general-table 
+                            [columns]="clienteNegociosColumns" 
+                            [data]="clienteNegociosData" 
+                            tableName="tabla2" 
+                            (rowClick)="onRowClick($event)" 
+                            >
+                            </app-general-table>
+                            
+                        </ng-template>
+
+
+                        <ng-template>
+                            <h5 class="mb-0">Lista de Contactos</h5>
+                            <app-general-table 
+                            [columns]="clienteContactosColumns" 
+                            [data]="clienteContactosData" 
+                            tableName="tabla3" 
+                            (rowClick)="onRowClick($event)" 
+                            >
+                            </app-general-table>
+                        
+                        </ng-template>
+
+                        <ng-template>
+                            <h5 class="mb-0">Lista de Documentos</h5>
+                            <app-general-table 
+                            [columns]="clienteDocumentosColumns" 
+                            [data]="clienteDocumentosData" 
+                            tableName="tabla6" 
+                            (rowClick)="onRowClick($event)" 
+                            >
+                            </app-general-table>
+                        
+                        </ng-template>
+
+                        <ng-template>
+                            <h5 class="mb-0">Lista de RCC</h5>
+                            <app-general-table 
+                            [columns]="clienteRccsColumns" 
+                            [data]="clienteRccsData" 
+                            tableName="tabla5" 
+                            (rowClick)="onRowClick($event)" 
+                            >
+                            </app-general-table>
+                            
+                        </ng-template>
+                    
+                    </app-general-tab-container> 
+                </div>
+
+
+                
+                <div class="section-container">
+                    <app-general-tab-container [tabs]="ficCreditosTabs">
+                        <ng-template>
+
+                            <app-general-table
+                            [columns]="clienteCreditosColumns"
+                            [data]="clienteCreditosData"
+                            tableName="tablaCreditos" 
+                            (rowClick)="onRowClick($event)" 
+                            >
+                            </app-general-table>
+                        
+                        </ng-template>
+                    </app-general-tab-container> 
+                </div>
+
+
+        </ng-template>
+        
+    </app-general-tab-container> 
+
+    <div class="d-flex justify-content-end mt-5">
+        <app-general-plus-check-btn [tipo]="'check'"></app-general-plus-check-btn>
+    </div>
+</div>
+

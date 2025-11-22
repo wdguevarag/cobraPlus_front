@@ -1,0 +1,248 @@
+<div>
+  <div class="row mb-4  datos-solicitud">
+    <div class="col-md-3 text-start">
+      <label for="deudaActiva" class="form-label">Deuda Activa</label>
+      <input type="text" class="form-control" name="deudaActiva" id="deudaActiva" [(ngModel)]="deudaActiva" readonly />
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="estado" class="form-label">Estado</label>
+      <input type="text" class="form-control" name="estado" id="estado" [(ngModel)]="estado" readonly />
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="tipoSolicitud" class="form-label">Tipo de Solicitud:</label>
+
+      <!-- 
+            <select name="tipoSolicitud" id="tipoSolicitud" class="form-control" 
+            [(ngModel)]="tipoSolicitud" [ngClass]="{'input-error': errores.tipoSolicitud}">
+                <option *ngFor="let opcion of opcionesTipoSolicitud" [value]="opcion.value">
+                    {{ opcion.label }}
+                </option>
+            </select>
+            -->
+
+      <select
+        name="tipoSolicitud"
+        id="tipoSolicitud"
+        class="form-control"
+        [(ngModel)]="tipoSolicitud"
+        (ngModelChange)="actualizarPrestamoPorTipo($event)"
+        [ngClass]="{ 'input-error': errores.tipoSolicitud }"
+      >
+        <option *ngFor="let opcion of opcionesTipoSolicitud" [value]="opcion.value">
+          {{ opcion.label }}
+        </option>
+      </select>
+
+      <small class="text-danger" *ngIf="errores.tipoSolicitud">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="asesorSeleccionado" class="form-label">Asesor:</label>
+      <select
+        name="asesorSeleccionado"
+        id="asesorSeleccionado"
+        class="form-control"
+        [(ngModel)]="asesorSeleccionado"
+        [ngClass]="{ 'input-error': errores.asesorSeleccionado }"
+      >
+        <option *ngFor="let asesor of asesores" [value]="asesor.ID">{{ asesor.Nombre }} {{ asesor.Apellido }}</option>
+      </select>
+      <small class="text-danger" *ngIf="errores.asesorSeleccionado">Campo obligatorio</small>
+    </div>
+  </div>
+  <div class="row mb-4 datos-solicitud">
+    <div class="col-md-3 text-start">
+      <label for="destino" class="form-label">Destino</label>
+      <app-general-select-filter
+        [service]="GrupoDeDatoService"
+        method="getDetalleGrupoDatos"
+        [idGrupo]="destinoCreditoID"
+        fieldValue="ID"
+        fieldContent="Nombre"
+        name="destino"
+        [(ngModel)]="destinoSeleccionado"
+        [ngClass]="{ 'input-error': errores.destino }"
+      ></app-general-select-filter>
+      <small class="text-danger" *ngIf="errores.destino">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="prestamo" class="form-label">Prestamo</label>
+
+      <input
+        type="number"
+        class="form-control"
+        id="prestamo"
+        [(ngModel)]="prestamo"
+        [ngClass]="{ 'input-error': errores.prestamo || errores.prestamoMenor }"
+        [readonly]="tipoSolicitud === 'Refinanciacion'"
+      />
+
+      <small class="text-danger" *ngIf="errores.prestamo">Campo obligatorio</small>
+      <small class="text-danger" *ngIf="errores.prestamoMenor">Tiene que ser mayor que la Deuda Activa</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="periodicidad" class="form-label">Periodicidad</label>
+
+      <select
+        id="periodicidad"
+        class="form-control"
+        [(ngModel)]="periodicidadSeleccionado"
+        [ngClass]="{ 'input-error': errores.periodicidad }"
+      >
+        <option value="" disabled selected>-- Selecciona periodicidad --</option>
+        <option *ngFor="let p of periodicidades" [value]="p.Nombre">
+          {{ p.Nombre }}
+        </option>
+      </select>
+      <small class="text-danger" *ngIf="errores.periodicidad">Campo obligatorio</small>
+
+      <small class="text-danger" *ngIf="errores.periodicidad">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="nro_periodos" class="form-label">N° Periodos</label>
+      <input
+        type="number"
+        class="form-control"
+        id="nro_periodos"
+        [(ngModel)]="nro_periodos"
+        [ngClass]="{ 'input-error': errores.nro_periodos }"
+      />
+      <small class="text-danger" *ngIf="errores.nro_periodos">Debe ser mayor a 0</small>
+    </div>
+  </div>
+  <div class="row mb-4 datos-solicitud">
+    <div class="col-md-3 text-start">
+      <label for="tipo_p_gracia" class="form-label">Tipo P. Gracia</label>
+      <select
+        name="tipo_p_gracia"
+        id="tipo_p_gracia"
+        class="form-control"
+        [(ngModel)]="tipo_p_gracia"
+        [ngClass]="{ 'input-error': errores.tipo_p_gracia }"
+      >
+        <option value="total">Total</option>
+        <option value="absoluto">Absoluto</option>
+      </select>
+      <small class="text-danger" *ngIf="errores.tipo_p_gracia">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="nro_periodo_gracia" class="form-label">N° P. Gracia</label>
+      <input
+        type="number"
+        class="form-control"
+        id="nro_periodo_gracia"
+        [(ngModel)]="nro_periodo_gracia"
+        [ngClass]="{ 'input-error': errores.nro_periodo_gracia }"
+      />
+      <small class="text-danger" *ngIf="errores.nro_periodo_gracia">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="fecha_desembolso" class="form-label">F.Desembolso</label>
+      <input
+        type="date"
+        class="form-control"
+        id="fecha_desembolso"
+        [(ngModel)]="fecha_desembolso"
+        [ngClass]="{ 'input-error': errores.fecha_desembolso }"
+      />
+      <small class="text-danger" *ngIf="errores.fecha_desembolso">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="gasto_mensual" class="form-label">Gasto Mensual %</label>
+      <input
+        type="number"
+        id="gasto_mensual"
+        class="form-control"
+        [(ngModel)]="gasto_mensual"
+        [ngClass]="{ 'input-error': errores.gasto_mensual }"
+      />
+      <small class="text-danger" *ngIf="errores.gasto_mensual">Campo obligatorio</small>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-3 text-start mb-3 btn-generar-creditos">
+      <button mat-raised-button color="primary" (click)="generarDatosCredito()">Generar Cuotas</button>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-3 text-start">
+      <label for="fecha_inicio" class="form-label">Primer Día de Pago</label>
+      <input type="date" class="form-control" id="fecha_inicio" [(ngModel)]="fecha_inicio" readonly />
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="fecha_final" class="form-label">Ultimo Día de Pago</label>
+      <input type="date" class="form-control" id="fecha_final" [(ngModel)]="fecha_final" readonly />
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="tem_oficial" class="form-label">TEM Oficial %</label>
+      <input type="number" id="tem_oficial" class="form-control" value="2.50" readonly />
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="tea_oficial" class="form-label">TEA Oficial %</label>
+      <input type="number" id="tea_oficial" class="form-control" [(ngModel)]="tea_oficial" readonly />
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-3" style="display: flex; flex-direction: column; gap: 15px">
+      <label style="display: flex; gap: 8px; width: fit-content">
+        <input name="aval" type="radio" value="con_aval" [formControl]="avalCtrl" />
+        <span>Con Aval</span>
+      </label>
+      <label style="display: flex; gap: 8px; width: fit-content">
+        <input name="aval" type="radio" value="sin_aval" [formControl]="avalCtrl" checked />
+        <span>Sin Aval</span>
+      </label>
+    </div>
+    <div class="col-md-6 mt-2" *ngIf="isConAvalSelected()">
+      <input
+        type="text"
+        placeholder="Buscar Familiares..."
+        [formControl]="familiarCtrl"
+        [matAutocomplete]="auto"
+        class="aval-select form-control"
+      />
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFamiliar">
+        <mat-option *ngFor="let familiar of filteredFamiliares | async" [value]="familiar">
+          {{ familiar.Nombres }} {{ familiar.Apellido_Paterno }} {{ familiar.Apellido_Materno }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered mt-3 tabla-cronograma" *ngIf="cronogramaPrincipal.length > 0">
+    <thead>
+      <tr>
+        <th class="text-end">N° Cuota</th>
+        <th class="text-end" style="min-width: 60px;">Fecha</th>
+        <th class="text-end">Capital</th>
+        <!-- ahora se llamara Capital -->
+        <th class="text-end">Interés</th>
+        <th class="text-end">IGV</th>
+        <th class="text-end">GAdm</th>
+        <th class="text-end">Cuota Total</th>
+        <th class="text-end">Saldo</th>
+        <!-- ahora se llamara Saldo -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cronogramaPrincipal">
+        <td class="text-end">{{ item.nro_cuota }}</td>
+        <td class="text-end">{{ item.fecha_pago | date: 'dd-MM-yyyy' }}</td>
+        <td class="text-end">{{ item.amortizado | number: '1.2-2' : 'en-US' }}</td>
+        <td class="text-end">{{ item.interes | number: '1.2-2' : 'en-US' }}</td>
+        <td class="text-end">{{ item.igv | number: '1.2-2' : 'en-US' }}</td>
+        <td class="text-end">{{ item.gastos_adm | number: '1.2-2' : 'en-US' }}</td>
+        <td class="text-end">{{ item.cuota_total | number: '1.2-2' : 'en-US' }}</td>
+        <td class="text-end">{{ item.capital | number: '1.2-2' : 'en-US' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-end align-items-center mt-3 btn-crear-creditos">
+  <button mat-raised-button color="primary" (click)="onGuardarClickSolicitudCredito()" [disabled]="isProcessing">
+    {{ isProcessing ? 'Guardando...' : 'Guardar Solicitud' }}
+  </button>
+</div>

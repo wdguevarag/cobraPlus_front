@@ -1,0 +1,41 @@
+.btn-password-eye {
+  border: none;
+  background-color: transparent;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+
+  i {
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.2s ease-in-out;
+  }
+
+  &:hover i {
+    color: #007bff; // azul al hacer hover
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.datos-container {
+  display: flex;
+  row-gap: 1rem;
+  @media (max-width: 767px) {
+    row-gap: 0.5rem;
+    [class*="col-md-"] {
+      width: 50%;
+    }
+  }
+}
+
+.btn.btn-outline-primary  {
+  @media (max-width: 767px) {
+  padding: 2px 4px !important;
+  i {
+    font-size: 10px !important;
+  }
+  }
+}

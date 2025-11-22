@@ -1,0 +1,53 @@
+<div *ngIf="singleRolData; else noData">
+
+  <div class="section-container-title">
+    <h3 class="title">{{ isEditing ? 'Editar Rol : ' : 'Detalles del Rol : ' }} <span class="text-muted"> {{singleRolData.Nombre}} (Cod {{singleRolData.ID}}) </span></h3>
+    <app-general-plus-check-btn 
+    tipo="edit-single" 
+    (editStateChanged)="isEditing = $event">
+  </app-general-plus-check-btn>
+  </div>
+
+
+
+  <form *ngIf="rolForm" [formGroup]="rolForm" class="form" enctype="multipart/form-data">
+    <div class="section-container">
+      <div class="row mb-3">
+        <div class="col-md-6 text-start">
+          <label class="form-label">Nombre</label>
+          <input type="text"
+            class="form-control"
+            formControlName="Nombre"
+            [readonly]="!isEditing">
+        </div>
+        <div class="col-md-6 text-start">
+          <label class="form-label">Descripcion</label>
+          <input type="text"
+            class="form-control"
+            formControlName="Descripcion"
+            [readonly]="!isEditing">
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="isEditing" class="d-flex justify-content-end mt-5">
+      <app-submit-form 
+        [form]="rolForm" 
+        [submitFn]="submitFn.bind(this)" 
+        label="Actualizar Rol"
+        [requiredFields]="[
+        'Nombre',
+        'Descripcion',
+        ]"
+        >
+      </app-submit-form>
+    </div>
+  </form>
+
+
+
+</div>
+
+<ng-template #noData>
+<p>No se encontraron datos para este Rol.</p>
+</ng-template>

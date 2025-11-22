@@ -1,0 +1,58 @@
+<div class="section-container-title d-flex justify-content-between align-items-center">
+  <h3 class="title">Listado de Refinanciaciones</h3>
+</div>
+<div class="section-container">
+  <div class="row mb-4">
+    <div class="col-md-4 text-start">
+      <h4 class="subtitle">Buscador</h4>
+      <input type="text" class="form-control mb-3" placeholder="Buscar..." [(ngModel)]="filtro"/>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Cod. Ref</th>
+          <th>Cod. Credito</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Capital</th>
+          <th>Modalidad</th>
+          <th>Estado</th>
+          <th>Ver</th>
+          <th>Anular</th>
+          <th>Aprobar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let refinanciacion of refinanciacionesPaginadas">
+          <td>{{ refinanciacion.ID }}</td>
+          <td>{{ refinanciacion.Credito_ID }}</td>
+          <td>{{ refinanciacion.Cliente }}</td> 
+          <td>{{ refinanciacion.Fecha_Registro }}</td>
+          <td>{{ refinanciacion.Prestamo | currency:'S/. ':'symbol' }}</td>
+          <td>REFINANCIADO</td>
+          <td>{{ refinanciacion.Credito_Estado_Aprobado == '1' ? 'APROBADO' : 'PENDIENTE' }}</td>
+          <td> <button class="btn btn-success btn-sm btn-design-credit" (click)="verRefinanciacion(refinanciacion.ID)">Ver</button> </td>
+          <td>
+            <button class="btn btn-success btn-sm btn-design-credit" (click)="anularRefinanciacion(refinanciacion.ID, refinanciacion.Credito_ID, refinanciacion.Credito_ID_Anterior)" [disabled] = "isAnularRefinanciacionDisabled">Anular</button>
+          </td>
+          <td>
+     
+          <button class="btn btn-success btn-sm btn-design-credit" (click)="aprobarCredito(refinanciacion.Credito_ID, refinanciacion.Cliente_ID, refinanciacion.Credito_Fecha_Desembolso, refinanciacion.Credito_Prestamo)" >Aprobar</button>
+
+
+          </td>
+        </tr>
+      </tbody>    
+    </table>
+    <div class="col-md-12 text-start">
+      <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+        <button class="btn btn-secondary" (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">Anterior</button>
+        <span class="pager-text"> Pagina {{ paginaActual }} de {{ totalPaginas }}</span>
+        <button class="btn btn-secondary" (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+      </div>
+    </div>
+  </div>
+</div>
+

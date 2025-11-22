@@ -1,0 +1,100 @@
+<div class="section-container-menu row">
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Pago')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-credit-card display-5 text-success"></i>
+                <h5 class="card-title mt-3">Pago</h5>
+                <a [routerLink]="['/creditos/operacion/pago']" class="btn btn-success btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Desembolso')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-cash-coin display-5 text-warning"></i>
+                <h5 class="card-title mt-3">Desembolso</h5>
+                <a [routerLink]="['/creditos/operacion/desembolso']" class="btn btn-warning btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Depósitos Bancarios')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-bank display-5 text-info"></i>
+                <h5 class="card-title mt-3">Depósitos Bancarios</h5>
+                <a [routerLink]="['/creditos/operacion/deposito-bancario']" class="btn btn-info btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Extorno')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-arrow-counterclockwise display-5 text-danger"></i>
+                <h5 class="card-title mt-3">Extorno</h5>
+                <a [routerLink]="['/creditos/operacion/extorno']" class="btn btn-danger btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Pago Cancelación')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-x-circle display-5 text-secondary"></i>
+                <h5 class="card-title mt-3">Pago Cancelación</h5>
+                <a [routerLink]="['/creditos/operacion/pago-cancelacion']" class="btn btn-secondary btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Proyección Desembolso')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-bar-chart display-5 text-info"></i>
+                <h5 class="card-title mt-3">Proyección Desembolso</h5>
+                <a [routerLink]="['/creditos/operacion/proyeccion-desembolso']" class="btn btn-info btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Transferencias')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-arrow-left-right display-5 text-dark"></i>
+                <h5 class="card-title mt-3">Transferencias</h5>
+                <a [routerLink]="['/creditos/operacion/transferencia']" class="btn btn-dark btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Campañas')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-megaphone display-5 text-success"></i>
+                <h5 class="card-title mt-3">Campañas</h5>
+                <a [routerLink]="['/creditos/operacion/campaña']" class="btn btn-success btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</div>

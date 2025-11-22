@@ -1,0 +1,139 @@
+.container-info {
+    border: 3px solid #dcdbdb36;
+    background-color: #fcfcfce2;
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3 ease-in-out;
+    &:hover {
+        transition: all 0.3 ease-in-out;
+        background-color: #ffffff;
+    }
+}
+.container-img {
+    height: 100%;
+    position: relative;
+
+    img {
+        border: 10px solid #dcdbdb3a; 
+        border-radius: 20px;
+        object-fit: contain;
+        width: 100%;
+    }
+    .btn-intercambiar-img {
+        position: absolute;
+        top: 0px;
+        left: 10px;
+        border: none;
+        background-color: #926cfb;
+        padding: 3px 10px;
+        border-radius: 5px;
+        &:hover {
+            background-color: #6b3ced;
+        }
+        i {
+            font-size: 15px;
+            color: white;
+        }
+    }
+
+}
+.info {
+    margin-bottom: 5px;
+    span {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    a {
+        transition: all 0.3 ease-in-out;
+        &:hover {
+            transition: all 0.3 ease-in-out;
+            text-decoration: underline !important;
+            color: #000000b0;
+        }
+    }
+}
+
+.container-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-content {
+    color: #2e2e2ee9;
+}
+
+
+.search-input {
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease;
+  
+    &:focus {
+      border-color: #86b7fe;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    &::placeholder {
+        transition: opacity 0.3s ease;
+      }
+      
+    &.autocompletado {
+    &::placeholder {
+        opacity: 0;
+    }
+    }
+
+  }
+  
+.sugerencias-dropdown {
+  position: absolute;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 0.5rem;
+  max-width: 80vw;
+
+  .sugerencia-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.95rem;
+
+    @media (max-width:767px) {
+        font-size: 8px;
+        padding: 5px !important;
+    } 
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    small {
+      font-size: 0.85rem;
+      color: #6c757d !important;
+      @media (max-width:767px) {
+          font-size: 8px;
+      } 
+    }
+  }
+}
+
+
+
+.btn-ir-firmar {
+  @media (max-width:767px) {
+    display: flex !important;
+  min-width: fit-content !important;
+  }
+}

@@ -1,0 +1,16 @@
+<div class="giro-input-container">
+  <input
+    type="text"
+    class="form-control"
+    [formControl]="searchControl"
+    placeholder="Buscar giro de negocio..."
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    [readonly]="!editable"
+  />
+  <ul class="suggestions" *ngIf="showSuggestions && (filteredGiros | async)?.length">
+    <li *ngFor="let giro of filteredGiros | async" (click)="onSelect(giro)">
+      {{ giro.Nombre }}
+    </li>
+  </ul>
+</div>

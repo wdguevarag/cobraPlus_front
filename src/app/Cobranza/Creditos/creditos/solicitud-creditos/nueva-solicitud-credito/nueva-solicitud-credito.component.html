@@ -1,0 +1,95 @@
+<div>
+  <div class="section-container-title">
+    <h3 class="title">Nueva Solicitud de Crédito</h3>
+  </div>
+
+  <div class="section-container">
+    <div class="row mb-3">
+      <div class="col-md-5">
+        <mat-form-field appearance="outline" style="display: flex">
+        <mat-label>Seleccionar Cliente</mat-label>
+
+          <input
+            type="text"
+            matInput
+            [(ngModel)]="clienteFiltro"
+            [matAutocomplete]="auto"
+            placeholder="Buscar..."
+            class="buscador-input"
+            (input)="filtrarClientes()"
+          />
+
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let cliente of clientesFiltrados" [value]="cliente" (click)="onClienteChange(cliente.ID)">
+              {{ cliente.Nombres }} {{ cliente.Apellido_Paterno }} {{ cliente.Apellido_Materno }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Mostrar información del cliente seleccionado cuando los tres selects tengan valor -->
+    <div *ngIf="clienteSeleccionado">
+      <h4 class="pt-3">
+        Cliente Seleccionado: {{ clienteSeleccionado.Nombres }} {{ clienteSeleccionado.Apellido_Paterno }}
+        {{ clienteSeleccionado.Apellido_Materno }}
+      </h4>
+    </div>
+  </div>
+
+  <mat-tab-group *ngIf="clienteSeleccionado" [(selectedIndex)]="selectedTab">
+    <mat-tab label="SOLICITUD">
+      <div class="section-container">
+        <h4 class="subtitle mb-5">Datos Generales</h4>
+        <app-simulacion-nuevo-credito
+          [singleClienteId]="clienteSeleccionado.ID"
+          [solicitudValor]="solicitudValor"
+          [deudaActiva]="deudaActiva"
+          [creditoVigente]="creditoVigente"
+          [estadoCredito]="estadoCredito"
+          [idCreditoAnterior]="idCreditoAnterior"
+          (guardarClicked)="onCambiarATabEvaluacion()"
+        ></app-simulacion-nuevo-credito>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="CLIENTE">
+      <div class="section-container">
+        <div *ngIf="clienteSeleccionado.ID">
+          <app-single-fic [type]="'fic'" [clienteIdFromInput]="clienteSeleccionado.ID"></app-single-fic>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="EVALUACIÓN">
+      <div class="section-container">
+
+        <!-- Mostrar evaluación existente si hay un ID válido -->
+        <app-single-cliente-evaluacion
+          *ngIf="evaluacionActiva.ID !== 0"
+          [singleClienteId]="clienteSeleccionado.ID"
+          [clienteEvaluacionId]="evaluacionActiva.ID"
+          [singleClienteIdSolicitud]="singleClienteIdSolicitud"
+          [singleEvaluacionIdSolicitud]="singleEvaluacionIdSolicitud"
+          [consultaValor]="1"
+          [mode]="'edit'"
+          [use]="'fic'"
+          (volverASolicitud)="cambiarATabSolicitud()"
+        ></app-single-cliente-evaluacion>
+
+        
+        <!-- Mostrar el formulario de nueva evaluación si no hay evaluación activa -->
+        <app-single-cliente-nueva-evaluacion
+          *ngIf="evaluacionActiva.ID === 0"
+          [singleClienteId]="clienteSeleccionado.ID"
+          [singleClienteIdSolicitud]="singleClienteIdSolicitud"
+          [consultaValor]="1"
+          (volverASolicitud)="cambiarATabSolicitud()"
+          (evaluacionCreada)="cambiarATabSolicitud()"
+        ></app-single-cliente-nueva-evaluacion>
+
+
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

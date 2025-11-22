@@ -1,0 +1,124 @@
+<div class="section-container-title">
+  <h3 class="title">Anular Operación</h3>
+</div>
+
+<div class="section-container">
+  <div class="row">
+    <div class="col-md-4">
+      <label class="form-label">Tipo de Operación</label>
+      <select class="form-control" [(ngModel)]="selectedOperation">
+        <option [ngValue]="null" selected disabled>Seleccione una opción</option>
+        <option [value]="1">DESEMBOLSO NORMAL</option>
+        <option [value]="2">DESEMBOLSO AMPLIACION</option>
+        <option [value]="3">REFINANCIACION</option>
+
+        <option [value]="4">PAGO NORMAL</option>
+        <option [value]="5">PAGO CANCELACIÓN</option>
+
+
+        <option [value]="9">CONDONACIÓN</option>
+
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Se mantienen todas las tablas inicializadas pero solo se muestran según la opción seleccionada -->
+<div class="section-container" *ngIf="selectedOperation">
+  <h4 class="subtitle mb-4">
+    {{
+      {
+        '1': 'DESEMBOLSO NORMAL',
+        '2': 'DESEMBOLSO AMPLIACION',
+        '3': 'REFINANCIACION',
+
+        '4': 'PAGO NORMAL',
+        '5': 'PAGO CANCELACIÓN',
+
+
+        '9': 'CONDONACIÓN'
+      }[selectedOperation?.toString()] || 'Operaciones'
+    }}
+  </h4>
+
+  <ng-container *ngIf="selectedOperation == 1">
+    <app-general-table 
+      [columns]="columnsDesembolsoNormal" 
+      [data]="dataDesembolsoNormal" 
+      (rowClick)="onRowClick($event)"
+      [filters]="desembolsoNormalFilters"        
+      [tableName]="'Desembolso Normal'"
+      >
+    </app-general-table>
+  </ng-container>
+
+  <ng-container *ngIf="selectedOperation == 2">
+    <app-general-table 
+      [columns]="columnsDesembolsoAmpliacion" 
+      [data]="dataDesembolsoAmpliacion" 
+      (rowClick)="onRowClick($event)"
+      [filters]="desembolsoAmpliacionFilters"        
+      [tableName]="'Desembolso Ampliacion'"
+      >
+    </app-general-table>
+  </ng-container>
+
+  <ng-container *ngIf="selectedOperation == 3">
+    <app-general-table 
+      [columns]="columnsRefinanciacion" 
+      [data]="dataRefinanciacion" 
+      (rowClick)="onRowClick($event)"
+      [filters]="refinanciacionFilters"        
+      [tableName]="'Refinanciacion'"
+      >
+    </app-general-table>
+  </ng-container>
+
+
+  <ng-container *ngIf="selectedOperation == 4">
+    <app-general-table 
+      [columns]="columnsPagoNormal" 
+      [data]="dataPagoNormal" 
+      (rowClick)="onRowClick($event)"
+      [filters]="pagoNormalFilters"        
+      [tableName]="'Pago Normal'"
+      >
+    </app-general-table>
+  </ng-container>
+
+
+  <ng-container *ngIf="selectedOperation == 5">
+    <app-general-table 
+      [columns]="columnsPagoCancelacion" 
+      [data]="dataPagoCancelacion" 
+      (rowClick)="onRowClick($event)"
+      [filters]="pagoCancelacionFilters"        
+      [tableName]="'Pago Cancelacion'"
+      >
+    </app-general-table>
+  </ng-container>
+
+
+  <ng-container *ngIf="selectedOperation == 9">
+    <app-general-table 
+      [columns]="columnsCondonacion" 
+      [data]="dataCondonacion" 
+      (rowClick)="onRowClick($event)"
+      [filters]="condonacionFilters"        
+      [tableName]="'Condonacion'"
+      >
+    </app-general-table>
+  </ng-container>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

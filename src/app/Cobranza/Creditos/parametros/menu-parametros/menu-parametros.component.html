@@ -1,0 +1,30 @@
+  <div class="section-container-menu row">
+
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Parámetros')">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <i class="bi bi-key display-5 text-primary"></i>
+          <h5 class="card-title mt-3">Parámetros</h5>
+          <a [routerLink]="['/creditos/parametro/parametro']" class="btn btn-primary btn-sm">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Tarjeta: Grupo de Datos -->
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Grupo de Datos')">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <i class="bi bi-collection display-5 text-danger"></i>
+          <h5 class="card-title mt-3">Grupo de Datos</h5>
+          <a [routerLink]="['/creditos/parametro/grupo-de-dato']" class="btn btn-danger btn-sm">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+
+  </div>
+  

@@ -1,0 +1,49 @@
+<div class="section-container-title">
+  <h3 class="title">
+    Anular: {{ operationConfigs[operation]?.title || 'Operación no definida' }}
+  </h3>
+</div>
+
+<div *ngIf="showUnauthorizedPopup" class="popup-overlay">
+  <div class="popup-content">
+    <p>Acceso Denegado</p>
+    <p>Solo el Administrador Empresa puede generar Extornos.</p>
+    <button class="btn btn-primary" (click)="closePopup()">Cerrar</button>
+  </div>
+</div>
+
+<div class="section-container" *ngIf="data && !showUnauthorizedPopup; else loading">
+
+  <form [formGroup]="extornoForm" class="form">
+    <div class="section-container">
+      <!-- Comentario -->
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <label class="form-label">Comentario</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            formControlName="Comentario"
+            placeholder="Ingresa aquí tu comentario"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+      <button
+        type="button"
+        class="btn btn-danger"
+        [disabled]="extornoForm.invalid"
+        (click)="submit()"
+      >
+        {{ operationConfigs[operation]?.buttonLabel }}
+      </button>
+    </div>
+  </form>
+
+</div>
+
+<ng-template #loading>
+  <p>Cargando datos...</p>
+</ng-template>

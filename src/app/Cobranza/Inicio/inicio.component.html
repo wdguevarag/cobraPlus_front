@@ -1,0 +1,11 @@
+<div class="section-container-menu row justify-content-center">
+  <div class="col-md-4" *ngFor="let aplicacion of aplicacionData">
+    <div class="card text-center shadow">
+      <a [routerLink]="[aplicacion.Ruta, aplicacion.Ruta === '/seguridad' ? 'seguridad-menu' : 'credito-menu']" class="card-body">
+        <i class="{{ aplicacion.Icono }} display-3" style="color: #00B5AD"></i>
+        <h5 class="card-title mt-3">{{ aplicacion.Nombre }}</h5>
+        <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+      </a>
+    </div>
+  </div>
+</div>

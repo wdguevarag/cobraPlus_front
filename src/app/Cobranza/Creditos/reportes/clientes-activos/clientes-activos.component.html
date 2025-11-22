@@ -1,0 +1,18 @@
+<div>
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+      <h3 class="title">Clientes Activos</h3>
+    </div> 
+    <div class="section-container">
+      <app-general-table-reportes
+        [columns]="clientesColumns"
+        [data]="clientesData"
+        [tableName]="'Clientes Activos'"
+        [filters]="clientesFilters"
+        >
+      </app-general-table-reportes>      
+    </div>
+  </div>
+  
+
+
+

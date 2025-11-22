@@ -1,0 +1,348 @@
+<div>
+  <div class="section-container-title d-flex justify-content-between align-items-center mb-4">
+    <h3 class="title">Registrar Transferencia Realizada</h3>
+  </div> 
+
+  <app-general-tab-container [type]="'top'" [tabs]="tabs">
+    <!-- Pestaña TRANSFERENCIA -->
+    <ng-template>
+      <form [formGroup]="transferenciaForm" class="form" enctype="multipart/form-data">
+        <div class="section-container">
+          <!-- STEP 1: Card Validación -->
+          <div class="mb-5" >
+            <div class="card-header">
+              <h4 class="subtitle">1. Validar Transferencia</h4>
+            </div>
+            <div class="card-body">
+              <div class="row gy-3">
+                <!-- Checkboxes agrupados en columna completa -->
+                <div class="col-12">
+                  <div class="d-flex flex-column">
+                    <div class="form-check mb-2">
+                      <input class="form-check-input me-2" type="checkbox"
+                             [checked]="transferenciaForm.get('Flag_Cliente_Llamo')?.value == 1"
+                             (change)="onCheckboxSelected('Flag_Cliente_Llamo', $event)"
+                             id="flagLlamo">
+                      <label class="form-check-label" for="flagLlamo">
+                        ¿Te llamó el Cliente vía telefónica?
+                      </label>
+                    </div>
+                    <div *ngIf="flagLlamoError" class="text-danger ms-4">Debes marcar esta opción.</div>
+
+                    <div class="form-check mb-2">
+                      <input class="form-check-input me-2" type="checkbox"
+                             [checked]="transferenciaForm.get('Flag_Cliente_Confirmo')?.value == 1"
+                             (change)="onCheckboxSelected('Flag_Cliente_Confirmo', $event)"
+                             id="flagConfirmo">
+                      <label class="form-check-label" for="flagConfirmo">
+                        ¿El cliente confirmó el crédito?
+                      </label>
+                    </div>
+                    <div *ngIf="flagConfirmoError" class="text-danger ms-4">Debes marcar esta opción.</div>
+
+                    <div class="form-check mb-2">
+                      <input class="form-check-input me-2" type="checkbox"
+                             [checked]="transferenciaForm.get('Flag_Cliente_Conforme')?.value == 1"
+                             (change)="onCheckboxSelected('Flag_Cliente_Conforme', $event)"
+                             id="flagConforme">
+                      <label class="form-check-label" for="flagConforme">
+                        ¿El Cliente está conforme con las condiciones del crédito?
+                      </label>
+                    </div>
+                    <div *ngIf="flagConformeError" class="text-danger ms-4">Debes marcar esta opción.</div>
+                  </div>
+                </div>
+
+                <!-- Comentario en toda la fila -->
+                <div class="col-12">
+                  <label for="comentario" class="form-label">Comentario</label>
+                  <input type="text" class="form-control"
+                         id="comentario"
+                         formControlName="Comentario"
+                         [ngClass]="{'is-invalid': transferenciaForm.get('Comentario')?.invalid && transferenciaForm.get('Comentario')?.touched}">
+                  <div *ngIf="transferenciaForm.get('Comentario')?.invalid && transferenciaForm.get('Comentario')?.touched"
+                       class="invalid-feedback">
+                    Campo obligatorio
+                  </div>
+                </div>
+              </div> <!-- row -->
+            </div> <!-- card-body -->
+          </div> <!-- card -->
+
+          <!-- Imágenes DNI y Firma en card side-by-side -->
+          <div class="mb-5">
+            <div class="card-header">
+              <h4 class="subtitle">Documentos del Cliente</h4>
+            </div>
+            <div class="card-body">
+              <div class="row gy-3 contenedor-imagenes">
+                <!-- DNI -->
+                <div class="col-md-6 position-relative">
+                  <button type="button" class="btn btn-sm btn-intercambiar-imagenes"
+                          (click)="intercambiarImagenes()" style="min-width: 50px;">
+                    <i class="bi bi-arrow-left-right"></i> 
+                  </button>
+                  <div class="border rounded overflow-hidden contenedor-img" style="height:300px;">
+                    <img *ngIf="intercambioImgDni"
+                         [src]="page_url + clienteData?.Documento_Anverso"
+                         alt="Documento Anverso"
+                         class="w-100 h-100 object-fit-cover">
+                    <img *ngIf="!intercambioImgDni"
+                         [src]="page_url + clienteData?.Documento_Reverso"
+                         alt="Documento Reverso"
+                         class="w-100 h-100 object-fit-cover">
+                  </div>
+                </div>
+                <!-- Firma -->
+                <div class="col-md-6 position-relative">
+                  <div *ngIf="singleTransferenciaData.Firmado_Desembolso == '1'; else sinFirma">
+                    <div class="border rounded overflow-hidden contenedor-img" style="height:300px;">
+                      <img [src]="page_url + singleTransferenciaData?.Documento_Firma"
+                           alt="Documento Firma"
+                           class="w-100 h-100 object-fit-cover">
+                    </div>
+                  </div>
+                  <ng-template #sinFirma>
+                    <div class="d-flex flex-column justify-content-center align-items-center border rounded contenedor-img"
+                         [ngClass]="{'border-danger': documentoSinFirmaError}"
+                         style="height:300px;">
+                      <i class="bi bi-file-earmark-text fs-1"></i>
+                      <h6 class="mt-2 mb-0">Documentos sin Firma</h6>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón para avanzar a paso 2 -->
+          <div class="d-flex justify-content-end mb-4" *ngIf="!showStep2">
+            <button type="button" class="btn btn-primary btn-lg rounded-3 px-4 py-2" (click)="showStep2Div()">
+              <i class="bi bi-arrow-right fs-3"></i>
+            </button>
+          </div>
+
+          <!-- STEP 2: Card Detalles Transferencia/Efectivo -->
+          <div *ngIf="showStep2" class="mb-4">
+
+        
+      
+            <div class="card-header  mb-5" >
+              <ng-container *ngIf="singleTransferenciaData">
+                
+                <div class="row w-100">
+                  <div class="col-12">
+                    <h4 class="subtitle">
+                      Datos Desembolso
+                    </h4>
+                  </div>
+                </div>
+
+                <div class="row mt-lg-3 mt-sm-0 w-100 datos-container">
+                  <div class="col-lg-3 col-md-3 col-sm-6">
+                    <label class="form-label">Desembolso Monto</label>
+                    <span class="form-control">{{ singleTransferenciaData.Prestamo_Credito }}</span>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6">
+                    <label class="form-label">Cancelaciones Desembolso</label>
+                    <span class="form-control">{{ singleTransferenciaData.Desembolso_Cancelaciones }}</span>
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6">
+                    <label class="form-label">Monto Virtual Desembolso</label>
+                    <span class="form-control">{{ singleTransferenciaData.Desembolso_Monto_Virtual }}</span>
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6" *ngIf="isTransferenciaEfectivo || (!isTransferenciaEfectivo && !isEfectivo)">
+                    <label class="form-label">Desembolso en Transferencia</label>
+                    <span class="form-control">{{ singleTransferenciaData.Monto_Desembolso_Transferencia }}</span>
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6" *ngIf="isTransferenciaEfectivo || isEfectivo">
+                    <label class="form-label">Desembolso en Efectivo</label>
+                    <span class="form-control">{{ singleTransferenciaData.Monto_Desembolso_Efectivo }}</span>
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6">
+                    <label class="form-label fw-bold">Total Entregar Desembolso</label>
+                    <span class="form-control fw-bold">{{ singleTransferenciaData.Monto_Desembolso }}</span>
+                  </div>
+                </div>
+                
+              </ng-container>
+            </div>
+
+
+            <div class="row w-100" *ngIf="singleTransferenciaData">
+                  <div class="col-12">
+                    <h4 class="subtitle">
+                      2. Datos {{singleTransferenciaData?.Tipo_Desembolso}}
+                    </h4>
+                  </div>
+            </div>
+
+
+            <div class="card-body">
+              
+              <!-- Descripción según tipo -->
+              <div class="mb-3">
+                <p class="mb-0" *ngIf="isTransferenciaEfectivo">
+                  Este desembolso combina transferencia bancaria y entrega de efectivo.
+                </p>
+                <p class="mb-0" *ngIf="isEfectivo && !isTransferenciaEfectivo">
+                  No se requieren datos de transferencia bancaria.
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <div class="row gy-3 mb-3 datos-container" *ngIf="!isEfectivo" >
+                  <div class="col-md-2" >
+                    <label class="form-label">Banco Destino</label>
+                    <input type="text" class="form-control" [value]="cuentaActiva?.Banco_Nombre" readonly>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Num Cuenta</label>
+                    <input type="text" class="form-control" [value]="cuentaActiva?.Nro_Cuenta" readonly>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">CCI</label>
+                    <input type="text" class="form-control" [value]="cuentaActiva?.CCI" readonly>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label">Titular</label>
+                    <input type="text" class="form-control" [value]="cuentaActiva?.Titular" readonly>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label">Importe a Entregar</label>
+                    <input type="number" class="form-control" [value]="singleTransferenciaData.Monto_Desembolso" readonly>
+                  </div>
+                </div>
+                <div class="row gy-3 mb-3 datos-container" *ngIf="!isEfectivo" >
+                  <div class="col-md-2">
+                    <label class="form-label">Banco Origen</label>
+                    <app-dynamic-select
+                      formControlName="Banco_Origen"
+                      [groupId]="8"
+                      [valueField]="'ID'"
+                      [displayField]="'Nombre'"
+                      placeholder="Seleccionar">
+                    </app-dynamic-select>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label">Num Operación</label>
+                    <input type="number" class="form-control" formControlName="Nro_Operacion">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label">Fecha Voucher</label>
+                    <input type="date" class="form-control" formControlName="Fecha_Voucher">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label">Monto Transferido</label>
+                    <input type="number" class="form-control" formControlName="Monto_Transferido"  step="0.01">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Observación</label>
+                    <input type="text" class="form-control" formControlName="Observacion" placeholder="N/A">
+                  </div>
+                </div>
+                <div class="row gy3 mb-3 datos-container" *ngIf="isTransferenciaEfectivo || isEfectivo">
+                  <div class="col-md-2" >
+                    <label class="form-label">Monto en Efectivo</label>
+                    <input type="number" class="form-control" step="0.01"
+                          formControlName="Monto_Efectivo"
+                          [ngClass]="{'is-invalid': transferenciaForm.get('Monto_Efectivo')?.invalid && transferenciaForm.get('Monto_Efectivo')?.touched}">
+                    <div *ngIf="transferenciaForm.get('Monto_Efectivo')?.invalid && transferenciaForm.get('Monto_Efectivo')?.touched"
+                        class="invalid-feedback">
+                      Campo obligatorio
+                    </div>
+                  </div>
+                </div>
+              </div>
+                    
+              <div class="row mb-3">
+                  <!-- Imagen Transferencia: solo si NO es EFECTIVO puro -->
+                  <div class="col-md-6" *ngIf="!isEfectivo">
+                    <label class="form-label text-center">Foto de la Transferencia</label>
+                    <div class="d-flex justify-content-center">
+                      <div class="ratio ratio-4x3" style="min-height:500px; max-width:400px;">
+                        <app-general-upload-input-img
+                          type="new"
+                          [aspectRatio]="8/12"
+                          [width]="'100%'"
+                          [height]="'100%'"
+                          (fileSelected)="onFileSelected($event,'Imagen_Transferencia')">
+                        </app-general-upload-input-img>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Imagen Efectivo: si es EFECTIVO puro o MIXTO -->
+                  <div class="col-md-6" *ngIf="isTransferenciaEfectivo || isEfectivo">
+                    <label class="form-label text-center">Foto de Entrega en Efectivo</label>
+                    <div class="d-flex justify-content-center">
+                      <div class="ratio ratio-4x3" style="min-height:500px; max-width:400px;">
+                        <app-general-upload-input-img
+                          type="new"
+                          [aspectRatio]="8/12"
+                          [width]="'100%'"
+                          [height]="'100%'"
+                          (fileSelected)="onFileSelected($event,'Imagen_Efectivo')">
+                        </app-general-upload-input-img>
+                      </div>
+                    </div>
+
+                    <div *ngIf="transferenciaForm.get('Imagen_Efectivo')?.invalid && transferenciaForm.get('Imagen_Efectivo')?.touched"
+                        class="text-danger text-center mt-2">
+                      Debes subir una imagen
+                    </div>
+                  </div>
+              </div>
+              
+         
+
+              <!-- Botones navegación + submit -->
+              <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                <button type="button" class="btn btn-primary btn-lg rounded-3 px-4 py-2" (click)="hideStep2Div()">
+                  <i class="bi bi-arrow-left fs-3"></i>
+                </button>
+                <app-submit-form
+                  [form]="transferenciaForm"
+                  [submitFn]="submitFn.bind(this)"
+                  label="Realizar Transferencia"
+                  [requiredFields]="requiredFields">
+                </app-submit-form>
+              </div>
+
+            </div> <!-- card-body -->
+          </div> <!-- card -->
+        </div>
+      </form>
+    </ng-template>
+
+    <!-- Pestaña DOCUMENTO -->
+    <ng-template>
+      <div class="section-container">
+        <app-single-documento
+          [type]="'view'"
+          [clienteIDInput]="singleTransferenciaData.Cliente_ID"
+          [creditoIDInput]="singleTransferenciaData.Credito_ID">
+        </app-single-documento>
+      </div>
+    </ng-template>
+
+    <!-- Pestaña FIC -->
+    <ng-template>
+      <div class="section-container">
+        <app-single-cliente
+          [type]="'fic'"
+          [singleClienteIdInput]="singleTransferenciaData.Cliente_ID">
+        </app-single-cliente>
+        <app-cliente-tabs
+          [singleClienteId]="singleTransferenciaData.Cliente_ID"
+          tipo="view">
+        </app-cliente-tabs>
+      </div>
+    </ng-template>
+
+  </app-general-tab-container>
+</div>

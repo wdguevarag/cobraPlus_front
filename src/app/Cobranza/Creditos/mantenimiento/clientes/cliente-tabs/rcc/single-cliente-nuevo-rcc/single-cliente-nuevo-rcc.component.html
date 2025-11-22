@@ -1,0 +1,45 @@
+<div>
+
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="subtitle mb-4">Nuevo RCC Cliente: {{singleClienteData?.Nombre}} {{singleClienteData?.Apellido_Paterno}}</h4>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    </div>
+
+    <form [formGroup]="rccForm" (ngSubmit)="submitFn(rccForm.value)">
+      <div class="section-container p-0 mb-0">
+          <!-- Comentario -->
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <label for="comentario" class="form-label">Comentario</label>
+              <input type="text" class="form-control"  formControlName="Comentario">
+            </div>
+          </div>
+    
+          <!-- Subida del documento -->
+         <div class="row d-flex justify-content-left mt-4" style="max-width: 500px;">
+              <label for="rutaDocumento" class="form-label">Documento (PDF o Imagen)</label>
+              <input
+                type="file"
+                class="form-control"
+                (change)="onFileSelected($event)"
+                accept=".pdf"
+              />
+          </div>
+
+      </div>
+              
+      <div class="d-flex justify-content-end">
+        <app-submit-form 
+          [form]="rccForm" 
+          [submitFn]="submitFn.bind(this)" 
+          label="Crear RCC"
+          [reload]="true">
+        </app-submit-form>
+      </div>
+
+    </form>
+
+  </div>
+  

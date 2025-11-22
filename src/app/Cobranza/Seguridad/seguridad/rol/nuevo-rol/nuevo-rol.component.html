@@ -1,0 +1,44 @@
+<div class="section-container-title">
+  <h3 class="title">Nuevo Rol</h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+<form [formGroup]="rolForm" class="form">
+  <div class="section-container">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="Nombre" class="form-label">Nombre</label>
+        <input
+          type="text"
+          id="Nombre"
+          class="form-control"
+          formControlName="Nombre"
+          name="Nombre">
+      </div>
+      <div class="col-md-6">
+        <label for="Descripcion" class="form-label">Descripción</label>
+        <input
+          type="text"
+          id="Descripcion"
+          class="form-control"
+          formControlName="Descripcion"
+          name="Descripcion">
+      </div>
+    </div>
+    
+
+  </div>
+
+  <div class="d-flex justify-content-end align-items-center mt-5">
+    <app-submit-form
+      [form]="rolForm"
+      [submitFn]="submitFn.bind(this)"
+      label="Crear Rol"
+      [requiredFields]="[
+      'Nombre',
+      'Descripcion',
+      ]"
+      >
+    </app-submit-form>
+  </div>
+</form>

@@ -1,0 +1,201 @@
+<!-- FILTROS ARRIBA -->
+<div class="custom-table-filters mb-3" >
+
+    <div class="container-top-filters">
+        <div class="global-search-container">
+          <!-- Selector de columna -->
+          <select [(ngModel)]="globalSearchColumn">
+            <option value="">Seleccionar</option>
+            <option *ngFor="let col of columns" [value]="col.field">{{ col.header }}</option>
+          </select>
+
+          <!-- Buscador -->
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar..."
+            [(ngModel)]="globalSearchValue"
+            (input)="applyGlobalSearch()"
+          />
+        </div>
+        <div class="container-buttons">
+          <button type="button" title="Excel"
+                  class="btn btn-secondary p-1 btn-sm d-flex justify-content-center align-items-center"
+                  (click)="onExport('excel')">
+            <i class="bi bi-file-excel text-white fs-5"></i>
+          </button>
+
+          <button type="button" title="Pdf"
+                  class="btn btn-secondary p-1 btn-sm d-flex justify-content-center align-items-center"
+                  (click)="onExport('pdf')">
+            <i class="bi bi-file-pdf text-white fs-5"></i>
+          </button>
+
+          <button type="button" title="Word"
+                  class="btn btn-secondary p-1 btn-sm d-flex justify-content-center align-items-center"
+                  (click)="onExport('word')">
+            <i class="bi bi-file-word text-white fs-5"></i>
+          </button>
+
+          <button type="button" title="Imprimr"
+                  class="btn btn-secondary p-1 btn-sm d-flex justify-content-center align-items-center"
+                  (click)="onPrintClick()">
+            <i class="bi bi-printer text-white fs-5"></i>
+          </button>
+        </div>
+     
+    </div>
+
+    <div class="row g-2" >
+      <ng-container *ngFor="let col of columns">
+
+        <!-- SELECT -->
+        <div class="col mt-0" *ngIf="col.type === 'select'">
+          <span class="form-label">{{ col.header }}</span>
+          <div class="select-filter">
+            <p-dropdown
+              [options]="getSelectOptions(col)"
+              placeholder="{{ col.header }}"
+              (onChange)="filter(col.field, $event.value)"
+              class="form-control form-control-sm w-100"
+            ></p-dropdown>
+          </div>
+
+        </div>
+
+        <!-- AUTOCOMPLETE -->
+        <div class="col mt-0" *ngIf="col.type === 'search'">
+            <span  class="form-label">{{ col.header }}</span>
+            <div class="input-group input-group-sm search-filter">
+              <p-autoComplete
+                [(ngModel)]="searchInputs[col.field]"
+                [suggestions]="suggestions[col.field] || []"
+                (completeMethod)="completeSearch(col.field, $event.query)"
+                (onSelect)="selectSearch(col.field, $event)"
+                (keyup.enter)="applySearch(col.field, searchInputs[col.field])"
+                placeholder="{{ col.header }}"
+                [minLength]="1"
+                [dropdown]="false"
+                class="form-control"
+              ></p-autoComplete>
+              <span class="input-group-text">
+                <i class="bi bi-search"></i>
+              </span>
+            </div>
+        </div>
+
+        <!-- RANGO DE FECHAS -->
+
+        <div class="col mt-0" *ngIf="col.type === 'date-range'">
+            <span class="form-label">F.Inicio {{ col.header }}</span>
+            <input
+              type="date"
+              class="form-control form-control-sm me-1"
+              [(ngModel)]="searchInputs[col.field + '_from']"
+              (ngModelChange)="filter(col.field + '_from', searchInputs[col.field + '_from'])"
+              placeholder="Desde"
+            />
+        </div>
+
+
+        <div class="col mt-0" *ngIf="col.type === 'date-range'">
+            <span  class="form-label">F.Final {{ col.header }}</span>
+            <input
+                #toDate
+                type="date"
+                class="form-control form-control-sm"
+                [(ngModel)]="searchInputs[col.field + '_to']"
+                (ngModelChange)="filter(col.field + '_to', searchInputs[col.field + '_to'])"
+                placeholder="Hasta"
+              />
+        </div>
+
+        <!-- RANGO NUMÉRICO -->
+        <div class="col" *ngIf="col.type === 'number-range'">
+          <div class="d-flex">
+            <input
+              #minNum
+              type="number"
+              class="form-control form-control-sm me-1"
+              (change)="filter(col.field + '_min', minNum.value)"
+              placeholder="Min"
+            />
+            <input
+              #maxNum
+              type="number"
+              class="form-control form-control-sm"
+              (change)="filter(col.field + '_max', maxNum.value)"
+              placeholder="Max"
+            />
+          </div>
+        </div>
+
+
+        
+
+      </ng-container>
+    </div>
+
+
+
+</div>
+
+<!-- TABLA -->
+<p-table
+  [value]="value"
+  [lazy]="true"
+  [paginator]="true"
+  [rows]="10"
+  [totalRecords]="totalRecords"
+  [loading]="loading"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="{currentPage} / {totalPages}"
+  (onLazyLoad)="onLazy.emit($event)"
+  class="table table-striped table-hover custom-table"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.sortable ? col.field : undefined" class="align-middle">
+        <span>
+        <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
+          {{ col.header }}
+        </span>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-row>
+    <tr [pSelectableRow]="row">
+
+      <td *ngFor="let col of columns; trackBy: trackByField" class="align-middle">
+        {{ col.numberFormat ? formatNumber(row[col.field]) : row[col.field] }}
+      </td>
+
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <tr>
+      <td *ngFor="let col of columns" class="fw-bold text-end">
+        <ng-container *ngIf="col.footerLabel">
+          {{ col.footerLabel }}
+        </ng-container>
+        <ng-container *ngIf="!col.footerLabel && col.sumable">
+          {{ formatNumber(getColumnSum(col.field)) }}
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="columns.length" class="text-center p-3">
+        No se encontraron resultados
+      </td>
+    </tr>
+  </ng-template>
+
+
+
+</p-table>

@@ -1,0 +1,20 @@
+<button type="button"
+    class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center"
+    (click)="handleSubmit()"
+    [disabled]="loading"
+    style="width: 60px; height: 60px; position: relative;">
+
+  <ng-container *ngIf="!loading; else loadingTemplate">
+    <i class="bi bi-check" style="font-size: 1.5rem;"></i>
+  </ng-container>
+  <ng-template #loadingTemplate>
+    <span class="spinner spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span>
+  </ng-template>
+</button>
+
+<div *ngIf="showPopup" class="popup-overlay">
+  <div class="popup-content">
+    <p>{{ popupMessage }}</p>
+    <button (click)="closePopup()">Cerrar</button>
+  </div>
+</div>

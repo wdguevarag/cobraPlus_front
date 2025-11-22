@@ -1,0 +1,19 @@
+<button 
+    *ngIf="tipo === 'back'" 
+    (click)="goBack()" 
+    class="btn btn-outline-primary d-flex align-items-center gap-2 btn-back">
+    <i class="bi bi-arrow-left"></i>
+    <span><strong>Atrás</strong></span>
+</button>
+
+
+<button 
+    *ngIf="tipo === 'cancel'" 
+    (click)="goBack()" 
+    class="btn btn-primary w-auto btn-back"
+    style="width: 5.5em; height: 3.5em;">CANCELAR
+</button>
+
+
+
+

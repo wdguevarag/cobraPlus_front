@@ -1,0 +1,13 @@
+<div class="section-container-menu row">
+    <div class="col-12 col-md-4"  *ngIf="allowedAccesses.includes('Base Negativa')">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <i class="bi bi-x-circle display-5 text-danger"></i>
+                <h5 class="card-title mt-3">Base Negativa</h5>
+                <a [routerLink]="['/creditos/oficialia/base-negativa']" class="btn btn-danger btn-sm">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

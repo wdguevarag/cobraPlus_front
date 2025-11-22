@@ -1,0 +1,52 @@
+select#analista, select#tipoUbicacion{
+    width: calc(100% - 50px);
+    padding: 0.65rem 45px 0.65rem 16px;
+    @media only screen and (max-width: 767px){
+        width: 100%;
+    }
+}
+.mapa-inner{
+    position: relative;
+    .container-mora{
+        width: 200px;
+        background: lightgray;
+        padding: 10px;
+        position: absolute;
+        right: 0;
+        z-index: 1000;
+        & > span{
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 14px !important;
+        }
+        span{
+            font-size: 11px;
+            font-weight: bold;
+            color: black;
+            display: block;
+        }
+        .leyenda-item-inner{
+            display: flex;
+            padding-bottom: 8px;
+            align-items: center;
+            &:last-child{
+                padding-bottom: 0px;
+            }
+            .color{
+                width: 20px;
+                height: 20px;
+                border-radius: 6px;
+                margin-right: 12px;
+                &.blue{
+                    background: #339af0;
+                }
+                &.yellow{
+                    background: #f0dd33;
+                }
+                &.red{
+                    background: #ee3737;
+                }
+            }
+        }
+    }
+}

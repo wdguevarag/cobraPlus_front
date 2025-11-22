@@ -1,0 +1,15 @@
+<div>
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+      <h3 class="title">Transferencias entre Asesores</h3>
+    </div> 
+    <div class="section-container">
+      <app-general-table-reportes
+        [columns]="transferenciasColumns"
+        [data]="transferenciasData"
+        [filters]="transferenciasFilters"        
+        [tableName]="'Transferencias entre Asesores'"
+        >
+      </app-general-table-reportes>      
+    </div>
+  </div>
+  

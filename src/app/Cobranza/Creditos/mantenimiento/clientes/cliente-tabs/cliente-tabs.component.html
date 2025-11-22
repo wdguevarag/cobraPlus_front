@@ -1,0 +1,310 @@
+<app-general-tab-container [tabs]="clientesTabs" [visibleTabIndices]="visibleTabIndices">
+  
+    <!-- Pestaña 0: Domicilio -->
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(0)" class="section-container">
+        <div *ngIf="activeDomicilioView === 'list'">
+          <h4 class="mb-4 title-tab">Lista de Domicilios</h4>
+          <app-general-table 
+            [columns]="clienteDomiciliosColumns" 
+            [data]="clienteDomiciliosData" 
+            tableName="Domicilios" 
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+
+        <div *ngIf="tipo == 'edit'  && clienteDomiciliosData.length < 3">
+          <div class="d-flex justify-content-end align-items-center mt-3">
+            <app-general-plus-check-btn 
+              tipo="plus-show" 
+              (plusShowEvent)="plusShowDomicilios()">
+            </app-general-plus-check-btn>
+          </div>  
+        </div>
+       
+        </div>
+        <div *ngIf="activeDomicilioView === 'single'">
+          <app-single-cliente-domicilio 
+            [clienteDomicilioId]="selectedDomicilioId"
+            [singleClienteId]="singleClienteId"
+            [mode]="tipo"  
+            (back)="goBackDomicilios()">
+          </app-single-cliente-domicilio>
+        </div>
+       
+        <div *ngIf="activeDomicilioView === 'new'">
+          <app-single-cliente-nuevo-domicilio 
+            [singleClienteId]="singleClienteId"
+            (back)="goBackDomicilios()">
+          </app-single-cliente-nuevo-domicilio>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Pestaña 1: Negocio -->
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(1)" class="section-container">
+        <div *ngIf="activeNegocioView === 'list'">
+          <h4 class="mb-4">Lista de Negocios</h4>
+          <app-general-table 
+            [columns]="clienteNegociosColumns" 
+            [data]="clienteNegociosData" 
+            tableName="Negocios" 
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+          <div *ngIf="tipo == 'edit' && clienteNegociosData.length < 3">
+            <div class="d-flex justify-content-end align-items-center mt-3">
+              <app-general-plus-check-btn 
+                tipo="plus-show" 
+                (plusShowEvent)="plusShowNegocios()">
+              </app-general-plus-check-btn>
+            </div>
+          </div>
+       
+        </div>
+        <div *ngIf="activeNegocioView === 'single'">
+          <app-single-cliente-negocio 
+            [clienteNegocioId]="selectedNegocioId"
+            [singleClienteId]="singleClienteId"
+            [mode]="tipo"  
+            (back)="goBackNegocios()">
+          </app-single-cliente-negocio>
+        </div>
+        <div *ngIf="activeNegocioView === 'new'">
+          <app-single-cliente-nuevo-negocio 
+            [singleClienteId]="singleClienteId"
+            (back)="goBackNegocios()">
+          </app-single-cliente-nuevo-negocio>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Pestaña 2: Contacto -->
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(2)" class="section-container">
+        <div *ngIf="activeContactoView === 'list'">
+          <h4 class="mb-4">Lista de Contactos</h4>
+          <app-general-table 
+            [columns]="clienteContactosColumns" 
+            [data]="clienteContactosData" 
+            tableName="Contactos" 
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+          <div *ngIf="tipo == 'edit' && clienteContactosData.length < 3">
+            <div class="d-flex justify-content-end align-items-center mt-3">
+              <app-general-plus-check-btn 
+                tipo="plus-show" 
+                (plusShowEvent)="plusShowContactos()">
+              </app-general-plus-check-btn>
+            </div>
+          </div>
+
+        </div>
+        <div *ngIf="activeContactoView === 'single'">
+          <app-single-cliente-contacto 
+            [clienteContactoId]="selectedContactoId"
+            [singleClienteId]="singleClienteId"
+            [mode]="tipo"  
+            (back)="goBackContactos()">
+          </app-single-cliente-contacto>
+        </div>
+        <div *ngIf="activeContactoView === 'new'">
+          <app-single-cliente-nuevo-contacto 
+            [singleClienteId]="singleClienteId"
+            (back)="goBackContactos()">
+          </app-single-cliente-nuevo-contacto>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Pestaña 3: Cuentas -->
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(3)" class="section-container">
+        <div *ngIf="activeCuentasView === 'list'">
+          <h4 class="mb-4">Lista de Cuentas</h4>
+          <app-general-table 
+            [columns]="clienteCuentasColumns" 
+            [data]="clienteCuentasData" 
+            tableName="Cuentas" 
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+          <div *ngIf="tipo == 'edit' && clienteCuentasData.length < 3">
+            <div class="d-flex justify-content-end align-items-center mt-3">
+              <app-general-plus-check-btn 
+                tipo="plus-show" 
+                (plusShowEvent)="plusShowCuentas()">
+              </app-general-plus-check-btn>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="activeCuentasView === 'single'">
+          <app-single-cliente-cuenta 
+            [clienteCuentaId]="selectedCuentaId"
+            [singleClienteId]="singleClienteId"
+            [mode]="tipo"  
+            (back)="goBackCuentas()">
+          </app-single-cliente-cuenta>
+        </div>
+        <div *ngIf="activeCuentasView === 'new'">
+          <app-single-cliente-nueva-cuenta 
+            [singleClienteId]="singleClienteId"
+            (back)="goBackCuentas()">
+          </app-single-cliente-nueva-cuenta>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Pestaña 4: RCC -->
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(4)" class="section-container">
+        <div *ngIf="activeRccView === 'list'">
+          <h4 class="mb-4">Lista de RCC</h4>
+          <app-general-table 
+            [columns]="clienteRccsColumns" 
+            [data]="clienteRccsData" 
+            tableName="Rccs"
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+          <div *ngIf="tipo == 'edit' && clienteRccsData.length < 3">
+            <div class="d-flex justify-content-end align-items-center mt-3">
+              <app-general-plus-check-btn 
+                tipo="plus-show" 
+                (plusShowEvent)="plusShowRccs()">
+              </app-general-plus-check-btn>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="activeRccView === 'single'">
+          <app-single-cliente-rcc 
+            [clienteRccId]="selectedRccId"
+            [singleClienteId]="singleClienteId"
+            [mode]="tipo"  
+            (back)="goBackRccs()">
+          </app-single-cliente-rcc>
+        </div>
+        <div *ngIf="activeRccView === 'new'">
+          <app-single-cliente-nuevo-rcc 
+            [singleClienteId]="singleClienteId"
+            (back)="goBackRccs()">
+          </app-single-cliente-nuevo-rcc>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Pestaña 5: Documentos -->
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(5)" class="section-container">
+        <div *ngIf="activeDocumentosView === 'list'">
+          <h4 class="mb-4">Lista de Documentos</h4>
+          <app-general-table 
+            [columns]="clienteDocumentosColumns" 
+            [data]="clienteDocumentosData" 
+            tableName="Documentos" 
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+          <div *ngIf="tipo == 'edit' && clienteDocumentosData.length < 3">
+            <div class="d-flex justify-content-end align-items-center mt-3">
+              <app-general-plus-check-btn 
+                tipo="plus-show" 
+                (plusShowEvent)="plusShowDocumentos()">
+              </app-general-plus-check-btn>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="activeDocumentosView === 'single'">
+          <app-single-cliente-documento 
+            [clienteDocumentoId]="selectedDocumentoId"
+            [singleClienteId]="singleClienteId"
+            [mode]="tipo"  
+            (back)="goBackDocumentos()">
+          </app-single-cliente-documento>
+        </div>
+        <div *ngIf="activeDocumentosView === 'new'">
+          <app-single-cliente-nuevo-documento 
+            [singleClienteId]="singleClienteId"
+            (back)="goBackDocumentos()">
+          </app-single-cliente-nuevo-documento>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Pestaña 6: Familiares -->
+    <ng-template>
+      <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(6)" class="section-container">
+        <div *ngIf="activeFamiliaresView === 'list'">
+          <h4 class="mb-4">Lista de Familiares</h4>
+          <app-general-table 
+            [columns]="clienteFamiliaresColumns" 
+            [data]="clienteFamiliaresData" 
+            tableName="Familiares" 
+            (rowClick)="onRowClick($event)">
+          </app-general-table>
+
+          <div *ngIf="tipo == 'edit' && clienteFamiliaresData.length < 3 ">
+            <div class="d-flex justify-content-end align-items-center mt-3">
+              <app-general-plus-check-btn 
+                tipo="plus-show" 
+                (plusShowEvent)="plusShowFamiliares()">
+              </app-general-plus-check-btn>
+            </div>  
+          </div>
+
+        </div>
+        <div *ngIf="activeFamiliaresView === 'single'">
+          <app-single-cliente-familiar 
+            [clienteFamiliarId]="selectedFamiliarId"
+            [singleClienteId]="singleClienteId"
+            [mode]="tipo"  
+            (back)="goBackFamiliares()">
+          </app-single-cliente-familiar>
+        </div>
+        <div *ngIf="activeFamiliaresView === 'new'">
+          <app-single-cliente-nuevo-familiar 
+            [singleClienteId]="singleClienteId"
+            (back)="goBackFamiliares()">
+          </app-single-cliente-nuevo-familiar>
+        </div>
+      </div>
+    </ng-template>
+
+      <!-- Pestaña 7: Evaluacion -->
+      <ng-template>
+        <div *ngIf="!visibleTabIndices || visibleTabIndices.includes(7)" class="section-container">
+          <div *ngIf="activeEvaluacionesView === 'list'">
+            <h4 class="mb-4">Lista de Evaluación</h4>
+            <app-general-table 
+              [columns]="clienteEvaluacionesColumns" 
+              [data]="clienteEvaluacionesData" 
+              tableName="Evaluaciones" 
+              (rowClick)="onRowClick($event)">
+            </app-general-table>
+            <div *ngIf="tipo == 'edit' && clienteEvaluacionesData.length < 3">
+              <div class="d-flex justify-content-end align-items-center mt-3">
+                <app-general-plus-check-btn 
+                  tipo="plus-show" 
+                  (plusShowEvent)="plusShowEvaluaciones()">
+                </app-general-plus-check-btn>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="activeEvaluacionesView === 'single'">
+            <app-single-cliente-evaluacion 
+              [clienteEvaluacionId]="selectedEvaluacionId"
+              [singleClienteId]="singleClienteId"
+              [mode]="tipo"  
+              (back)="goBackEvaluaciones()">
+            </app-single-cliente-evaluacion>
+          </div>
+          <div *ngIf="activeEvaluacionesView === 'new'">
+            <app-single-cliente-nueva-evaluacion 
+              [singleClienteId]="singleClienteId"
+              [valorBotonNew]="1"
+              (back)="goBackEvaluaciones()"
+              (evaluacionCreada)="onEvaluacionCreada()"
+              >
+            </app-single-cliente-nueva-evaluacion>
+          </div>
+        </div>
+      </ng-template>
+  
+  </app-general-tab-container>
+  

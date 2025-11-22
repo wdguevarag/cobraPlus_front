@@ -1,0 +1,65 @@
+<ul class="list-unstyled">
+
+
+
+  <li class="dropdown pc-h-item header-user-profile" ngbDropdown>
+    <a class="pc-head-link dropdown-toggle arrow-none me-0" ngbDropdownToggle>
+      <img src="assets/images/user/avatar-2.jpg" alt="user-image" class="user-avatar me-2" style="cursor: pointer" />
+    </a>
+
+    <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown" ngbDropdownMenu>
+      <div class="dropdown-header">
+        <div class="d-flex">
+          <div class="text-start" style="max-width: 100%; overflow-x: auto;" >
+            <div class="d-flex flex-column">
+              <div class="d-flex flex-column">
+                <span class="fw-bold">
+                  Nombre: {{ currenrUserData?.Nombre + " " + currenrUserData?.Apellido}}
+                </span>
+                <span class="fw-bold">
+                  Usuario: {{ currenrUserData?.Email}}
+                </span>
+              </div>
+              <div class="d-flex flex-column">
+                <span >
+                  Empresa: {{ currenrUserData?.Empresa_ID }}
+                </span>
+                <span >
+                  Rol ID: {{ currenrUserData?.Rol_ID }}
+                </span>
+                <span >
+                  Perfil ID: {{ currenrUserData?.Perfil_ID }}
+                </span>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+
+    <ul ngbNav #nav="ngbNav" class="nav drp-tabs nav-fill nav-tabs">
+        
+        <li ngbNavItem="1">
+          <div style="text-align: center;" class="user-settings">
+            <span style="font-style: italic;">Fecha del Sistema: <strong>{{ fechaSistemaStorage }}</strong></span>
+          
+            <div class="boton-cerrar" *ngIf="currenrUserData?.Perfil_ID == 2">
+              <button title="Ejecuta Cambio de Fecha" (click)="cerrarDia()">Cerrar Dia</button>
+            </div>
+
+
+          </div>
+        </li>
+
+      </ul> 
+      <div [ngbNavOutlet]="nav"></div>
+    </div>
+  </li>
+  <li class="d-flex justify-content-between align-items-center">
+
+    <button (click)="handleLogout()" class="btn-logout" title="cerrar sesion">
+      <i class="bi bi-box-arrow-right fs-5"></i>
+    </button>
+
+  </li>
+</ul>

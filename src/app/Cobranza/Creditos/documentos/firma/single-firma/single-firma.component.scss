@@ -1,0 +1,313 @@
+.custom-file-upload {
+    position: relative;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    width: 100%;
+    height: 100%;
+    min-height: 198px;
+    background-color: #f7f5f5fa;
+    padding: 20px;
+    border: 1px solid #d8d8d8;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+
+    i {
+      transition: all 0.3s ease-in-out;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50% , -50%);
+    }
+
+    &:hover {
+      i {
+        transition: all 0.3s ease-in-out;
+        color: #8886f8c2 !important;
+      }
+    }
+  }
+  
+  /* Agregamos un icono usando FontAwesome; si usas Bootstrap Icons, ajusta la fuente y el código */
+
+  
+  /* Cuando se haya seleccionado un archivo, el input cambia a fondo verde claro */
+  .file-uploaded {
+    background-color: #d4edda; /* Verde claro */
+    border-color: #c3e6cb;
+
+    span {
+      transition: all 0.3s ease-in-out;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50% , -50%);
+      font-size: 23px;
+      font-weight: 500;
+      color: #69726b ;
+
+    }
+   
+  }
+  
+
+
+.form-control {
+  border-color: #ecececd2 !important;
+}
+
+
+
+@media (max-width: 767px) {
+  .datos-div {
+    width: 100%;
+
+    [class^="col-md-"], [class*=" col-md-"] {
+      width: 50% !important;
+    }
+  }
+}
+
+
+@media (max-width: 767px) {
+    .section-container .row {
+        width: 100%;
+        margin: 0 auto !important;
+        row-gap: 20px;
+    }
+}
+
+
+
+.btn-firmar ,  button {
+  @media (max-width:767px) {
+    display: flex !important;
+  min-width: fit-content !important;
+  margin: 0 auto !important;
+  align-items: center !important;
+  }
+}
+
+
+
+
+
+
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo más oscuro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Transición más suave */
+  z-index: 9999; /* Asegurarse de que esté encima de otros elementos */
+}
+
+.popup-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible; /* Asegura que el popup sea visible */
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+  width: 80%;
+  max-width: 400px; /* Asegura que el popup no sea demasiado grande */
+  transform: translateY(-20px);
+  animation: slideIn 0.3s ease-out; /* Animación de entrada */
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.popup-content P {
+  margin-bottom: 10px;
+}
+
+.popup-content button {
+  transition: background-color 0.3s ease;
+  padding: 0.5em 1em;
+  background-color: #1E2A38;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #0056b3; /* Cambio de color cuando el botón es hover */
+}
+
+.popup-content button:focus {
+  outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.tab-container {
+  display: flex;
+  gap: 1.5rem;
+  position: relative;
+  padding-bottom: 4px;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e9ecef;
+  justify-content: space-around;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    height: 3px;
+    background: #2196F3;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
+  }
+
+  .tab-button {
+    padding: 12px 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: #6c757d;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      color: #2196F3;
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      color: #2196F3;
+      font-weight: 600;
+      &:hover {
+        transform: none;
+      }
+    }
+
+ 
+  }
+
+  // Efecto de sliding para el indicador activo
+  @for $i from 1 through 2 {
+    &:has(.tab-button:nth-child(#{$i}).active) {
+      &::after {
+        width: calc(100% * 0.5 - 1.5rem);
+        transform: translateX(calc(100% * ($i - 1) + 1.5rem * ($i - 1)));
+      }
+    }
+  }
+}
+
+// Efectos adicionales
+.popup-overlay {
+  /* Mantén tus estilos existentes */
+  transition: all 0.3s ease;
+  
+  &.show {
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-primary {
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Estilos responsivos
+@media (max-width: 768px) {
+  .tab-container {
+    gap: 0.5rem;
+    
+    .tab-button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+
+.content-container {
+  transition: opacity 0.1s ease-in-out;
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0.2;
+}

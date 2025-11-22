@@ -1,0 +1,562 @@
+.table-responsive {
+    border-radius: 8px;
+    box-shadow: 0px 2px 20px 1px rgba(107, 107, 107, 0.24);
+    @media (min-width: 1200px) {
+      overflow: auto !important;
+      &::-webkit-scrollbar {
+        height: 10px;
+        width: 2px; 
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #e9e9e9; 
+        border-radius: 10px; 
+        cursor: grab;
+      }
+      
+      &::-webkit-scrollbar-thumb:hover {
+          background-color: #dadada; 
+      }
+      
+      &::-webkit-scrollbar-track {
+          background-color: #fafafa; 
+          border-radius: 10px;
+      }
+      
+
+
+    }
+    
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  
+  
+    thead {
+    //   background: linear-gradient(to right, #2f98facc, #1E2A38);
+      background: #00B5AD ;
+
+      tr {
+        color: #ffffff;
+        
+        font-size: 13px;
+        th {
+          border: none !important;
+          background: none !important;
+        }
+      }
+    }
+  
+    th,
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #d4eaff34;
+      text-align: center !important;
+      max-width: 250px;       /* Ajusta el valor según tus necesidades */
+      overflow: hidden;       /* Oculta el contenido que se desborde */
+      text-overflow: ellipsis;/* Agrega puntos suspensivos al final */
+      white-space: nowrap;   
+    }
+
+    td {
+      text-transform: uppercase;
+    }
+  
+    tbody {
+      tr {
+        font-weight: 500;
+        font-size: 13px;
+        background: #fff;
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+        td {
+          border-color: #d4eaff34;
+          color: #5e5e5e;
+        }
+        &:hover {
+          background: #d4eaff34 ;
+          transition: background-color 0.2s ease-in-out;
+        }
+        &:active {
+          background: #2388e769 ;
+        }
+      }
+
+
+
+    .footer-row {
+        background: #00b5ac18;
+    }
+
+
+
+
+
+    }
+  
+    tfoot {
+      tr {
+      background: #d4eaff34 ;
+        td {
+          font-weight: 500;
+          font-size: 13px;
+          color: #1E2A38;
+          border: none !important;
+          .paginator-container {
+            display: flex;
+            justify-content: left;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            text-transform: none !important;
+            span {
+              margin: 0px 8px;
+            }
+  
+            button {
+              background: none;  
+              border: none;      
+              outline: none;    
+              cursor: pointer; 
+              &:disabled {
+                i {
+                  color: #148cfd7c !important;
+                }
+              }
+            
+              i {
+                padding: 5px;   
+                border-radius: 100%;        
+                margin: 0;        
+                font-size: 1.2rem; 
+                line-height: 1;   
+                color: #1E2A38 !important;
+                background-color: transparent  ;
+                transition: background-color 0.2s ease-in-out;
+                &:hover {
+                  background-color: #0160b80e ;
+                  transition: background-color 0.2s ease-in-out;
+                }
+              }
+            }
+            
+          }
+        }
+  
+      }
+  
+    }
+  
+    // Responsividad: reducir paddings y tamaño de fuente en pantallas pequeñas
+    @media (max-width: 768px) {
+      th,
+      td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+  
+
+
+  .container-top-table {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    justify-content: center ;
+  
+    .container-select-filter {
+      position: relative;
+      min-width: 250px;
+      display: flex;
+      column-gap: 20px;
+      margin: 0 auto;
+      justify-content: center;
+
+
+      label {
+        color: #00B5AD ;
+        position: absolute;
+        top: -11px;
+        transform: translateX(10px) ;
+        background-color: white ;
+        padding: 0px 4px;
+        @media (max-width: 767px) {
+          font-size: 9px !important;
+          position: static;
+        }
+      }
+
+        select {
+            padding-right: 40px ;
+            color: #5e5e5e ;
+            border-color: #add2f3b2 !important;
+            background-color: #ffffff;
+            cursor: pointer;
+            max-width: 210px;
+        }
+    }
+
+
+
+
+
+
+
+  
+    .container-top-buttons {
+        display: flex;
+        gap: 5px;
+        button {
+            border: 2px solid #1E2A38;
+            background-color: #d4eaff34;
+            padding: 6px;
+            width: 50px;
+            border-radius: 6px;
+            transition: all 0.5 ease-in-out;
+            i {
+                transition: all 0.5 ease-in-out;
+                color: #1E2A38 ;
+            }
+            &:hover {
+                transition: all 0.5 ease-in-out;
+                background-color: #00B5AD;
+                i {
+                    transition: all 0.5 ease-in-out;
+                    color: #ffffff ;
+                }
+            }
+            &.btn-exportar {
+                position: relative;
+                .export-menu {
+                    position: absolute;  /* Posición absoluta para colocar el menú sobre el contenido, según convenga */
+                    background-color: #fff;
+                    border: 1px solid #cccccc6c;
+                    padding: 0px;
+                    margin-top: 5px;
+                    z-index: 100;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    top: 0px;
+                    right: 0px;
+                    transform: translate(100% , -100%);
+                    width: fit-content;
+               
+                    button {
+                        width: 100%;
+                        padding: 8px 12px;
+                        border: none;
+                        border-radius: 0px;
+                        background-color: #ffffff;
+                        font-size: 13px;
+                        color: #0081fa;
+                        &:hover {
+                        background-color: #f5f5f5;
+                        }
+                    
+                    }
+               
+                  }
+            }
+        }
+    }
+ 
+    .container-search {
+      display: flex;
+      column-gap: 5px;
+        input {
+        border-color: #0b6ac23d !important;
+          &:hover {
+            background-color: #0b6ac20a;
+          }
+          &::placeholder {
+            color: #0b6ac294;
+          }
+        }
+ 
+        select {
+          color: #0b6ac2bb ;
+          border-color: #0b6ac23d !important;
+          background-color: #0b6ac20a;
+          cursor: pointer;
+        }
+
+
+    }
+ 
+
+      .container-sort {
+        position: relative;
+        display: flex;
+        align-items: center;
+        button {
+          background-color: #d4eaff34;
+          border: 1px solid #1E2A38;
+          border-radius: 20%;
+          padding: 5px 10px;
+          i {
+            margin: 0;     
+            padding: 0px;   
+            font-size: 16px; 
+            line-height: 1;   
+            color: #1E2A38 !important;
+            transition: all 0.2s ease-in-out;
+            font-weight: bold;
+          }
+
+          @media (max-width: 767px) {
+            padding: 2px 8px;
+            i {
+              font-size: 10px;
+            }
+          }
+          
+        }
+      }
+
+
+
+
+  }
+  
+  // Añadir estas transiciones
+  .sort-options,
+  .export-menu {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  // Mejoras responsive para botones
+  .btn-exportar,
+  .btn-imprimir {
+    @media (max-width: 576px) {
+      width: 40px !important;
+      padding: 5px !important;
+      
+      i {
+        font-size: 1.2rem !important;
+      }
+    }
+  }
+  
+  // Ajustes para móviles
+  @media (max-width: 768px) {
+    .container-top-table {
+      gap: 0.5rem;
+      
+      .container-select-filter {
+        padding: 0 25px;
+        
+        .filter-item {
+          label {
+            font-size: 0.9rem;
+          }
+          
+          select, input {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.9rem;
+          }
+        }
+      }
+      
+      .container-search {
+        input, select {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  
+  .td-img  {
+    max-width: 120px;
+    height: auto;
+  }
+  
+
+  
+  
+  .button-td {
+    background-color: #1b07f61a;
+    color: #1b07f6a1;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 15px;
+    min-width: 80%;
+    transition: all 0.3s ease-in-out;
+    
+    &:hover {
+      transition: all 0.3s ease-in-out;
+      color: #ffffffe0;
+      background-color: #1b07f6a1;
+    }
+  
+    
+    &.btn-red {
+      background: #fa4d2f1c;
+      color: #fa2f2fc4;
+      &:hover {
+        background: #fa2f2fc4;
+        color: #ffffffe0;
+      }
+    }
+  }
+  
+  
+
+
+  @media print {
+    
+    /* Ocultar elementos que no se deseen imprimir */
+    .container-top-table, .container-search, .container-select-filter {
+      display: none;
+    }
+  
+    /* Ajustar la tabla para que ocupe el 100% del ancho */
+    .table-responsive , table {
+      max-width: 100%;
+      border-collapse: collapse;
+      overflow: visible !important;
+    }
+  
+
+    /* Opciones de impresión: definir el tamaño de fuente, bordes, etc. */
+    .table-responsive table, .table-responsive th, .table-responsive td {
+      font-size: 12px;
+    }
+
+    th,
+    td {
+      padding: 2px 5px !important;
+      max-width: 50px !important;
+      width: fit-content !important;       /* Ajusta el valor según tus necesidades */
+      overflow: hidden;       /* Oculta el contenido que se desborde */
+      text-overflow: ellipsis;/* Agrega puntos suspensivos al final */
+      white-space: nowrap;   
+      font-size: 10px !important;
+    }
+
+    tfoot {
+        display: none;
+    }
+    thead {
+        border: none !important;
+        background:  #a9d5ff !important;
+        th {
+            color: #000000 !important;
+        }
+    }
+  
+
+  }
+
+
+
+
+
+
+
+
+  
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50px;
+  height: 25px;
+  background-color: #dad8d8;
+  border-radius: 50px;
+  padding: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: none;
+  outline: none;
+  margin: 0 auto;
+}
+
+.toggle-ball {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.toggle-switch.activo {
+  background-color: #72c7ff;
+  .toggle-ball{
+    transform: translateX(25px);
+  }
+  
+}
+
+
+
+  
+
+
+.button-img-popup {
+  background-color: #00b5acd0;
+  border-radius: 10px;
+  padding: 2px 10px !important;
+  color: white !important;
+}
+
+
+/* general-table-reportes.component.scss */
+
+/* --- Estilos para el overlay del popup --- */
+.image-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6); /* Fondo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* --- Contenido interno del popup --- */
+.image-popup-content {
+  background: #fff;
+  padding: 1.3rem;
+  border-radius: 0.5rem;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Botón de cerrar */
+.close-popup-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Imagen */
+.image-popup-img {
+  max-width: 100%;
+  max-height: 80vh;
+  margin-top: 0.5rem;
+  border-radius: 0.25rem;
+  min-width: 250px;
+  min-height: 300px;
+  margin-top: 21px;
+}
+
+/* Descripción (opcional) */
+.image-popup-description {
+  margin: 0;
+  font-weight: 500;
+  color: #333;
+}

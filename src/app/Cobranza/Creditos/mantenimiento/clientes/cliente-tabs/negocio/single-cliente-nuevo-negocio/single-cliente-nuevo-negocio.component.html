@@ -1,0 +1,214 @@
+<div>
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="subtitle mb-4">Nuevo Negocio:</h4>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+  </div>
+  
+  <form [formGroup]="negocioForm" (ngSubmit)="submitFn(negocioForm.value)">
+
+      <div class="section-container p-0 mb-0">
+
+          <div class="row mb-3 datos-container" style="margin-bottom: 1rem !important;">
+            <div class="col-md-12 text-start">
+              <div class="d-flex py-2 align-items-center gap-2">
+                <app-general-plus-check-btn 
+                  tipo="toggle" 
+                  [currentValue]="negocioForm.get('Principal')?.value" 
+                  [onToggle]="updatePrincipal">
+                </app-general-plus-check-btn>
+                <input type="hidden" formControlName="Principal">
+                <span class="form-label mb-0">{{ negocioForm.get('Principal')?.value == 1 ? 'Principal' : 'No Principal' }}</span>
+              </div>
+            </div> 
+          
+            <div class="col-md-4">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" formControlName="Nombre" onlyMayus>
+            </div>
+            <div class="col-md-4">
+              <label for="ruc" class="form-label">RUC</label>
+              <input type="text" class="form-control" id="ruc" formControlName="Ruc" onlyNumbers>
+            </div>
+            <div class="col-md-4">
+              <label for="ciiu" class="form-label">CIIU</label>
+              <input type="text" class="form-control" id="ciiu" formControlName="CIIU" onlyNumbers>
+            </div>
+
+            <div class="col-md-3">
+              <label for="mesesFuncionamiento" class="form-label">Meses de Funcionamiento</label>
+              <input type="number" class="form-control" id="mesesFuncionamiento" formControlName="Meses_Funcionamiento" onlyNumbers>
+            </div>
+            <div class="col-md-3">
+              <label for="tipoLocal" class="form-label">Tipo Local</label>
+              <app-dynamic-select 
+                formControlName="Tipo_Local"
+                [groupId]="16"
+                [valueField]="'ID'"
+                [displayField]="'Nombre'"
+                placeholder="Seleccionar"
+                >
+              </app-dynamic-select>
+            </div>
+            <div class="col-md-3">
+              <label for="tipoMaterial" class="form-label">Tipo Material</label>
+              <app-dynamic-select 
+                formControlName="Tipo_Material"
+                [groupId]="14"
+                [valueField]="'ID'"
+                [displayField]="'Nombre'"
+                placeholder="Seleccionar"
+                >
+              </app-dynamic-select>
+              
+            </div>
+            <div class="col-md-3">
+              <label for="giro" class="form-label">Giro</label>
+                <app-general-input-giro-negocio formControlName="Giro"></app-general-input-giro-negocio>
+            </div>
+    
+            <div class="col-md-3">
+              <label for="tipoZona" class="form-label">Tipo Zona</label>
+              <app-dynamic-select 
+                formControlName="Tipo_Zona"
+                [groupId]="12"
+                [valueField]="'ID'"
+                [displayField]="'Nombre'"
+                placeholder="Seleccionar"
+                >
+              </app-dynamic-select>
+
+            </div>
+            <div class="col-md-3">
+              <label for="zona" class="form-label">Zona</label>
+              <input type="text" class="form-control" id="zona" formControlName="Zona" onlyMayus> 
+            </div>
+            <div class="col-md-3">
+              <label for="tipoVia" class="form-label">Tipo Vía</label>
+              <app-dynamic-select 
+              formControlName="Tipo_Via"
+              [groupId]="11"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar"
+              >
+              </app-dynamic-select>
+            </div>
+            <div class="col-md-3">
+              <label for="via" class="form-label">Vía</label>
+              <input type="text" class="form-control" id="via" formControlName="Via" onlyMayus>
+            </div>
+
+            <div class="col-md-12">
+              <label for="direccion" class="form-label">Dirección</label>
+              <input type="text" class="form-control" id="direccion" formControlName="Direccion" readonly onlyMayus>
+            </div>
+
+            <div class="col-md-2">
+              <label for="nro" class="form-label">Nro</label>
+              <input type="text" class="form-control" id="nro" formControlName="Nro" onlyNumbers>
+            </div>
+            <div class="col-md-2">
+              <label for="dpto" class="form-label">Dpto</label>
+              <input type="text" class="form-control" id="dpto" formControlName="Dpto" onlyNumbers>
+            </div>
+            <div class="col-md-2">
+              <label for="interior" class="form-label">Int</label>
+              <input type="text" class="form-control" id="interior" formControlName="Interior" onlyNumbers> 
+            </div>
+            <div class="col-md-2">
+              <label for="bloque" class="form-label">Bloque</label>
+              <input type="text" class="form-control" id="bloque" formControlName="Bloque" onlyNumbers>
+            </div>
+            <div class="col-md-1">
+              <label for="mz" class="form-label">MZ</label>
+              <input type="text" class="form-control" id="mz" formControlName="MZ" >
+            </div>
+            <div class="col-md-1">
+              <label for="lote" class="form-label">Lote</label>
+              <input type="text" class="form-control" id="lote" formControlName="Lote" onlyNumbers>
+            </div>
+            <div class="col-md-2">
+              <label for="etapa" class="form-label">Etapa</label>
+              <input type="text" class="form-control" id="etapa" formControlName="Etapa" onlyMayus>
+            </div>
+    
+            <div class="col-md-2">
+              <label for="puesto" class="form-label">Puesto</label>
+              <input type="text" class="form-control" id="puesto" formControlName="Puesto" onlyMayus>
+            </div>
+            <div class="col-md-2">
+              <label for="referencia" class="form-label">Referencia</label>
+              <input type="text" class="form-control" id="referencia" formControlName="Referencia" onlyMayus>
+            </div>
+
+            <div class="col-md-2">
+              <label for="Coordenada_Y" class="form-label">Coordenada Y</label>
+              <input type="text" class="form-control" id="Coordenada_Y" formControlName="Coordenada_Y">
+            </div>
+            <div class="col-md-2">
+              <label for="Coordenada_X" class="form-label">Coordenada X</label>
+              <input type="text" class="form-control" id="Coordenada_X" formControlName="Coordenada_X">
+            </div>
+
+            <div class="col-md-4">
+              <label for="ubicacion" class="form-label">Ubicación</label>
+              <app-general-input-ubicacion  formControlName="Ubicacion">
+              </app-general-input-ubicacion>
+            </div>
+          
+          </div>
+    
+          
+
+          <div class="row">
+            <div class="col-md-6" style="min-height: 200px;">
+              <app-general-upload-input-img 
+                type="new" 
+                [aspectRatio]="11/9"  
+                [width]="'100%'"
+                [height]="'100%'"    
+                (fileSelected)="onFileSelected($event, 'Foto_Negocio')">
+              </app-general-upload-input-img>
+            </div> 
+            <div class="col-md-6">
+              <iframe 
+                width="100%" 
+                height="350" 
+                class="iframe-maps"
+                style="border:0"
+                [src]="mapUrl"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+          
+
+      </div>
+
+      <div class="d-flex justify-content-end align-items-center mt-5">
+        <app-submit-form 
+          [form]="negocioForm" 
+          [submitFn]="submitFn.bind(this)" 
+          label="Crear Negocio"
+          [requiredFields]="
+          [
+          'Tipo_Zona', 
+          'Zona', 
+          'Tipo_Via', 
+          'Via', 
+          'Coordenada_Y', 
+          'Coordenada_X', 
+          'Tipo_Local', 
+          'Tipo_Material', 
+          'Meses_Funcionamiento', 
+          'Referencia',
+          'Ubicacion',
+          ]"
+          [reload]="true">
+        </app-submit-form>      
+      </div>
+  </form>
+
+</div>

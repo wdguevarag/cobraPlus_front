@@ -1,0 +1,56 @@
+<div class="section-container-menu row">
+    <!-- Productividad -->
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Productividad')">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <i class="bi bi-bar-chart display-5 text-success"></i>
+          <h5 class="card-title mt-3">Productividad</h5>
+          <a [routerLink]="['/creditos/indicador/productividad']" class="btn btn-success btn-sm">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Incentivos -->
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Incentivos')">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <i class="bi bi-gift display-5 text-info"></i>
+          <h5 class="card-title mt-3">Incentivos</h5>
+          <a [routerLink]="['/creditos/indicador/incentivos']" class="btn btn-info btn-sm">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Asignación de Metas -->
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Asignación de Metas')">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <i class="bi bi-list-check display-5 text-primary"></i>
+          <h5 class="card-title mt-3">Asignación de Metas</h5>
+          <a [routerLink]="['/creditos/indicador/asignacion-metas']" class="btn btn-primary btn-sm">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Seguimiento de Avances -->
+    <div class="col-12 col-md-4" *ngIf="allowedAccesses.includes('Seguimiento de Avances')">
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <i class="bi bi-graph-up-arrow display-5 text-warning"></i>
+          <h5 class="card-title mt-3">Seguimiento de Avances</h5>
+          <a [routerLink]="['/creditos/indicador/seguimiento-avances']" class="btn btn-warning btn-sm">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+
+  </div>
+  

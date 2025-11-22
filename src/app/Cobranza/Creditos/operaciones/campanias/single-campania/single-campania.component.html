@@ -1,0 +1,154 @@
+<div>
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+      <h3 class="title">Campaña Cliente: {{singleCampaniaData.Cliente_Nombre + ' ' + singleCampaniaData.Cliente_Apellido_Paterno}}</h3>
+
+    </div> 
+   
+
+    <app-general-tab-container [tabs]="singleCampaniasTabs">
+
+
+    <ng-template>
+        <div class="section-container">
+            <h4 class="subtitle mb-5">Cliente Nombre</h4>
+            <div class="row mb-4 datos-container">
+           
+                <div class="col-md-3">
+                    <label class="form-label">Monto Campaña</label>
+                    <span class="form-control">{{singleCampaniaData.Monto}}</span>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Fecha Oferta</label>
+                    <span 
+                        *ngIf="singleCampaniaData.Fecha_Oferta && singleCampaniaData.Fecha_Oferta.length > 0; else noFechaOferta" 
+                        class="form-control">
+                        {{ singleCampaniaData.Fecha_Oferta }}
+                    </span>
+                    <ng-template #noFechaOferta>
+                        <span class="form-control">----</span>
+                    </ng-template>
+                  
+                </div>
+
+                <div class="col-md-1">
+                    <label class="form-label">Campaña ID</label>
+                    <span class="form-control">{{singleCampaniaData.ID}}</span>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Estado</label>
+                    <span class="form-control">
+                        {{
+                            singleCampaniaData.Estado_Anulado == 1
+                              ? 'ANULADO'
+                              : (singleCampaniaData.Estado == 1 ? 'APROBADO' : 'POR VALIDAR')
+                          }}
+                    </span>
+                </div>
+
+                
+                <div class="col-md-3">
+                    <label class="form-label">Asesor Que Validó</label>
+                    <span 
+                      *ngIf="singleCampaniaData.Asesor_Valido_Nombre && singleCampaniaData.Asesor_Valido_Nombre.length > 0; else noAsesorNombre" 
+                      class="form-control">
+                      {{ singleCampaniaData.Asesor_Valido_Nombre + ' ' + singleCampaniaData.Asesor_Valido_Apellido }}
+                    </span>
+                    <ng-template #noAsesorNombre>
+                      <span class="form-control">----</span>
+                    </ng-template>
+                  </div>
+                  
+            </div> 
+            <div class="row mb-4">
+                <div class="col-md-3">
+                <label class="form-label">Modificar Monto Oferta</label>
+                <input 
+                    class="form-control" 
+                    type="number" 
+                    [(ngModel)]="nuevoMonto"
+                    [placeholder]="singleCampaniaData.Monto"
+                >
+                </div>
+            </div> 
+            
+            <div class="row mb-4 mt-3">
+                <div *ngIf="singleCampaniaData.Estado_Anulado != 1" class="d-flex align-items-center justify-content-center gap-2">
+
+                    <button 
+                        class="btn btn-primary text-white fs-5 py-2 px-4 btn-letras"
+                        (click)="validarCampania()"
+                    >
+                        Validar
+                    </button>
+                    <button 
+                            class="btn btn-danger text-white fs-5 py-2 px-4 btn-letras"
+                            (click)="onAnularCampaniaClick(); $event.stopPropagation()">
+                        Anular
+                    </button>
+                </div>
+                <!-- Botón Anular (muestra cuando NO está anulado) -->
+               
+                <div *ngIf="singleCampaniaData.Estado_Anulado == 1" class="d-flex align-items-center justify-content-center gap-2">
+                
+                    <button  
+                            class="btn btn-success text-white fs-5 py-2 px-4"
+                            (click)="onRevertirAnulacionClick(); $event.stopPropagation()">
+                        Revertir Anulación
+                    </button>
+                </div>
+
+            </div>
+
+
+        </div>
+    </ng-template>
+
+
+    <ng-template>
+
+    <div class="section-container">
+    <div class="mb-4">
+        <app-single-cliente 
+        [type]="'fic'" 
+        [singleClienteIdInput]="singleCampaniaData.Cliente_ID"
+        >
+        </app-single-cliente>
+        <app-cliente-tabs 
+        [singleClienteId]="singleCampaniaData.Cliente_ID"
+        tipo="view" >
+        </app-cliente-tabs>      
+    </div>
+    <div class="section-container">
+        <h4 class="subtitle mb-4">Historial de Creditos</h4>
+
+        <app-general-table 
+        [columns]="creditosClienteColumns" 
+        [data]="creditosClienteData" >
+        </app-general-table>
+    </div>
+
+    </div>
+
+    </ng-template>
+
+      
+    </app-general-tab-container>
+      
+  </div>
+  
+
+
+
+
+  <!-- Añadir al final del archivo -->
+<div class="custom-popup-overlay" *ngIf="showPopup">
+<div class="custom-popup">
+    <div class="popup-content">
+    <p>{{popupMessage}}</p>
+    <button class="btn btn-primary mt-1" (click)="closePopup()">Cerrar</button>
+    </div>
+</div>
+</div>
+  
+ 

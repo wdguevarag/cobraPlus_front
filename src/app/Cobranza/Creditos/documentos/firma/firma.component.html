@@ -1,0 +1,161 @@
+<div class="section-container-title">
+  <h3 class="title">Firma de Documentos</h3>
+</div>
+
+<div class="section-container">
+  <div class="row mb-3">
+    <h4 class="subtitle mb-4">Buscar Cliente:</h4>
+
+    <div class="col-md-6 position-relative">
+      <input 
+        #searchInput
+        type="text" 
+        class="form-control search-input"
+        placeholder="Buscar por nombre o DNI..."
+        (focus)="isSearchFocused = true"
+        (blur)="onBlurWithDelay()"
+        (input)="buscarCliente($event)"
+      >
+      
+      <!-- Lista de sugerencias de clientes -->
+      <div class="sugerencias-dropdown" *ngIf="clientesEncontrados.length > 0 && isSearchFocused">
+
+        <div class="sugerencia-item" 
+          *ngFor="let cliente of clientesEncontrados"
+          (mousedown)="seleccionarCliente(cliente)">
+        {{ cliente.Nombres }} {{ cliente.Apellido_Paterno }} {{ cliente.Apellido_Materno }}
+        <small class="text-muted ms-2">({{ cliente.Documento }})</small>
+        <small class="text-muted ms-2">({{ cliente.Asesor_ID }})</small>
+
+      </div>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Sección para créditos filtrados (cuando hay un cliente seleccionado) -->
+<div *ngIf="creditosCliente.length > 0 && clienteSeleccionado" class="mt-4">
+  <div *ngFor="let credito of creditosCliente" class="section-container p-4 mb-3">
+    <div class="row d-flex align-items-center">
+      <div class="col-md-3 container-img">
+        <button (click)="intercalarImg(credito.ID)" class="btn-intercambiar-img">
+          <i class="bi bi-arrow-left-right"></i>
+        </button>
+        <img *ngIf="!credito.intercalar" [src]="getSafeUrl(page_url + credito?.Cliente_Documento_Anverso)" class="img-fluid rounded" alt="DNI Anverso Cliente">
+        <img *ngIf="credito.intercalar" [src]="getSafeUrl(page_url + credito?.Cliente_Documento_Reverso)" class="img-fluid rounded" alt="DNI Reverso Cliente">
+      </div>
+
+      <div class="col-md-7 d-flex align-items-start container-info">
+        <div>
+          <p class="info">
+            <span class="text-secondary">ID Cliente: </span>
+            <span class="text-content">{{ credito.Cliente_ID }}</span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">Nombre del Cliente: </span>
+            <span>
+              <a [routerLink]="['/creditos/mantenimiento/cliente/single-cliente', credito.Cliente_ID]" class="text-primary">
+                {{ credito.Cliente_Nombres }} {{ credito.Cliente_Apellido_Paterno }} {{ credito.Cliente_Apellido_Materno }}
+              </a>
+            </span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">Numero de Documento: </span>
+            <span class="text-content">{{ credito.Cliente_Documento }}</span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">ID Crédito: </span>
+            <span class="text-content">{{ credito.ID }}</span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">Tipo Crédito: </span>
+            <span class="text-content">{{ credito.Tipo_Solicitud }}</span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">Monto del Crédito: </span>
+            <span class="text-content">S/.{{ credito.Prestamo }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-2 container-button">
+        <button type="button" class="btn btn-primary px-4 py-2" [routerLink]="['./single-firma', credito.Cliente_ID, credito.ID]">
+          IR A FIRMAR <i class="bi bi-pencil-fill ms-2"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sección para créditos generales (sin cliente seleccionado) -->
+<div *ngIf="creditosCliente.length > 0 && !clienteSeleccionado" class="mt-4">
+  <div *ngFor="let credito of creditosCliente" class="section-container p-4 mb-3">
+    <div class="row d-flex align-items-center">
+      <div class="col-md-3 container-img">
+        <button (click)="intercalarImg(credito.ID)" class="btn-intercambiar-img">
+          <i class="bi bi-arrow-left-right"></i>
+        </button>
+        <img *ngIf="!credito.intercalar" [src]="getSafeUrl(page_url + credito?.Cliente_Documento_Anverso)" class="img-fluid rounded" alt="DNI Anverso Cliente">
+        <img *ngIf="credito.intercalar" [src]="getSafeUrl(page_url + credito?.Cliente_Documento_Reverso)" class="img-fluid rounded" alt="DNI Reverso Cliente">
+      </div>
+
+      <div class="col-md-7 d-flex align-items-start container-info">
+        <div>
+          <p class="info">
+            <span class="text-secondary">ID Cliente: </span>
+            <span class="text-content">{{ credito.Cliente_ID }}</span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">Nombre del Cliente: </span>
+            <span>
+              <a [routerLink]="['/creditos/mantenimiento/cliente/single-cliente', credito.Cliente_ID]" class="text-primary">
+                {{ credito.Cliente_Nombres }} {{ credito.Cliente_Apellido_Paterno }} {{ credito.Cliente_Apellido_Materno }}
+              </a>
+            </span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">Numero de Documento: </span>
+            <span class="text-content">{{ credito.Cliente_Documento }}</span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">ID Crédito: </span>
+            <span class="text-content">{{ credito.ID }}</span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">Tipo Crédito: </span>
+            <span class="text-content">{{ credito.Tipo_Solicitud }}</span>
+          </p>
+          <p class="info">
+            <span class="text-secondary">Monto del Crédito: </span>
+            <span class="text-content">S/.{{ credito.Prestamo }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-2 container-button">
+        <button type="button" class="btn btn-ir-firmar btn-primary px-4 py-2" [routerLink]="['./single-firma', credito.Cliente_ID, credito.ID]">
+          IR A FIRMAR <i class="bi bi-pencil-fill ms-2"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Alerta si no se encuentran créditos por firmar -->
+<div *ngIf="creditosCliente.length == 0" class="mt-4">
+  <div class="alert alert-info">
+    No se encontraron créditos por firmar.
+  </div>
+</div>
+
+
+<div *ngIf="clienteSeleccionado" class="mt-5">
+  <button type="button" class="btn btn-primary" (click)="restablecerBusqueda()">
+    <i class="bi bi-arrow-left fs-4"></i>
+  </button>
+</div>

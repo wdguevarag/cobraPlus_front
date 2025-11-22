@@ -1,0 +1,9 @@
+.contenedor-images {
+    img {
+        @media (max-width: 767px){
+            height: 200px !important;
+            width: auto;
+            object-fit: contain !important;
+        };
+    }
+}

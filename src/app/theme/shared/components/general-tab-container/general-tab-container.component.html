@@ -1,0 +1,12 @@
+<mat-tab-group
+  [headerPosition]="type === 'top' ? 'above' : 'below'"
+  [selectedIndex]="activeTabIndex"
+  class="custom-tab-group"
+  (selectedIndexChange)="setActiveTab($event)"
+>
+  <mat-tab *ngFor="let tab of visibleTabs; let i = index" [label]="tab.title">
+    <div class="tab-panel" [@slideAnimation]>
+      <ng-container *ngTemplateOutlet="visibleTemplates[i]"></ng-container>
+    </div>
+  </mat-tab>
+</mat-tab-group>

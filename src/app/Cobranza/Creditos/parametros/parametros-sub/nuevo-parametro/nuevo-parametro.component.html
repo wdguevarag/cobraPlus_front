@@ -1,0 +1,52 @@
+<div class="section-container-title">
+  <h3 class="title">Nuevo Parametro</h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+<form [formGroup]="parametroForm" class="form">
+  <div class="section-container">
+    <div class="row">
+
+      <div class="col-md-6 mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" id="nombre" name="Nombre" class="form-control" formControlName="Nombre">
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <input type="text" id="descripcion" name="Descripcion" class="form-control" formControlName="Descripcion" >
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <label for="valor1" class="form-label">Valor 1</label>
+        <input type="number" id="valor1" name="Valor1" class="form-control" formControlName="Valor1" >
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label for="valor2" class="form-label">Valor 2</label>
+        <input type="number" id="valor2" name="Valor2" class="form-control" formControlName="Valor2">
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label for="valor3" class="form-label">Valor 3</label>
+        <input type="number" id="valor3" name="Valor3" class="form-control" formControlName="Valor3">
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label for="unidadMedida" class="form-label">Unidad de Medida</label>
+        <input type="text" id="unidadMedida" name="Unidad_Medida" class="form-control" formControlName="Unidad_Medida">
+      </div>
+
+    </div>
+
+</div>
+
+  <div class="d-flex justify-content-end align-items-center mt-5">
+    <app-submit-form
+      [form]="parametroForm"
+      [submitFn]="submitFn.bind(this)"
+      label="Crear Parametro">
+    </app-submit-form>
+  </div>
+</form>

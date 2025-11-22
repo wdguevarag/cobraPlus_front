@@ -1,0 +1,18 @@
+<div>
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+      <h3 class="title">Lista de Usuarios</h3>
+    </div> 
+    <div class="section-container">
+      <app-general-table 
+      [columns]="usuarioColumns" 
+      [data]="usuarioData"
+      (rowClick)="onRowClick($event)" >
+    </app-general-table>
+    </div>
+    
+    <div class="d-flex justify-content-end mt-5">
+      <app-general-plus-check-btn [tipo]="'plus'" [routerLink]="'./nuevo-usuario'"></app-general-plus-check-btn>
+    </div>
+</div>
+
+

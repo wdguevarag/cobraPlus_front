@@ -1,0 +1,11 @@
+
+select{
+  border: 1px solid var(--border-color);
+}
+
+select option span {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+  

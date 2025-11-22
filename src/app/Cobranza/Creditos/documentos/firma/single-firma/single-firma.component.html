@@ -1,0 +1,196 @@
+<div class="section-container-title">
+  <h3 class="title">Firmar Documentos del Cliente</h3>
+</div>
+
+<div class="section-container">
+  <div class="mb-4">
+    <h5 class="subtitle mb-3">Datos del Cliente</h5>
+    <div class="row datos-div">
+      <div class="col-md-1">
+        <label class="form-label">ID: </label>
+        <span class="form-control">{{ clienteData?.ID }}</span>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Nombre: </label>
+        <span class="form-control">{{ clienteData?.Nombres }}</span>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Apellido Paterno: </label>
+        <span class="form-control">{{ clienteData?.Apellido_Paterno }}</span>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Apellido Materno: </label>
+        <span class="form-control">{{ clienteData?.Apellido_Materno }}</span>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">DNI: </label>
+        <span class="form-control">{{ clienteData?.Documento }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div >
+    <h5 class="subtitle mb-3">Datos del Crédito </h5>
+    <div class="row datos-div">
+      <div class="col-md-1">
+        <label class="form-label">Crédito ID: </label>
+        <span class="form-control">{{ creditoPorFirmar?.ID }}</span>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Aval: </label>
+        <span class="form-control">{{ creditoPorFirmar?.Estado_Aval == '1' ? 'SI' : 'NO' }}</span>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Monto: </label>
+        <span class="form-control">{{ creditoPorFirmar?.Prestamo }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="section-container pt-2">
+    <h4 class="subtitle text-center mt-4 mb-4">Documento del Cliente</h4>
+
+     <div class="row">
+      <div class="col-md-6 d-flex justify-content-center">
+        <img [src]="page_url + clienteData.Documento_Anverso" class="img-fluid rounded" alt="DNI CLIENTE" style="min-width: 80%;">
+      </div>
+      <div class="col-md-6 d-flex justify-content-center">
+        <img [src]="page_url + clienteData.Documento_Reverso" class="img-fluid rounded" alt="DNI CLIENTE" style="max-width: 80%;">
+      </div>
+    </div>
+</div>
+
+
+<div class="section-container pt-2">
+  <h4 class="subtitle text-center mt-4 mb-4">Firma del Cliente</h4>
+
+    <div class="tab-container mt-4">
+      <button 
+        *ngFor="let tab of tipoFirmaTabs"
+        class="tab-button"
+        [class.active]="activeTabCliente === tab.title"
+        (click)="cambiarTab(tab.title, 'cliente')"
+      >
+        {{ tab.title }}
+      </button>
+    </div>
+
+    <!-- Contenedor general con transición -->
+    <div class="content-container" [ngClass]="{'fade-out': isFadingOutCliente}">
+      <!-- Contenido para SUBIR FIRMA -->
+      <div *ngIf="activeTabCliente === 'SUBIR FIRMA'">
+        <div style="max-width: 500px;" class="mt-4 mx-auto">
+          <app-general-upload-input-img
+            [width]="'500px'"
+            [height]="'200px'"
+            [aspectRatio]="15/9"  
+            (fileSelected)="onFileSelected($event, 'cliente')"
+            #fileInputComponent
+          ></app-general-upload-input-img>
+        </div>
+      </div>
+
+      <!-- Contenido para DIBUJAR FIRMA -->
+      <div *ngIf="activeTabCliente === 'DIBUJAR FIRMA'">
+        <div style="max-width: 500px;" class="mt-4 mx-auto">
+          <app-signature-input 
+            #signatureInput
+            (signatureSaved)="onFileSelected($event, 'cliente')"
+          ></app-signature-input>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+<div class="section-container pt-2" *ngIf="creditoPorFirmar?.Estado_Aval == '1'"  >
+  <h4 class="subtitle text-center mt-4 mb-4">Firma del Avalista</h4>
+  <div class="tab-container mb-4">
+    <button 
+      *ngFor="let tab of tipoFirmaTabs"
+      class="tab-button"
+      [class.active]="activeTabAval === tab.title"
+      (click)="cambiarTab(tab.title, 'aval')"
+    >
+      {{ tab.title }}
+    </button>
+  </div>
+
+
+    <!-- Contenedor general con transición -->
+  <div class="content-container" [ngClass]="{'fade-out': isFadingOutAval}">
+    <!-- Contenido para SUBIR FIRMA -->
+    <div *ngIf="activeTabAval === 'SUBIR FIRMA'">
+      <div style="max-width: 500px;" class="mt-4 mx-auto">
+        <app-general-upload-input-img
+          [width]="'500px'"
+          [height]="'200px'"
+          [aspectRatio]="15/9"  
+          (fileSelected)="onFileSelected($event, 'aval')"
+          #fileInputComponent
+        ></app-general-upload-input-img>
+      </div>
+    </div>
+
+    <!-- Contenido para DIBUJAR FIRMA -->
+    <div *ngIf="activeTabAval === 'DIBUJAR FIRMA'">
+      <div style="max-width: 500px;" class="mt-4 mx-auto">
+        <app-signature-input 
+          #signatureInput
+          (signatureSaved)="onFileSelected($event, 'aval')"
+        ></app-signature-input>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mx-auto my-5" style="max-width:500px;">
+  <button 
+    type="button" 
+    class="btn btn-primary btn-lg w-100 btn-firmar" 
+    (click)="firmarDocumentos()" 
+    [disabled]="
+      isLoading || 
+      !clienteSignatureFile || 
+      (tieneAvalista && !avalSignatureFile)
+    "
+  > 
+    <span *ngIf="isLoading">
+      <div class="spinner-border spinner-border-sm text-light" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      Firmando...
+    </span>
+    <span *ngIf="!isLoading">Firmar Documentos</span>
+  </button>
+</div>
+
+
+
+
+
+
+
+
+<!-- Uso del componente de tabs que se encargará de agrupar y mostrar los documentos -->
+<app-documentos-creditos-tabs [documentos]="documentosCreditoPorFirmar" [pageUrl]="page_url"></app-documentos-creditos-tabs>
+  
+
+<!-- Popup de confirmación -->
+<div *ngIf="popupVisible" class="popup-overlay show">
+  <div class="popup-content">
+    <P>Documentos Firmados Correctamente</P>
+    <button class="btn btn-primary" (click)="redirectToAnotherPage()">Cerrar</button>
+  </div>
+</div>
+
+
+
+
+

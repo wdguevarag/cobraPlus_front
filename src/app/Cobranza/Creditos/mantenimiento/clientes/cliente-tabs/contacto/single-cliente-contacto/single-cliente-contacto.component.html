@@ -1,0 +1,122 @@
+<div *ngIf="clienteContactoData; else noData" >
+    <div class="d-flex justify-content-between align-items-center">
+      <h4 class="subtitle mb-4">{{ isEditing ? 'Editar Contacto' : 'Datos del Contacto' }} : ( Teléfono: {{ clienteContactoData.Telefono }})     </h4>
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i>
+        </button>
+        <ng-container *ngIf="mode === 'edit'">
+          <app-general-plus-check-btn 
+            tipo="edit-single" 
+            (editStateChanged)="isEditing = $event">
+          </app-general-plus-check-btn>
+        </ng-container>
+      </div>
+    </div>
+
+    <form [formGroup]="clienteContactoForm" class="form" enctype="multipart/form-data" >
+      <div class="section-container p-0 mb-0">
+
+        <div class="row mb-3 datos-container" *ngIf="isEditing">
+          <div class="col-md-6 text-start d-flex align-items-center gap-2">
+              <app-general-plus-check-btn 
+                tipo="toggle" 
+                [currentValue]="clienteContactoForm.get('Principal')?.value" 
+                [onToggle]="updatePrincipal">
+              </app-general-plus-check-btn>
+              <input type="hidden" formControlName="Principal">
+              <span class="form-label mb-0">{{ clienteContactoForm.get('Principal')?.value == 1 ? 'Principal' : 'No Principal' }}</span>
+          </div> 
+        </div> 
+
+        <div class="row mb-3 datos-container">
+            <div class="col-md-3">
+                <label class="form-label">Categoria</label>
+                <app-dynamic-select 
+                formControlName="Categoria"
+                [groupId]="18"
+                [valueField]="'ID'"
+                [displayField]="'Nombre'"
+                placeholder="Seleccionar"
+                [editable]="isEditing">
+              </app-dynamic-select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Tipo Contacto</label>
+                <app-dynamic-select 
+                formControlName="Tipo_Contacto"
+                [groupId]="19"
+                [valueField]="'ID'"
+                [displayField]="'Nombre'"
+                placeholder="Seleccionar"
+                [editable]="isEditing">
+              </app-dynamic-select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Telefono</label>
+              <input 
+              type="text"
+              class="form-control"
+              formControlName="Telefono"
+              maxlength="9"
+              onlyNumbers
+              [readonly]="!isEditing">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Whatsapp</label>
+              <input 
+              type="text"
+              class="form-control"
+              formControlName="Whatsapp"
+              maxlength="9"
+              onlyNumbers
+              [readonly]="!isEditing" >
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label">Correo</label>
+              <input type="text" class="form-control" formControlName="Correo" [readonly]="!isEditing" >
+            </div>
+
+            <div class="col-md-8">
+                <label class="form-label">Comentario</label>
+                <input type="text" class="form-control" formControlName="Comentario" [readonly]="!isEditing"  >
+            </div>  
+
+            <div class="col-md-1 text-start">
+              <label class="form-label">Estado</label>
+              <div class="d-flex py-2 align-items-center gap-2" *ngIf="isEditing; else viewEstado">
+                <app-general-plus-check-btn 
+                  tipo="toggle" 
+                  [currentValue]="clienteContactoForm.get('Estado')?.value" 
+                  [onToggle]="updateEstado">
+                </app-general-plus-check-btn>
+                <input type="hidden" formControlName="Estado">
+                <span class="form-label mb-0">{{ clienteContactoForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+              </div>
+              <ng-template #viewEstado>
+                <input type="text"
+                      class="form-control"
+                      [value]="clienteContactoForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo'"
+                      readonly>
+              </ng-template>
+            </div>
+        </div>
+
+      </div>
+
+      <div  *ngIf="mode == 'edit' && isEditing" class="d-flex justify-content-end">
+        <app-submit-form 
+        [form]="clienteContactoForm" 
+        [submitFn]="submitFn.bind(this)" 
+        label="Actualizar Contacto"
+        [reload]="true">
+        </app-submit-form>
+      </div>
+
+    </form>
+
+</div>
+<ng-template #noData>
+<p>No se encontraron datos para este Contacto.</p>
+</ng-template> 

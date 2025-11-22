@@ -1,0 +1,186 @@
+.logo_container {
+  margin: 10px 0px 0px;
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  position: relative;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+  &:hover {
+    opacity: 0.8;
+  transition: opacity 0.3s ease-in-out;
+  }
+  .logo_title {
+    font-weight: normal;
+    margin: 0px;
+  }
+}
+
+.menu-group {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 24px;
+  text-transform: capitalize;
+  position: relative;
+  color: #8c8c8c;
+  &:hover , &:active{
+    background: rgba(var(--bs-primary-rgb), .1);
+  }
+}
+
+
+.menu-sub-item  {
+  margin-left: 10px;
+}
+
+
+
+
+
+nav {
+  display: flex;  
+  flex-wrap: nowrap;
+  width: 105%;
+}
+
+
+
+/* Cambia esto... */
+nav {
+  /* 1) Que pueda encogerse dentro de su contenedor flex */
+  min-height: 0;
+
+
+  /* Opcional: si no requieres flex interno, conviértelo en bloque */
+  display: block;
+  width: 100%;
+}
+
+
+.container-nav {
+  /* 1) Que pueda encogerse dentro de su contenedor flex */
+  min-height: 0;
+
+  /* 2) Altura máxima igual al vh restante */
+  max-height: calc(86vh - 60px);
+
+  /* 3) Scroll sólo en Y cuando haga falta */
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Opcional: si no requieres flex interno, conviértelo en bloque */
+  display: block;
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Diseño de los submenús */
+nav .collapse.show {
+  display: block;
+  margin-bottom: 5px;
+}
+
+nav .collapse {
+  display: none; /* Ocultar por defecto */
+}
+
+/* Estilo del icono de colapso */
+nav .collapse-icon {
+  transition: transform 0.2s ease-in-out; /* Transición suave al colapsar/expandir */
+}
+
+/* Optimización para mejorar el rendimiento de los elementos visibles */
+nav .nav-link {
+  padding: 12px 16px 12px 28px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  position: relative;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover , &:active{
+    background: rgba(var(--bs-primary-rgb), .1);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+  }
+  &.nav-link.active {
+    background: rgba(var(--bs-primary-rgb), .1);
+    color: #1890ff;
+    &::before {
+      background: var(--bs-blue);
+    }
+    
+  }
+
+  span {
+    i {
+      margin-right: 12px;
+      font-size: 16px;
+    }
+  }
+}
+
+
+/* Scroll personalizado */
+.container-nav::-webkit-scrollbar {
+  width: 12px; 
+  cursor: pointer;/* Ancho del scrollbar */
+}
+
+.container-nav::-webkit-scrollbar-thumb {
+  background-color: rgba(201, 201, 201, 0.9); /* Color del thumb */
+  border-radius: 10px; /* Bordes redondeados */
+  cursor: grab ;/* Ancho del scrollbar */
+
+}
+
+
+.container-nav::-webkit-scrollbar-track {
+  background: #fff7f7; /* Fondo del track del scroll */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+.colapsed-btn {
+  @media (min-width: 1080px) {
+    display: none !important;
+  }
+
+  width: 30px;
+  height: 30px; 
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.menu-item {
+  cursor: pointer;
+}

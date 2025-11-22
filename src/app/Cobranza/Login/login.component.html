@@ -1,0 +1,55 @@
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center container-general">
+  
+  <div class="container-login">
+    <div class="login-body">
+      <div class="login-icon mb-4">
+        <img src="../../../assets/images//Cobrix-Logo.png" alt="">
+      </div>
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <div class="mb-4">
+                 <div class="login-input-group">
+              <input 
+                type="email" 
+                id="email" 
+                formControlName="email"
+                placeholder="Email"
+                class="login-input">
+              <label class="login-label">Email</label>
+            </div>
+        </div>
+        <div class="mb-4">
+          <div class="login-input-group">
+            <input 
+              id="contrasena" 
+              [type]="passwordFieldType" 
+              formControlName="contrasena" 
+              class="login-input" 
+              placeholder="Contraseña">
+            <i 
+              class="bi"
+              [ngClass]="{
+                'bi-eye': passwordFieldType === 'password',
+                'bi-eye-slash': passwordFieldType === 'text'
+              }"
+              (click)="togglePasswordVisibility()"
+              style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
+            </i>
+            <label class="login-label">Contraseña</label>
+          </div>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn-ingresar">
+            INGRESAR
+          </button>
+        </div>
+      </form>
+      
+
+      <div *ngIf="errorMessages.length > 0" class="alert alert-danger mt-3" role="alert">
+        <ul class="mb-0">
+          <li *ngFor="let error of errorMessages">{{ error }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div *ngIf="isLoading" class="spinner-container">
+  <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <span class="spinner-border"></span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading">
+  <div *ngIf="singleAplicacionData; else noData">
+    <div class="section-container-title">
+      <h3 class="title">Aplicacion {{ singleAplicacionData.Nombre }} (Cod: {{ singleAplicacionData.ID }})</h3>
+      <app-general-plus-check-btn [tipo]="'cancel'" [routerLink]="'../../'"></app-general-plus-check-btn>
+    </div>
+    <div class="section-container">
+      <h4 class="subtitle mb-4">Lista de Roles asignados</h4>
+      <app-general-table
+        [columns]="RolesPorAsignarColumns"
+        [data]="RolesPorAsignarData"
+        (toggleChange)="handleToggleChange($event)">
+      </app-general-table>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <p>No se encontraron datos para esta oficina.</p>
+  </ng-template>
+</div>
+
+  
+  

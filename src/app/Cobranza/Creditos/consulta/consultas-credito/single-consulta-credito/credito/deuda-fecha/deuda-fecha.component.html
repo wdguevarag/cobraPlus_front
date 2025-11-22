@@ -1,0 +1,59 @@
+<div class="table-responsive tabla-cronograma">
+  <div class="row align-items-end mb-3 mt-4">
+    <div class="col-md-6 col-lg-4">
+      <label for="deudaProyectada" class="form-label fw-bold">Deuda Proyectada</label>
+      <input type="text" id="deudaProyectada" class="form-control" [value]="getTotalSecond() | number:'1.2-2'" disabled />
+    </div>
+  
+    <div class="col-md-6 col-lg-4">
+      <label for="fechaPago" class="form-label fw-bold">Seleccionar Fecha de Pago</label>
+      <input type="date" id="fechaPago" class="form-control" [(ngModel)]="fechaPago" (change)="onFechaPagoChange()" />
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>F. Vencimiento</th>
+          <th>N°</th>
+          <th>Cuota</th>
+          <th>Capital</th>
+          <th>Interes</th>
+          <th>IGV</th>
+          <th>G. Adm</th>
+          <th>Mora</th>
+          <th>Atraso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="cronogramaData.length === 0">
+          <td colspan="9" class="text-center">No hay datos disponibles.</td>
+        </tr>
+        <tr *ngFor="let cuota of cronogramaData">
+          <td>{{ cuota.F_Vencimiento }}</td>
+          <td>{{ cuota.Nro_Cuota }}</td>
+          <td>{{ cuota.Atraso >= 0 ? cuota.Cuota_Total : cuota.Amortizado }}</td>
+          <td>{{ cuota.Amortizado }}</td>
+          <td>{{ cuota.Atraso >= 0 ? cuota.Interes : '0.00' }}</td>
+          <td>{{ cuota.Atraso >= 0 ? cuota.IGV : '0.00' }}</td>
+          <td>{{ cuota.Atraso >= 0 ? cuota.Gastos_ADM : '0.00' }}</td>
+          <td>{{ cuota.Atraso >= 0 ? cuota.Mora : '0.00' }}</td>
+          <td>{{ cuota.Atraso }}</td>
+        </tr>
+      </tbody>
+      <tfoot class="table-primary">
+        <tr>
+          <td colspan="2"><strong>TOTALES</strong></td>
+          <td>{{ getTotalSecond() | number:'1.2-2' }}</td>
+          <td>{{ getTotal('Amortizado') | number:'1.2-2' }}</td>
+          <td>{{ getTotalInteres() | number:'1.2-2' }}</td>
+          <td>{{ getTotalIgv() | number:'1.2-2' }}</td>
+          <td>{{ getTotalGastosAdm() | number:'1.2-2' }}</td>
+          <td>{{ getTotalMora() | number:'1.2-2' }}</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+  

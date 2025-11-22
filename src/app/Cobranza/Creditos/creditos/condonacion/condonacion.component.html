@@ -1,0 +1,71 @@
+<div class="pt-4">
+  <app-general-tab-container   [type]="'top'" [tabs]="condonacionTabs">
+      <ng-template >
+          <div>
+              <div class="section-container-title d-flex justify-content-between align-items-center">
+                <h3 class="title">Lista de Condonaciones Pendientes</h3>
+              </div> 
+              <div class="section-container">
+                <app-general-table 
+                [columns]="condonacionesPendientesColumns" 
+                [data]="condonacionesPendientesData" 
+                tableName="condonacionesPendientes" 
+                (rowClick)="onRowClick($event)"
+                (buttonClick)="onButtonClick($event)"
+                [loading]="false">
+              </app-general-table>
+              </div>
+          </div>
+
+      </ng-template>
+
+      <ng-template >
+          <div>
+              <div class="section-container-title d-flex justify-content-between align-items-center">
+                <h3 class="title">Clientes y su crédito activo</h3>
+              </div> 
+              <div class="section-container">
+                <app-general-table 
+                [columns]="condonacionColumns" 
+                [data]="condonacionData" 
+                tableName="condonaciones" 
+                (rowClick)="onRowClick($event)"
+                (buttonClick)="onButtonClick($event)"
+                [loading]="false">
+              </app-general-table>
+              </div>
+              
+          
+          </div>
+
+      </ng-template>
+  </app-general-tab-container> 
+</div>
+
+
+
+
+
+
+<div class="popup-container" *ngIf="showConfirmPopup">
+  <div class="popup-content">
+    <button class="close-btn" (click)="closePopup()"><span>✖</span></button>
+    <h4 class="text-primary">Confirmar {{ actionType }}</h4>
+
+    <div *ngIf="actionType === 'Anular'; else aprobarTemplate">
+      <form [formGroup]="form">
+        <label for="comentario">Comentario:</label>
+        <textarea id="comentario" formControlName="Comentario" rows="3" class="form-control" required></textarea>
+        <div *ngIf="form.get('Comentario')?.invalid && form.get('Comentario')?.touched" class="text-danger">
+          El comentario es obligatorio.
+        </div>
+      </form>
+      <button class="btn btn-danger mt-2" [disabled]="form.invalid" (click)="confirmAction()">Anular</button>
+    </div>
+
+    <ng-template #aprobarTemplate>
+      <p>¿Está seguro que desea <strong>aprobar</strong> esta condonación?</p>
+      <button class="btn btn-primary" (click)="confirmAction()">Aceptar</button>
+    </ng-template>
+  </div>
+</div>

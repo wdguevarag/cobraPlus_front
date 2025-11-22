@@ -1,0 +1,23 @@
+<div *ngIf="singleRolData; else noData">
+  <div class="section-container-title d-flex justify-content-between align-items-center">
+    <h3 class="title">Rol :  {{ singleRolData.Nombre }} (Cod: {{ singleRolData.ID }})</h3>
+    <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+  </div> 
+  <div class="section-container">
+    <h4 class="subtitle mb-5">Lista de Accesos</h4>
+    <app-general-table
+    [columns]="accesosPorAsignarColumns"
+    [data]="accesosPorAsignarData"
+    (toggleChange)="handleToggleChange($event)"
+    [filters]="accesosPorAsignarFilters"        
+    [pageSize]="70"
+    >
+    </app-general-table>
+
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>No se encontraron datos para este Rol.</p>
+</ng-template>
+

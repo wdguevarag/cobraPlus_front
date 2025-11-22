@@ -1,0 +1,152 @@
+.container-general {
+    background: #f0f0f1;
+    min-height: 100vh;
+}
+
+
+.container-login {
+    width: 480px;
+    max-width: 90%;
+    margin: 0 auto !important;
+}
+
+.login-body {
+    background-color: #faf6f4;
+    box-shadow: 0 8px 60px 0 rgba(146, 143, 238, 0.11), 0 12px 90px 0 rgba(103, 151, 255, .11);
+    margin-top: 24px;
+    padding: 32px;
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+    will-change: box-shadow;
+    border-radius: 10px;
+}
+
+
+
+
+.login-icon { 
+    img {
+        display: block;
+        margin: 0 auto;
+        //height: 64px;
+        width: 240px;
+    }
+   
+}
+.login-label {
+    color:#3776ff;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.login-input {
+    text-transform: none !important;
+    background: rgba(109, 124, 144, .1);
+    border: none;
+    border: 3px solid rgba(55, 118, 255, 0);
+    border-radius: 7px;
+    color: #20292f;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.83em;
+    margin: 0;
+    outline: none;
+    padding: 10px 12px;
+    position: relative;
+    text-align: left;
+    transition: all .3s ease-in-out;
+    width: 100%;
+    &:hover {
+        border: 3px solid #3776ff;
+        transition: border .3s ease-in-out;
+    }
+  
+    &::placeholder {
+        color: #20292f81;
+    }
+}
+
+
+.btn-ingresar {
+    background: #F26A21;
+    font-size: 15px;
+    padding: 12px 32px;
+    margin: 16px 0;
+    border: none;
+    border-radius: 5px;
+    color: #fff !important;
+    cursor: pointer;
+    font-weight: 700;
+
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+    &:hover {
+        box-shadow: 0 12px 24px -6px rgba(55,118,255,.2);
+        transform: translateY(-1px);
+        opacity: 0.9;
+        transition: all .3s cubic-bezier(.4,0,.2,1);
+    }
+    &.btn-admin {
+        background: #1E2A38;
+    }
+
+}
+
+
+
+
+
+.is-valid span {
+transition: background-color 0.3s;
+background-color: #1E2A38 !important; /* Azul de foco */
+i {
+    color: white;
+}
+}
+.is-invalid span{
+transition: border-color 0.3s;
+background-color: #ff4400 !important; /* Azul de foco */
+i {
+    color: white;
+}
+}
+.is-log span{
+transition: border-color 0.3s;
+background-color: #a3a24c !important; /* Azul de foco */
+i {
+    color: white;
+}
+}
+
+  
+
+
+
+
+
+
+
+.login-input-group {
+    position: relative;
+  
+    .login-label {
+      position: absolute;
+      left: 5px;
+      top: -20px; 
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none; 
+    }
+  
+    &:focus-within {
+      .login-label {
+        opacity: 1;
+      }
+      .login-input {
+        background-color: #ffffff !important; 
+        border: 3px solid #3776ff;
+        &::placeholder {
+            color: transparent !important;
+        }
+      }
+    }
+}
+  

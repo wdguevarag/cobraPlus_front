@@ -1,0 +1,35 @@
+.embed-responsive-container {
+  position: relative;
+  width: 100%;
+  padding-top: 140%; // Ajusta esto para una relación de aspecto adecuada (700px / 500px aprox)
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.responsive-embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
+
+ul.nav-tabs {
+    @media(max-width: 767px){
+        justify-content: center;
+        column-gap: 10px;
+    }
+
+    li {
+        a {
+            @media(max-width: 767px){
+                padding: 5px 10px;
+                font-size: 10px;
+            }
+        }
+    }
+}

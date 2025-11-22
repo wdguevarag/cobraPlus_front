@@ -1,0 +1,29 @@
+<div class="signature-container">
+  <div class="canvas-container" [class.saved]="saved">
+    <canvas #canvas
+            class="signature-canvas"
+            (mousedown)="startDrawing($event)"
+            (mousemove)="draw($event)"
+            (mouseup)="stopDrawing()"
+            (mouseleave)="stopDrawing()"
+            (touchstart)="startDrawing($event)"
+            (touchmove)="draw($event)"
+            (touchend)="stopDrawing()">
+    </canvas>
+    <!-- Watermark que muestra el icono de check cuando se ha guardado la firma -->
+    <div *ngIf="saved" class="watermark">
+      <i class="bi bi-check fs-1"></i>
+    </div>
+  </div>
+  
+  <div class="signature-buttons">
+    <!-- Botón de guardar se muestra solo si aún no se guardó la firma -->
+    <button *ngIf="!saved" type="button" (click)="saveSignature()" class="btn-guardar">
+      <i class="bi bi-check fs-4 text-white"></i>
+    </button>
+    <!-- Botón de cancelar siempre visible para reiniciar la firma -->
+    <button type="button" (click)="resetSignature()" class="btn-cancelar">
+      <i class="bi bi-x fs-4 text-white"></i>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,191 @@
+<div class="section-container-title d-flex justify-content-between align-items-center">
+  <h3 class="title">Asignación de Metas</h3>
+</div>
+
+<div class="section-container">
+  <div class="row mb-4">
+    <div class="col-md-4" *ngIf="!mostrarFormularioMeta">
+      <label for="fecha" class="form-label">Fecha:</label>
+      <input 
+        [type]="activeTab === 'mensual' ? 'month' : 'week'" 
+        id="fecha" 
+        class="form-control" 
+        [(ngModel)]="fechaSeleccionada" 
+        (change)="onFilterChange()"
+      >
+    </div>
+
+    <div class="col-md-4">
+      <label for="analista" class="form-label">Analista:</label>
+      <select 
+        id="analista" 
+        class="form-control"
+        [(ngModel)]="analistaSeleccionado"
+        (change)="onFilterChange()"
+      >
+        <option [ngValue]="null">Todos</option>
+        <option *ngFor="let anal of analistas" [ngValue]="anal.ID">
+          {{ anal.Nombre }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="section-container pt-4">
+  <!-- Tabs -->
+  <ul class="nav nav-tabs justify-content-center mb-4">
+    <li class="nav-item w-50">
+      <button 
+        class="nav-link py-3"
+        [ngClass]="{'activo': activeTab === 'mensual', 'inactivo': activeTab !== 'mensual'}"
+        (click)="setActiveTab('mensual')"
+      >
+        MENSUAL
+      </button>
+    </li>
+    <li class="nav-item w-50">
+      <button 
+        class="nav-link py-3"
+        [ngClass]="{'activo': activeTab === 'semanal', 'inactivo': activeTab !== 'semanal'}"
+        (click)="setActiveTab('semanal')"
+      >
+        SEMANAL
+      </button>
+    </li>
+  </ul>
+
+  <!-- Contenido MENSUAL -->
+  <div *ngIf="activeTab === 'mensual'">
+    <div class="text-end mb-3" *ngIf="mostrarFormularioMeta">
+      <button class="btn btn-primary" (click)="cerrarFormularioMeta()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+    </div>
+
+    <div *ngIf="!mostrarFormularioMeta">
+      <h4 *ngIf="metaData?.length">Resultados Mensual:</h4>
+      <p *ngIf="!metaData?.length">No hay datos para los filtros seleccionados.</p>
+      <ng-container *ngIf="metaData?.length">
+        <h4 class="mb-5">
+          Periodo Actual: {{ actualMeta?.Fecha_Inicio_Periodo }} - {{ actualMeta?.Fecha_Final_Periodo }}
+          &nbsp; | &nbsp;
+          Periodo Anterior: {{ prevMeta?.Fecha_Inicio_Periodo }} - {{ prevMeta?.Fecha_Final_Periodo }}
+        </h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center shadow-sm">
+          <thead class="thead-class">
+            <tr>
+              <th>Métrica</th>
+              <th>Actual</th>
+              <th>Anterior</th>
+              <th>Variación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of variationRows">
+              <th>{{ row.label }}</th>
+              <td>{{ row.actual | number:'1.0-2' }}</td>
+              <td>{{ row.previous | number:'1.0-2' }}</td>
+              <td>
+                <ng-container *ngIf="row.variation !== null; else naTpl">
+                  <span style="font-weight: bold;" [ngClass]="{
+                    'text-success fw-bold': row.variation > 0,
+                    'text-danger fw-bold': row.variation < 0
+                  }">
+                    {{ row.variation | number:'1.0-2' }}%
+                  </span>
+                </ng-container>
+                <ng-template #naTpl>—</ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </ng-container>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4" *ngIf="!mostrarFormularioMeta && analistaSeleccionado !== null">
+      <button 
+        class="btn btn-primary rounded-circle btn-plus d-flex justify-content-center align-items-center" 
+        (click)="mostrarFormularioMeta = true"
+      >
+        <i class="bi bi-plus fs-2"></i>
+      </button>
+    </div>
+
+    <app-nueva-meta
+      *ngIf="mostrarFormularioMeta && analistaSeleccionado !== null"
+      [usuarioId]="analistaSeleccionado!"
+      [tipoMeta]="'MENSUAL'"
+      (cerrar)="cerrarFormularioMeta()"
+    ></app-nueva-meta>
+  </div>
+
+  <!-- Contenido SEMANAL -->
+  <div *ngIf="activeTab === 'semanal'">
+    <div class="text-end mb-3" *ngIf="mostrarFormularioMeta">
+      <button class="btn btn-primary" (click)="cerrarFormularioMeta()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+    </div>
+
+    <div *ngIf="!mostrarFormularioMeta">
+      <h4 *ngIf="metaData?.length">Resultados Semanal:</h4>
+      <p *ngIf="!metaData?.length">No hay datos para los filtros seleccionados.</p>
+      <ng-container *ngIf="metaData?.length">
+        <h4 class="mb-5">
+          Periodo Actual: {{ actualMeta?.Fecha_Inicio_Periodo }} - {{ actualMeta?.Fecha_Final_Periodo }}
+          &nbsp; | &nbsp;
+          Periodo Anterior: {{ prevMeta?.Fecha_Inicio_Periodo }} - {{ prevMeta?.Fecha_Final_Periodo }}
+        </h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center shadow-sm">
+          <thead class="thead-class">
+            <tr>
+              <th>Métrica</th>
+              <th>Actual</th>
+              <th>Anterior</th>
+              <th>Variación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of variationRows">
+              <th>{{ row.label }}</th>
+              <td>{{ row.actual | number:'1.0-2' }}</td>
+              <td>{{ row.previous | number:'1.0-2' }}</td>
+              <td>
+                <ng-container  *ngIf="row.variation !== null; else naTpl2">
+                  <span style="font-weight: bold;" [ngClass]="{
+                    'text-success fw-bold': row.variation > 0,
+                    'text-danger fw-bold': row.variation < 0
+                  }">
+                    {{ row.variation | number:'1.0-2' }}%
+                  </span>
+                </ng-container>
+                <ng-template #naTpl2>—</ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </ng-container>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4" *ngIf="!mostrarFormularioMeta && analistaSeleccionado !== null">
+      <button 
+        class="btn btn-primary rounded-circle btn-plus d-flex justify-content-center align-items-center" 
+        (click)="mostrarFormularioMeta = true"
+      >
+        <i class="bi bi-plus" style="font-size: 2rem;"></i>
+      </button>
+    </div>
+
+    <app-nueva-meta
+      *ngIf="mostrarFormularioMeta && analistaSeleccionado !== null"
+      [usuarioId]="analistaSeleccionado!"
+      [tipoMeta]="'SEMANAL'"
+      (cerrar)="cerrarFormularioMeta()"
+    ></app-nueva-meta>
+  </div>
+</div>

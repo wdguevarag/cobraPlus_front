@@ -1,0 +1,15 @@
+<select
+  [attr.name]="name"
+  class="form-control"
+  [ngModel]="value"
+  (ngModelChange)="onSelectChange($event)"
+  (blur)="onTouched()"
+  [disabled]="!editable">
+  <option [ngValue]="null" disabled selected hidden>Seleccionar</option>
+  <option *ngFor="let option of options" [value]="option[fieldValue]">
+    {{ option[fieldContent] }}
+  </option>
+</select>
+
+
+

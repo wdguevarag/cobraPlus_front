@@ -1,0 +1,190 @@
+/* Tabs */
+.nav-tabs .nav-link {
+  border: none;
+  border-radius: 0;
+  transition: background-color 0.3s ease;
+  @media (max-width:767px) {
+    font-size: 10px !important;
+    padding: 1rem !important;
+  }
+}
+
+.nav-tabs .nav-link.active {
+  border: none;
+}
+
+.nav-item {
+  width: 50%;
+  text-align: center;
+  button {
+    width: 100%;
+    border-bottom: 1px solid #f2f2f280 !important;
+    color: #1E2A38 !important;
+    font-weight: 400;
+    &.active {
+        border-bottom: 1px solid #1E2A38 !important;
+        color: #1E2A38 !important;
+    }
+  }
+}
+
+/* Tabla */
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table thead th {
+  font-weight: 500;
+  color: white !important;
+}
+
+table tfoot {
+  tr th {
+    @media(max-width:767px){
+      font-size: 10px !important;
+    }
+  }
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.table tbody td {
+  vertical-align: middle;
+  padding: 0.75rem;
+}
+
+
+.table tbody tr:hover {
+  background-color: rgba(30, 42, 56, 0.1);
+}
+
+/* Adaptaciones de color */
+.bg-primary {
+  background-color: #1E2A38 !important;
+}
+
+.bg-secondary {
+  background-color: #808080 !important;
+}
+
+
+.bi {
+  font-size: 1.2rem; /* Ajusta el tamaño del icono para mejor visibilidad */
+}
+
+
+.btn.btn-primary {
+  background-color: #1E2A38 !important;
+  &:hover {
+    background-color: #4955639d !important;
+  }
+}
+
+
+
+
+
+
+/* Estilo tipo “cards” para el detalle vertical */
+.detalle-incentivos {
+  /* quitamos la tabla por defecto */
+  @media(max-width:767px){
+    padding: 0px !important
+  }
+  table {
+    border: none;
+    border-radius: 0px ;
+
+    @media(max-width:767px){
+      width: 100% !important;
+
+      tr {
+        display: flex;
+        justify-content: space-between;
+        column-gap: 20px;
+      }
+      th , td {
+        font-size: 10px !important;
+        width: fit-content !important;
+      }
+    }
+  }
+
+  /* ocultar separadores internos */
+  hr {
+    display: none;
+  }
+
+  /* cada fila como un card flex */
+  tr {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #1e2a3885;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        background: #1e2a3815;
+    }
+    &.space {
+        border: 1px solid #1e2a38e1;
+        background-color: #1e2a38e1 !important;
+        height: 10px;
+        padding: 0px;
+    }
+  }
+
+  /* etiqueta de la izquierda */
+  th {
+    flex: 1;
+    font-weight: 500;
+    color: #1E2A38;
+    text-transform: none;
+    font-size: 1rem;
+    border: none;
+  }
+
+  /* valor de la derecha */
+  td {
+    flex: 0;
+    color: #1E2A38; /* verde bootstrap */
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
+    text-align: right;
+    min-width: 4rem;
+  }
+
+  /* estilo especial para el bloque de Bono Final */
+  tr:last-child td {
+    color: #0f5132;
+    font-size: 1.1rem;
+  }
+
+  /* opcional: pequeño header flotante para cada sección */
+  h5 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #1E2A38;
+    font-weight: 600;
+  }
+}
+
+
+table.table-resumen-analista {
+  @media (max-width:767px) {
+    th , td {
+      font-size: 8px !important;
+      padding: 0.4rem !important;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<div class="ubicacion-input-container">
+  <input type="text" 
+         class="form-control"
+         [formControl]="searchControl" 
+         placeholder="Buscar ubicación..." 
+         (focus)="onFocus()" 
+         (blur)="onBlur()"
+         [readonly]="!editable">
+  <ul class="suggestions" *ngIf="showSuggestions && (filteredRutas | async)?.length">
+    <li *ngFor="let ruta of filteredRutas | async" (click)="onSelect(ruta)">
+      {{ ruta.departamento }}/{{ ruta.provincia }}/{{ ruta.distrito }}
+    </li>
+  </ul>
+</div>

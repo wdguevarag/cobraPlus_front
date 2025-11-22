@@ -1,0 +1,12 @@
+<div *ngIf="editable; else readOnlyTemplate">
+<select class="form-control" [value]="selectedValue" (change)="onSelectChange($event)">
+    <option value="" disabled>{{ placeholder }}</option>
+    <option *ngFor="let option of options" [value]="option[valueField]">
+    {{ option[displayField] }}
+    </option>
+</select>
+</div>
+
+<ng-template #readOnlyTemplate>
+<input type="text" class="form-control" [value]="getDisplayValue()" readonly>
+</ng-template>

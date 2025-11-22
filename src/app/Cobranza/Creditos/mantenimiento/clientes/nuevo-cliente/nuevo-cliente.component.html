@@ -1,0 +1,147 @@
+<div class="section-container-title">
+  <h3 class="title">Nuevo Cliente</h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+<form [formGroup]="clienteForm" class="form">
+  <div class="section-container-img-form row">
+
+    <div class="section-container-img col-md-5">
+      <div class="contenedor-images">
+        <div class="contenedor-image">
+          <label class="form-label mb-0 fs-4 fw-regular d-block">Anverso</label>
+          <app-general-upload-input-img 
+            type="new"
+            [width]="'100%'"
+            [height]="'300px'"
+            (fileSelected)="onFileSelected($event, 'Documento_Anverso')">
+          </app-general-upload-input-img>
+
+          
+        </div>
+        <div class="contenedor-image">
+          <label class="form-label mb-0 fs-4 fw-regular d-block">Reverso</label>
+          <app-general-upload-input-img 
+            type="new"
+            [width]="'100%'"
+            [height]="'300px'"
+            (fileSelected)="onFileSelected($event, 'Documento_Reverso')">
+          </app-general-upload-input-img>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-container col-md-7">
+
+      <div class="row mb-3 datos-container">
+        <div class="col-md-4">
+          <label for="Nombres" class="form-label">Nombres</label>
+            <input
+            type="text"
+            class="form-control"
+            onlyMayus
+            formControlName="Nombres"
+            uniqueValueValidator="Nombres"
+            [bancoFn]="getClientes.bind(this)"
+            [mensajeError]="'Nombre ya está en uso'"
+            />
+        </div>
+
+        <div class="col-md-4">
+          <label for="Apellido_Paterno" class="form-label">Apellido Paterno</label>
+          <input type="text" id="Apellido_Paterno" class="form-control" formControlName="Apellido_Paterno" onlyMayus>
+        </div>
+        <div class="col-md-4">
+          <label for="Apellido_Materno" class="form-label">Apellido Materno</label>
+          
+          <input type="text" id="Apellido_Materno" class="form-control" formControlName="Apellido_Materno" onlyMayus>
+        </div>
+
+
+        <div class="col-md-4">
+          <label for="Tipo_Documento" class="form-label">Tipo de Documento</label>
+          <app-dynamic-select 
+              formControlName="Tipo_Documento"
+              [groupId]="4"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar">
+          </app-dynamic-select>
+        </div>
+        <div class="col-md-4">
+          <label for="Documento" class="form-label">Documento</label>
+              <input
+                type="text"
+                class="form-control"
+                maxlength="8"
+                onlyNumbers
+                formControlName="Documento"
+                uniqueValueValidator="Documento"
+                [bancoFn]="getClientes.bind(this)"
+                [mensajeError]="'DNI ya está en uso'"
+              />
+        </div>
+        
+        <div class="col-md-4">
+          <label for="Estado_Civil" class="form-label">Estado Civil</label>
+          <app-dynamic-select 
+            formControlName="Estado_Civil"
+            [groupId]="9"
+            [valueField]="'ID'"
+            [displayField]="'Nombre'"
+            placeholder="Seleccionar">
+          </app-dynamic-select>
+        </div>
+      
+        <div class="col-md-6">
+            <label for="Genero" class="form-label">Género</label>
+            <app-dynamic-select 
+              formControlName="Genero"
+              [groupId]="10"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar">
+            </app-dynamic-select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="Fecha_Nacimiento" class="form-label">Fecha Nacimiento</label>
+          <input type="date" id="Fecha_Nacimiento" class="form-control" formControlName="Fecha_Nacimiento" [adultValidator]="miFechaSistema">
+        </div>
+
+        <div class="col-md-6">
+          <label for="Lugar_Nacimiento" class="form-label">Lugar de Nacimiento</label>
+          <app-general-input-ubicacion 
+          formControlName="Lugar_Nacimiento"
+          >
+          </app-general-input-ubicacion>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end align-items-center mt-5">
+    <app-submit-form 
+      [form]="clienteForm" 
+      [submitFn]="submitFn.bind(this)" 
+      [requiredFields]="[
+        'Nombres',
+        'Apellido_Paterno',
+        'Apellido_Materno',
+        'Tipo_Documento',
+        'Documento',
+        'Genero',
+        'Estado_Civil',
+        'Fecha_Nacimiento',
+        'Lugar_Nacimiento',
+        'Documento_Anverso',
+        'Documento_Reverso'
+      ]"
+      label="Crear Cliente"
+      [redirectRoute]="'/creditos/mantenimiento/cliente/single-cliente/' + newClienteId">
+    </app-submit-form>
+  </div>
+  
+</form>
+
+

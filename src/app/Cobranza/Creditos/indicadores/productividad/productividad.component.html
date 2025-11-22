@@ -1,0 +1,150 @@
+
+<div class="section-container-title">
+  <h3 class="mb-3">Productividad</h3>
+</div>
+
+<div class="section-container">
+  <!-- Filtros -->
+  <div class="row mb-5 datos-container">
+    <div class="col-md-3">
+      <label for="fecha" class="form-label">Fecha:</label>
+      <input type="month" id="fecha" class="form-control" [(ngModel)]="fechaSeleccionada" (change)="onFilterChange()">
+    </div>
+
+    <div class="col-md-3">
+      <label for="analista" class="form-label">Analista:</label>
+      <select id="analista" class="form-control"
+              [(ngModel)]="analistaSeleccionado"
+              (change)="onFilterChange()">
+        <option [ngValue]="null">Todos</option>
+        <option *ngFor="let anal of analistas" [ngValue]="anal.ID">
+          {{ anal.Nombre }}
+        </option>
+      </select>
+    </div>
+
+
+    <div class="col-md-2">
+      <label class="form-label">Total Clientes</label>
+      <input type="text" class="form-control" [value]="totalClientes" readonly>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Monto Total</label>
+      <input type="text" class="form-control" [value]="montoTotal | currency" readonly>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Promedio Monto</label>
+      <input type="text" class="form-control" [value]="promedioMonto | number:'1.2-2'" readonly>
+    </div>
+  </div>
+
+  <div class="row mb-5 d-flex justify-content-center container-buttons">
+
+    <div class="col-md-1">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <button class="btn btn-primary w-100" style="max-width: 60px" (click)="toggleSortOrder()">
+          <i [class]="'bi ' + (isSortedDesc ? 'bi-sort-numeric-down' : 'bi-sort-numeric-up')"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-1">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <button class="btn btn-primary w-100" style="max-width: 60px" (click)="mostrarResumen()">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-1">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <button class="btn btn-primary w-100" style="max-width: 60px" (click)="mostrarGrafico()">
+          <i class="bi bi-bar-chart"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="section-container pt-4">
+  <ul class="nav nav-tabs justify-content-center mb-4">
+    <li class="nav-item w-50">
+      <button class="nav-link py-3" [ngClass]="{'activo': activeTab === 'nuevos', 'inactivo': activeTab !== 'nuevos'}" (click)="setActiveTab('nuevos')">
+        NUEVOS
+      </button>
+    </li>
+    <li class="nav-item w-50">
+      <button class="nav-link py-3" [ngClass]="{'activo': activeTab === 'recurrentes', 'inactivo': activeTab !== 'recurrentes'}" (click)="setActiveTab('recurrentes')">
+        RECURRENTES
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tabla normal -->
+  <div class="table-responsive" *ngIf="!modoResumen && !modoGrafico">
+    <table class="table">
+      <thead class="bg-primary text-white text-center">
+        <tr>
+          <th *ngFor="let column of columns" style="min-width: 60px;">{{ column.header }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of displayedData" class="text-center">
+          <td *ngFor="let column of columns">{{ cliente[column.field] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tabla resumen -->
+  <div *ngIf="modoResumen" class="table-responsive">
+    <table class="table table-bordered">
+      <thead class="bg-dark text-white text-center">
+        <tr>
+          <th>Analista</th>
+          <th>N° Clientes</th>
+          <th>N° Cliente %</th>
+          <th>Monto</th>
+          <th>Monto %</th>
+          <th>Crédito Prom.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fila of (activeTab === 'nuevos' ? resumenNuevos : resumenRecurrentes)" 
+            class="text-center"
+            [ngClass]="{ 'table-secondary fw-bold': fila.Asesor_Nombre === 'Todos' }">
+          <td>{{ fila.Asesor_Nombre }}</td>
+          <td>{{ fila.Num_Clientes }}</td>
+          <td>{{ fila.Porcentaje_Clientes | number:'1.2-2' }}%</td>
+          <td>{{ fila.Saldo_Capital_Total | currency }}</td>
+          <td>{{ fila.Porcentaje_Monto | number:'1.2-2' }}%</td>
+          <td>{{ fila.Credito_Promedio | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+    <!-- GRAFICOS -->
+  <div *ngIf="modoGrafico" class="row mt-5">
+    <div class="col-md-6">
+      <h4 class="text-center">N° Clientes por Mes</h4>
+      <canvas baseChart
+        [data]="chartClientes"
+        [options]="{ responsive: true }"
+        [type]="'bar'">
+      </canvas>
+    </div>
+
+    <div class="col-md-6">
+      <h4 class="text-center">Monto por Mes</h4>
+      <canvas baseChart
+        [data]="chartCapital"
+        [options]="{ responsive: true }"
+        [type]="'bar'">
+      </canvas>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,101 @@
+  <div *ngIf="singleDatoData; else noData" >
+      <div class="section-container-title">
+          <h3 class="title">{{ isEditing ? 'Editar Dato : ' : 'Detalles del Dato: ' }} <span class="text-muted"> {{singleDatoData.Nombre}} (Cod {{singleDatoData.ID}}) </span></h3>
+          <app-general-plus-check-btn
+              tipo="edit-single"
+              (editStateChanged)="isEditing = $event">
+            </app-general-plus-check-btn>
+        </div>
+      <div *ngIf="!isEditing">
+        <div class="section-container">
+            <form >
+              <div class="row mb-4">
+                <div class="col-md-3 text-start">
+                  <label for="nombre" class="form-label fw-bold">Nombre</label>
+                    <input id="nombre" class="form-control" value="{{ singleDatoData.Nombre }}" readonly/>
+               </div>
+                <div class="col-md-3 text-start">
+                    <label for="descripcion" class="form-label fw-bold">Descripcion</label>
+                    <input id="descripcion" class="form-control" value="{{ singleDatoData.Descripcion }}" readonly/>
+                </div>
+                <div class="col-md-3 text-start">
+                  <label for="valor" class="form-label fw-bold">Valor</label>
+                  <input id="valor" class="form-control" value="{{ singleDatoData.Valor}}" readonly/>
+                </div>
+                <div class="col-md-3 text-start">
+                  <label for="estado" class="form-label fw-bold">Estado</label>
+                  <input id="estado" class="form-control" value="{{ singleDatoData.Estado == 1 ? 'Activo' : 'Inactivo'}}" readonly/>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+
+      <div *ngIf="isEditing">
+        <form>
+          <div class="section-container">
+            <div class="row mb-3">
+              <div class="col-md-4 text-start">
+                <label for="nombre" class="form-label fw-bold">Nombre</label>
+                <input type="text" id="nombre" class="form-control" name="Nombre" [(ngModel)]="singleDatoData.Nombre" />
+              </div>
+
+              <div class="col-md-6 text-start">
+                <label for="descripcion" class="form-label fw-bold">Descripcion</label>
+                <input id="descripcion" class="form-control" name="Descripcion" [(ngModel)]="singleDatoData.Descripcion" />
+              </div>
+
+              <div class="col-md-2 text-start">
+                <label for="estado" class="form-label fw-bold">Estado</label>
+                <div class="d-flex align-items-center py-2 gap-3">
+                  <app-general-plus-check-btn
+                    tipo="toggle"
+                    [currentValue]="singleDatoData?.Estado"
+                    [onToggle]="updateEstado">
+                  </app-general-plus-check-btn>
+                  <span class="m-2">
+                    {{ singleDatoData.Estado == 1 ? 'Activo' : 'Inactivo'}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-md-3 text-start">
+                <label for="valor" class="form-label fw-bold">Valor 1</label>
+                <input id="valor" class="form-control" name="Valor" [(ngModel)]="singleDatoData.Valor" />
+              </div>
+
+              <div class="col-md-3 text-start">
+                <label for="valor" class="form-label fw-bold">Valor 2</label>
+                <input id="valor" class="form-control" name="Valor2" [(ngModel)]="singleDatoData.Valor2" />
+              </div>
+
+              <div class="col-md-3 text-start">
+                <label for="valor" class="form-label fw-bold">Valor 3</label>
+                <input id="valor" class="form-control" name="Valor3" [(ngModel)]="singleDatoData.Valor3" />
+              </div>
+
+              <div class="col-md-3 text-start">
+                <label for="valor" class="form-label fw-bold">Valor 4</label>
+                <input id="valor" class="form-control" name="Valor4" [(ngModel)]="singleDatoData.Valor4" />
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <app-general-plus-check-btn
+            tipo="check-form"
+            [submitFn]="submitFn"
+            [formData]="singleDatoData"
+            ></app-general-plus-check-btn>
+          </div>
+        </form>
+      </div>
+  </div>
+
+  <ng-template #noData>
+  <p>No se encontraron datos para este Dato.</p>
+  </ng-template>
+
+
+

@@ -1,0 +1,125 @@
+<div *ngIf="clienteDocumentoData; else noData">
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="subtitle mb-4">
+      {{ isEditing ? 'Editar Documento' : 'Datos del Documento' }}:
+      ( Descripción: {{ clienteDocumentoData.Descripcion }} )
+    </h4>
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <ng-container *ngIf="mode === 'edit'">
+        <app-general-plus-check-btn
+          tipo="edit-single"
+          (editStateChanged)="isEditing = $event">
+        </app-general-plus-check-btn>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="section-container-img-form row p-0 mb-0">
+    <div class="section-container-img col-md-3">
+      <div class="contenedor-images">
+          <ng-container *ngIf="!isEditing; else editableImage">
+            <img
+              [src]="page_url + clienteDocumentoData.Ruta_Documento"
+              style="min-height: 330px; background: transparent; object-fit: cover;"
+            />
+          </ng-container>
+          <ng-template #editableImage>
+            <app-general-upload-input-img
+              type="edit"
+              [width]="'100%'"
+              [height]="'330px'"
+              [aspectRatio]="11/16"
+              [currentImage]="page_url + clienteDocumentoData.Ruta_Documento"
+              (fileSelected)="onFileSelected($event, 'Ruta_Documento')">
+            </app-general-upload-input-img>
+          </ng-template>
+      </div>
+    </div>
+
+    <div class="section-container col-md-9">
+      <form *ngIf="isEditing" [formGroup]="clienteDocumentoForm" class="form" enctype="multipart/form-data">
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-control" formControlName="Descripcion" [readonly]="!isEditing" onlyMayus />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label class="form-label">Ruta</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="Ruta_Documento"
+              readonly
+              style="text-transform: none !important;" />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-3 text-start">
+            <label class="form-label">Estado</label>
+            <div class="d-flex py-2 align-items-center gap-2">
+              <app-general-plus-check-btn
+                tipo="toggle"
+                [currentValue]="clienteDocumentoForm.get('Estado')?.value"
+                [onToggle]="updateEstado">
+              </app-general-plus-check-btn>
+              <input type="hidden" formControlName="Estado" />
+              <span class="form-label mb-0">{{ clienteDocumentoForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <app-submit-form
+            [form]="clienteDocumentoForm"
+            [submitFn]="submitFn.bind(this)"
+            label="Actualizar Documento"
+            [reload]="true">
+          </app-submit-form>
+        </div>
+      </form>
+
+      <ng-container *ngIf="!isEditing">
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-control" [value]="clienteDocumentoData.Descripcion" readonly />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label class="form-label">Ruta</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="clienteDocumentoData.Ruta_Documento"
+              readonly
+              style="text-transform: none !important;" />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-3">
+            <label class="form-label">Estado</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="clienteDocumentoData.Estado == 1 ? 'Activo' : 'Inactivo'"
+              readonly />
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>No se encontraron datos para este Documento.</p>
+</ng-template>

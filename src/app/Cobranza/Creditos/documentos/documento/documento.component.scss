@@ -1,0 +1,28 @@
+.btn-ver-documentos , .btn-falta-firmar {
+    @media (max-width:767px) {
+        font-size: 10px;
+        min-width:fit-content !important;
+        padding: 5px 10px !important;
+    }
+}
+
+ul.list-group {
+    li {
+        @media (max-width:767px) {
+            font-size: 8px;
+            padding: 5px !important;
+        } 
+    }
+}
+
+.container-data {
+    @media (max-width:767px) {
+    width: 100%;
+    margin: 0px;
+    padding: 20px 7.5% !important;
+        span {
+            font-size: 11px !important;
+            font-weight: normal !important;
+        } 
+    }
+}

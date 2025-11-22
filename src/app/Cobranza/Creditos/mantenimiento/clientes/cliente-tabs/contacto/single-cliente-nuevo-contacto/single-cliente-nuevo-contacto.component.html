@@ -1,0 +1,106 @@
+<div>
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="subtitle mb-4">Nuevo Contacto Cliente: {{singleClienteData?.Nombre}} {{singleClienteData?.Apellido_Paterno}}</h4>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    </div>
+  
+    <form [formGroup]="contactoForm" (ngSubmit)="submitFn(contactoForm.value)">
+       <div class="section-container p-0 mb-0">
+
+        <div class="row mb-3 datos-container">
+          <div class="col-md-12 text-start">
+            <div class="d-flex py-2 align-items-center gap-2">
+              <app-general-plus-check-btn 
+                tipo="toggle" 
+                [currentValue]="contactoForm.get('Principal')?.value" 
+                [onToggle]="updatePrincipal">
+              </app-general-plus-check-btn>
+              <input type="hidden" formControlName="Principal">
+              <span class="form-label mb-0">{{ contactoForm.get('Principal')?.value == 1 ? 'Principal' : 'No Principal' }}</span>
+            </div>
+          </div>
+        </div> 
+
+        <div class="row mb-3 datos-container">
+        
+          <div class="col-md-6">
+            <label for="categoria" class="form-label">Categoría</label>
+              <app-dynamic-select 
+              formControlName="Categoria"
+              [groupId]="18"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar"
+              >
+            </app-dynamic-select>
+          </div>
+          <div class="col-md-6">
+            <label for="tipoContacto" class="form-label">Tipo de Contacto</label>
+              <app-dynamic-select 
+              formControlName="Tipo_Contacto"
+              [groupId]="19"
+              [valueField]="'ID'"
+              [displayField]="'Nombre'"
+              placeholder="Seleccionar"
+              >
+            </app-dynamic-select>
+          </div>
+  
+          <div class="col-md-4">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input 
+            type="text"
+            class="form-control"
+            formControlName="Telefono"
+            maxlength="9"
+            onlyNumbers>
+
+          </div>
+          <div class="col-md-4">
+            <label for="whatsapp" class="form-label">Whatsapp</label>
+            <input 
+            type="text"
+            class="form-control"
+            formControlName="Whatsapp"
+            maxlength="9"
+            onlyNumbers>
+          </div>
+          <div class="col-md-4">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" class="form-control" id="correo" formControlName="Correo">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <label for="comentario" class="form-label">Comentario</label>
+            <textarea class="form-control" id="comentario" formControlName="Comentario" rows="3" ></textarea>
+          </div>
+        </div>
+    
+      </div>
+      <div class="d-flex justify-content-end align-items-center mt-5">
+  
+        <app-submit-form 
+          [form]="contactoForm" 
+          [submitFn]="submitFn.bind(this)" 
+          label="Crear Contacto"
+          [requiredFields]="
+          [
+          'Categoria',
+          'Tipo_Contacto',
+          'Telefono',
+          'Whatsapp',
+          ]"
+          [reload]="true">
+        </app-submit-form>
+      </div>
+
+    </form>
+</div>
+  
+
+
+

@@ -1,0 +1,329 @@
+<div *ngIf="dataLoaded; else loadingTemplate">
+  <div class="section-container-title d-flex justify-content-between align-items-center">
+    <h3 class="title">Desembolso</h3>
+  </div>
+
+  <app-general-tab-container [type]="'top'" [tabs]="tabs">
+    <ng-template>
+
+      <div class="section-container">
+        <h4 class="subtitle mb-3">Desembolso</h4>
+
+        <div class="row mb-3">
+          <div class="col-md-1">
+            <label class="form-label">Solicitud</label>
+            <input type="text" class="form-control" readonly value="{{ singleDesembolsoData.Credito_ID }}" />
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Tipo Solicitud</label>
+            <input type="text" class="form-control" readonly value="{{ singleDesembolsoData.Tipo_Credito }}" />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Cliente</label>
+            <input type="text" class="form-control" readonly value="{{ clienteData.Nombres + ' ' + clienteData.Apellido_Paterno }}" />
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">DNI</label>
+            <input type="text" class="form-control" readonly value="{{ clienteData?.Documento }}" />
+          </div>
+
+
+          <div class="col-md-3">
+            <label class="form-label">Analista</label>
+            <input type="text" class="form-control" readonly value="{{ singleDesembolsoData.Nombre_Asesor + ' ' + singleDesembolsoData.Apellido_Asesor }}" />
+          </div>
+        
+
+
+          <div class="col-md-1">
+            <label class="form-label">S/.</label>
+            <input
+              type="text"
+              class="form-control"
+              readonly
+              [value]="
+                desembolsoActualAnterior.Tipo_Solicitud_Credito_Actual === 'Ampliacion'
+                  ? ((desembolsoActualAnterior?.Prestamo_Credito_Actual - desembolsoActualAnterior?.Prestamo_Remanente_Credito_Anterior) | number: '1.2-2')
+                  : (desembolsoActualAnterior?.Prestamo_Credito_Actual | number: '1.2-2')
+              "
+            />
+          </div>
+
+
+        </div>
+
+
+
+        <div *ngIf="desembolsoActualAnterior?.Tipo_Solicitud_Credito_Actual === 'Ampliacion'"   class="row my-3"
+        >
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Crédito Actual:</label>
+            <span class="form-control">
+              ID: {{ desembolsoActualAnterior?.ID_Credito_Actual }} — Monto: S/. {{
+                desembolsoActualAnterior?.Prestamo_Credito_Actual | number: '1.2-2'
+              }}
+            </span>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Crédito Anterior Deuda:</label>
+            <span class="form-control">
+              ID: {{ desembolsoActualAnterior?.ID_Credito_Anterior }} — Monto: S/. {{
+                desembolsoActualAnterior?.Prestamo_Remanente_Credito_Anterior | number: '1.2-2'
+              }}
+            </span>
+          </div>
+        </div>
+
+
+      </div>
+
+      <form [formGroup]="desembolsoForm" class="form">
+      
+        <div class="section-container">
+
+          <div class="mb-lg-5 mb-2">
+            <h4 class="subtitle mb-2">Tipo de Desembolso</h4>
+            <select formControlName="Tipo_Desembolso" class="form-control">
+              <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+
+          <div class="mb-lg-5 mb-2">
+            <h4 class="subtitle mb-4">Operaciones Desembolso</h4>
+
+        <div class="row mb-3">
+          <div class="col-md-2">
+            <label class="form-label">Desembolso Monto</label>
+            <input type="number" class="form-control" formControlName="Desembolso_Monto" readonly style="background-color: #f4f4f4 !important ;" />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-2">
+            <label class="form-label">Pago Voluntario</label>
+            <input type="number" class="form-control" formControlName="Pago_Voluntario" style="background-color: #ffe6e6 !important ;" />
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Descuento</label>
+            <input type="number" class="form-control" formControlName="Descuento" style="background-color: #ffe6e6 !important ;" />
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Cancelaciones</label>
+            <input type="number" class="form-control" formControlName="Cancelaciones" readonly style="background-color: #ffe6e6 !important ;" />
+          </div>
+        </div>
+
+
+        <div class="row mb-3">
+          <div class="col-md-2">
+            <label class="form-label">Monto Virtual</label>
+            <input type="number" formControlName="Monto_Virtual" readonly class="form-control" style="background-color: #f4f4f4 !important ;" />
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Total a Entregar</label>
+            <input type="number" formControlName="Total_Entregar" readonly class="form-control"  style="background-color: #f4f4f4 !important ;" />
+          </div>
+        </div>
+
+
+
+        <div class="row mb-3">
+          <ng-container [ngSwitch]="selectedTipo">
+            <ng-container *ngSwitchCase="'TRANSFERENCIA'">
+              <div class="col-md-2">
+                <label class="form-label">Desembolso Transferencia</label>
+                <input type="number" formControlName="Desembolso_Transferencia" readonly class="form-control"  style="background-color: #e2efe0 !important ;" />
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'EFECTIVO'">
+              <div class="col-md-2">
+                <label class="form-label">Desembolso Efectivo</label>
+                <input type="number" formControlName="Desembolso_Efectivo" readonly class="form-control"  style="background-color: #e2efe0 !important ;" />
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'TRANSFERENCIA-EFECTIVO'">
+              <div class="col-md-2">
+                <label class="form-label">Desembolso Transferencia</label>
+                <input type="number" formControlName="Desembolso_Transferencia" readonly class="form-control"  style="background-color: #e2efe0 !important ;" />
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Desembolso Efectivo</label>
+                <input type="number" formControlName="Desembolso_Efectivo" class="form-control"  style="background-color: #e2efe0 !important ;" />
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'TRANSFERENCIA-ASESOR'">
+              <div class="col-md-2">
+                <label class="form-label">Desembolso Transferencia</label>
+                <input type="number" formControlName="Desembolso_Transferencia" readonly class="form-control"  style="background-color: #e2efe0 !important ;" />
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Desembolso Efectivo</label>
+                <input type="number" formControlName="Desembolso_Efectivo" class="form-control"   style="background-color: #e2efe0 !important ;" />
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+
+         
+        
+            <div class="row mb-2">
+              <div class="col-md-12">
+                <label class="form-label">Comentario</label>
+                <input type="text" class="form-control" formControlName="Comentario" />
+              </div>
+            </div>
+
+          </div>
+
+          <div *ngIf="selectedTipo !== 'EFECTIVO'" class="mb-lg-5 mb-2">
+            <h4 class="subtitle mb-4">Cuenta a Transferir</h4>
+
+            <div *ngIf="cuentaTransferencia; else noCuenta">
+
+              <div class="row">
+                <div class="col-md-3">
+                    <label class="form-label">Banco Destino</label>
+                    <input
+                      class="form-control"
+                      [value]="cuentaTransferencia.Banco_Nombre"
+                      readonly
+                    />
+                    <input type="hidden"  class="form-control" formControlName="Banco_Destino" readonly />
+                </div>
+
+                <div class="col-md-3">
+                   <label class="form-label">Número de Cuenta Destino</label>
+                   <input class="form-control" formControlName="Nro_Cuenta_Destino" readonly />
+                </div>
+
+
+                <div class="col-md-3">
+                  <label class="form-label">CCI</label>
+                  <input class="form-control" formControlName="CCI_Destino" readonly />
+                </div>
+
+
+                <div class="col-md-3">
+                  <label class="form-label">Titular Cuenta Destino</label>
+
+                  <input type="hidden" formControlName="Titular_Cuenta_Destino" />
+
+                  <input
+                    class="form-control"
+                    [value]="
+                      selectedTipo === 'TRANSFERENCIA-ASESOR'
+                        ? (singleDesembolsoData.Nombre_Asesor + ' ' + singleDesembolsoData.Apellido_Asesor)
+                        : (clienteData.Nombres + ' ' + clienteData.Apellido_Paterno)
+                    "
+                    readonly
+                  />
+                </div>
+              </div>
+
+                  
+
+            </div>
+            <ng-template #noCuenta>
+              <p class="text-danger">
+                {{ selectedTipo === 'TRANSFERENCIA-ASESOR' ? 'Asesor' : 'Cliente' }} no tiene cuenta principal.
+              </p>
+            </ng-template>
+          </div>
+
+          <div class="row mb-3">
+            <h4 class="subtitle mb-4">Tipo de Firma</h4>
+            <div class="col-md-6">
+              <select class="form-control" formControlName="Tipo_Firma">
+                <option value="" selected>Seleccione tipo</option>
+                <option value="Fisica">Fisica</option>
+                <option value="Digital">Digital</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center gap-3"  *ngIf="singleDesembolsoData.Estado_Aprobado !== 1">
+          <app-submit-form
+            [form]="desembolsoForm"
+            [submitFn]="submitFn.bind(this)"
+            label="Actualizar Cliente"
+            [requiredFields]="[
+                'Tipo_Firma',
+            ]"
+            [redirectRoute]="
+              '/creditos/documento/documento/single-documento/' +
+              (singleDesembolsoData?.Cliente_ID || 0) +
+              '/' +
+              (singleDesembolsoData?.Credito_ID || 0)
+            "
+          ></app-submit-form>
+        </div>
+
+
+      </form>
+
+    </ng-template>
+
+    <ng-template>
+      <div class="section-container">
+        <app-single-fic [type]="'fic'" [clienteIdFromInput]="singleDesembolsoData.Cliente_ID"></app-single-fic>
+      </div>
+    </ng-template>
+
+    <ng-template>
+      <div class="section-container">
+        <app-single-cliente-evaluacion
+          *ngIf="evaluacionActiva.ID !== 0"
+          [singleClienteId]="singleDesembolsoData.Cliente_ID"
+          [clienteEvaluacionId]="evaluacionActiva.ID"
+          [mode]="'edit'"
+          [use]="'fic'"
+        ></app-single-cliente-evaluacion>
+
+        <app-single-cliente-nueva-evaluacion
+          *ngIf="evaluacionActiva.ID == 0"
+          [singleClienteId]="singleDesembolsoData.Cliente_ID"
+        ></app-single-cliente-nueva-evaluacion>
+      </div>
+    </ng-template>
+
+    <ng-template>
+      <div class="section-container">
+        <div class="row mb-5">
+          <div class="col-md-3">
+            <label class="form-label">Préstamo</label>
+            <input class="form-control" value="{{ creditoData.Prestamo }}" readonly />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Plazo</label>
+            <input class="form-control" value="{{ creditoData.Nro_Periodos - creditoData.Nro_P_Gracia }}" readonly />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Día Desembolso</label>
+            <input class="form-control" value="{{ creditoData.Fecha_Desembolso }}" readonly />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Primer Pago</label>
+            <input class="form-control" value="{{ creditoData.Fecha_Inicio }}" readonly />
+          </div>
+        </div>
+
+        <app-cronograma-desembolso [credito_id]="singleDesembolsoData.Credito_ID"></app-cronograma-desembolso>
+      </div>
+    </ng-template>
+
+
+  </app-general-tab-container>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="loading">Cargando datos...</div>
+</ng-template>

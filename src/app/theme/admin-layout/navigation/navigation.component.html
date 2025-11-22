@@ -1,0 +1,118 @@
+<!-- Debajo del logo -->
+
+<div class="logo_container" (click)="redirectHome()">
+  <img src="../../../../../assets/images/Cobrix-Logo.png" alt="Logo">
+</div>
+
+<div class="container-nav">
+<nav *ngFor="let aplicacion of aplicaciones" class="nav flex-column">
+  <div class="menu-group">
+    <span>{{ aplicacion.Nombre }}</span>
+  </div>
+
+  <ng-container *ngIf="getModulosByAplicacion(aplicacion.ID).length > 0">
+    <ng-container *ngFor="let modulo of getModulosByAplicacion(aplicacion.ID)">
+      <div class="nav-link menu-item">
+
+      <!-- <div class="nav-link menu-item" (click)="onItemClick(getRuta(aplicacion.Ruta, modulo.Ruta))"> -->
+        <a>
+          <span><i class="{{ modulo.Icono }}"></i></span>
+          <span>{{ modulo.Nombre }}</span>
+        </a>
+        <span class="ms-auto collapse-icon" (click)="toggleMenu($event, modulo.Nombre + 'Menu')">
+          <i class="bi"
+             [ngClass]="{
+               'bi-chevron-down': !menuStates[modulo.Nombre + 'Menu'],
+               'bi-chevron-up': menuStates[modulo.Nombre + 'Menu']
+             }"></i>
+        </span>
+      </div>
+  
+      <div [ngClass]="{
+        'collapse': !menuStates[modulo.Nombre + 'Menu'],
+        'show': menuStates[modulo.Nombre + 'Menu']
+      }">
+        <ng-container *ngFor="let acceso of getAccesosByModulo(modulo.ID)">
+          <a [routerLink]="getRuta(aplicacion.Ruta + '/' + modulo.Ruta, acceso.Ruta)"
+             class="nav-link menu-sub-item"
+             routerLinkActive="active">
+            <span><i class="{{ acceso.Icono }}"></i></span>
+            <span>{{ acceso.Nombre }}</span>
+          </a>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+</nav>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="logo_container" (click)="redirectHome()">
+  <img src="../../../../../assets/images/Cobrix-Logo.png" alt="Logo" style="max-width: 35px;">
+  <H6 class="logo_title">SISTEMA DE COBRANZA</H6>
+</div>
+
+
+
+<nav *ngFor="let aplicacion of aplicacionData" class="nav flex-column">
+  <div class="menu-group">
+    <span>{{ aplicacion.Nombre }}</span>
+  </div>
+
+  <ng-container *ngFor="let modulo of getModulosByAplicacion(aplicacion.ID)">
+    <div class="nav-link menu-item" (click)="onItemClick(aplicacion.Ruta + '/' + modulo.Ruta)">
+            <a>
+          <span><i class="{{ modulo.Icono }}"></i></span>
+          <span>{{ modulo.Nombre }}</span>
+        </a>
+       <span class="ms-auto collapse-icon" (click)="toggleMenu($event, modulo.Nombre + 'Menu')">
+        <i class="bi"
+           [ngClass]="{
+             'bi-chevron-down': !menuStates[modulo.Nombre + 'Menu'],
+             'bi-chevron-up': menuStates[modulo.Nombre + 'Menu']
+           }"></i>
+      </span> 
+    </div>
+
+    <div [ngClass]="{
+          'collapse': !menuStates[modulo.Nombre + 'Menu'],
+          'show': menuStates[modulo.Nombre + 'Menu']
+        }">
+      <ng-container *ngFor="let acceso of getAccesosByModulo(modulo.ID)">
+        <a [routerLink]="[aplicacion.Ruta, modulo.Ruta, acceso.Ruta]" class="nav-link menu-sub-item" routerLinkActive="active">
+          <span><i class="{{ acceso.Icono }}"></i></span>
+          <span>{{ acceso.Nombre }}</span>
+        </a>
+      </ng-container>
+    </div>
+  </ng-container>
+
+
+
+</nav>
+<a
+href="javascript:"
+title="click to menu collapse"
+class="colapsed-btn bg-primary"
+[ngClass]="{ on: navCollapsed }"
+id="sidebar-hide mobile-collapse"
+(click)="navCollapse()"
+>
+  @if (navCollapsed === true) {
+    <i class="bi bi-arrow-right  text-white"   theme="outline"></i>
+  } @else {
+    <i class="bi bi-arrow-right  text-white" theme="outline"></i>
+  }
+</a>
+ -->

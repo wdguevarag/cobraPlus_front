@@ -1,0 +1,150 @@
+<div>
+
+  <div class="section-container-title">
+    <h3 class="title">Castigo de Cartera</h3>
+  </div> 
+    <!-- Filtros: Select de Analistas y Clientes -->
+    <div class="section-container">
+      <div class="card-body">
+        <div class="row">
+          <!-- Select Analista -->
+          <div class="col-md-6">
+            <label class="form-label">
+              Analista:
+            </label>
+            <select class="form-control" [(ngModel)]="selectedAnalista" (change)="onAnalistaChange()">
+              <option value="">Todos los Analistas</option>
+              <option *ngFor="let analista of analistas" [value]="analista.ID">
+                {{ analista.Nombre }}
+              </option>
+            </select>
+          </div>
+          <!-- Select Cliente -->
+          <div class="col-md-6">
+            <label class="form-label">
+              Cliente:
+            </label>
+            <select class="form-control" [(ngModel)]="selectedCliente" (change)="onClienteChange()">
+              <option value="">Todos los Clientes</option>
+              <option *ngFor="let cliente of clientes" [value]="cliente.ID">
+                {{ cliente.Nombres }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+    <!-- Tabla Créditos (Disponibles) -->
+    <div class="section-container">
+        <h4 class="subtitle">Tabla Créditos</h4>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="table-light">
+              <tr>
+                <th *ngFor="let col of creditosColumns">{{ col.header }}</th>
+                <th class="text-center">Estado</th>
+                <th class="text-center">Castigar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let credito of filteredCreditos">
+                <td *ngFor="let col of creditosColumns">
+                  <span>{{ credito[col.field] }}</span>
+                </td>
+                <td class="text-center">
+                  <span>Vigente</span>
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-outline-primary" (click)="moveToCastigo(credito)" title="Mover a Castigo">
+                    <i class="bi bi-arrow-down"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Tabla Castigo (Créditos a castigar) -->
+    <div class="section-container">
+      <div class="card-header d-flex justify-content-between mb-3">
+        <h4 class="subtitle">Tabla Castigo</h4>
+        <button class="btn btn-danger me-2" (click)="castigarCreditos()">CASTIGAR</button>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="table-light">
+              <tr>
+                <th *ngFor="let col of creditosColumns">{{ col.header }}</th>
+                <th class="text-center">Devolver</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let credito of castigoData">
+                <td *ngFor="let col of creditosColumns">
+                  <span>{{ credito[col.field] }}</span>
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-outline-success" (click)="moveToCreditos(credito)" title="Devolver a Créditos">
+                    <i class="bi bi-arrow-up"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Tabla Créditos Castigados (con checkboxes para restablecer) -->
+    <div class="section-container">
+      <div class="card-header d-flex justify-content-between mb-3">
+        <h4 class="subtitle">Tabla Restablecer</h4>
+      <button class="btn btn-secondary" (click)="restablecer()">RESTABLECER</button>
+
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="table-light">
+              <tr>
+                <th *ngFor="let col of creditosColumns">{{ col.header }}</th>
+                <th class="text-center">Seleccionar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let credito of castigadosData">
+                <td *ngFor="let col of creditosColumns">
+                  <span>{{ credito[col.field] }}</span>
+                </td>
+                <td class="text-center">
+                  <input type="checkbox" [(ngModel)]="credito.selected" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+  
+<div class="modal fade pop-pup-visible"
+     [ngClass]="{'show d-block': popupVisible}"
+     tabindex="-1"
+     [ngStyle]="{ 'background': 'rgba(0, 0, 0, 0.5)' }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>{{ popupMessage }}</p>
+        <button type="button" class="btn btn-primary" (click)="closePopup()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+.pop-pup-visible {
+    .modal-dialog {
+        transform: translateY(-50%);
+        top: 50%;
+        max-width: 300px;
+        margin: 0 auto;
+
+        p {
+            text-align: center;
+
+        }
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            button {
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+
+thead tr th , tbody tr td , tfoot tr td {
+    @media (max-width: 500px){
+    font-size: 8px !important;
+    padding: 5px !important;
+    }
+}
+
+
+
+@media (max-width: 500px) {
+
+    .card-header {
+        flex-wrap: wrap;
+    }
+    button {
+        font-size: 8px !important;
+        padding: 4px 8px !important;
+        min-width: fit-content !important;
+        height: fit-content !important;
+        i {
+            font-size: 8px;
+        }
+    }
+}

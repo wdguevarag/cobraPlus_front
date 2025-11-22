@@ -1,0 +1,17 @@
+<div class="document-menu">
+    <button class="btn" *ngFor="let doc of documentos" (click)="onSelectDocument(doc)">
+      {{ doc.nombre }}
+    </button>
+</div>
+
+<div class="document-preview" *ngIf="selectedDocument">
+    <iframe [src]="safeUrl" frameborder="0"></iframe>
+</div>
+  
+
+
+
+
+  
+
+  

@@ -1,0 +1,9 @@
+thead tr th {
+    min-width: fit-content;
+}
+
+.col-md-6 .row {
+    @media(max-width: 767px) {
+        margin-bottom: 20px !important;
+    }
+}

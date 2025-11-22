@@ -1,0 +1,38 @@
+<div>
+    <div class="section-container-title">
+        <h3 class="title">Geolocalizacion del Gestor</h3>
+    </div>
+    <div class="section-container">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="date" id="fecha" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label for="analista" class="form-label">Analista</label>
+                <select id="analista" class="form-control">
+                    <option value="Juan-Carlos" selected>Juan Carlos</option>
+                    <option value="Xiomara Palacios">Xiomara Palacios</option>
+                    <option value="Maria Fernandez">Maria Fernandez</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="tipoMapa" class="form-label">Tipo Mapa</label>
+                <select id="tipoMapa" class="form-control">
+                    <option value="Paradas" selected>Paradas</option>
+                    <option value="Clientes">Clientes</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="MostrarFiltro" class="form-label">Mostrar Filtros</label>
+                <input type="checkbox" id="MostrarFiltro" style="display: block; margin: 10px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-container">
+        <div style="height: 600px;">
+            <app-general-map></app-general-map>
+        </div>
+    </div>
+</div>

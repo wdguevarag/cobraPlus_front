@@ -1,0 +1,218 @@
+<div *ngIf="isLoading" class="spinner-container">
+  <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <span class="spinner-border"></span>
+  </div>
+</div>
+
+
+
+<div *ngIf="!isLoading">
+  <div *ngIf="singleEmpresaData ; else noData">
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+          <h3 class="title">{{ isEditing ? 'Editar Empresa : ' : 'Detalles de la Empresa : ' }} <span class="text-muted"> {{singleEmpresaData.Nombre}} (Cod {{singleEmpresaData.ID}}) </span></h3>
+          <app-general-plus-check-btn 
+          tipo="edit-single" 
+          (editStateChanged)="isEditing = $event">
+          </app-general-plus-check-btn>
+    </div> 
+  
+    <div *ngIf="!isEditing">
+
+      <div class="section-container-img-form row">
+        <div class="section-container-img col-md-4">
+          <div class="contenedor-images">
+            <div class="contenedor-image">
+              <label class="form-label">Firma de la Empresa</label>
+              <img [src]="page_url + singleEmpresaData.Firma" class="img-fluid rounded border" alt="Firma" style="max-height: 200px; object-fit: contain;">
+            </div>
+            </div>
+        </div>
+
+        <div class="section-container col-md-8">
+            <form>
+              <div class="row mb-3 datos-container">
+                <div class="col-md-4">
+                    <label class="form-label ">Nombre</label>
+                    <input class="form-control" value="{{ singleEmpresaData.Nombre }} " readonly />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label ">Descripcion</label>
+                    <input class="form-control" value="{{ singleEmpresaData.Descripcion }} " readonly />
+                </div>
+                <div class="col-md-4">
+                      <label class="form-label ">RUC</label>
+                      <input class="form-control" value="{{ singleEmpresaData.RUC }} " readonly />
+                </div>
+    
+                <div class="text-start col-md-6">
+                    <label class="form-label ">Razón Social</label>
+                    <input class="form-control" value="{{ singleEmpresaData.Razon_Social }} " readonly />
+                </div>
+                <div class="text-start col-md-6">
+                    <label class="form-label ">Agente</label>
+                    <input class="form-control" value="{{ singleEmpresaData.Agente }} " readonly />
+                </div>
+    
+
+                <div class="text-start col-md-4">
+                    <label class="form-label ">Nombre Corto</label>
+                    <input class="form-control" value="{{ singleEmpresaData.Nombre_Corto }} " readonly />
+                </div>
+                <div class="text-start col-md-4">
+                  <label for="Direccion" class="form-label ">Direccion</label>
+                  <input class="form-control" value="{{ singleEmpresaData.Direccion }} " readonly />
+                </div>
+                <div class="text-start col-md-4">
+                  <label class="form-label ">Estado</label>
+                  <input class="form-control"  value=" {{ singleEmpresaData.Estado == 1 ? 'Activo' : 'Inactivo'}}" readonly />
+                </div>
+    
+              </div>
+    
+            </form>
+    
+        </div>
+      </div>
+
+
+
+ 
+      <div *ngIf="usuarioData.length > 0" class="section-container mb-0">
+        <h4 class="subtitle mb-4">Usuario Administrador</h4>
+          <app-general-table 
+          [columns]="usuarioColumns" 
+          [data]="usuarioData"
+          (rowClick)="onRowClick($event)"
+          >
+        </app-general-table>
+      </div>
+
+      <div class="section-container bg-transparent mb-0">
+        <button class="btn btn-primary d-flex align-items-center" (click)="mostrarNuevoUsuarioEmpresa = true">
+          <i class="bi bi-plus-circle me-2"></i>
+          CREAR USUARIO EMPRESA
+        </button>
+      </div>
+      
+      <div *ngIf="mostrarNuevoUsuarioEmpresa">
+        <app-nuevo-usuario-empresa [empresaId]="singleEmpresaData.ID"></app-nuevo-usuario-empresa>
+        <div class="bg-transparent">
+          <button class="btn btn-secondary d-flex align-items-center" (click)="mostrarNuevoUsuarioEmpresa = false">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+      
+     
+    </div>
+  
+    <div  *ngIf="isEditing" >
+      <form [formGroup]="empresaForm" class="form" >
+          <div class="section-container-img-form row">
+
+            <div class="section-container-img col-md-4">
+                <div class="contenedor-images">
+                  <div class="contenedor-image">
+                    <label class="form-label">Firma de la Empresa</label>
+                    <app-general-upload-input-img
+                      type="edit"
+                      [currentImage]="page_url + singleEmpresaData.Firma"
+                      (fileSelected)="onFileSelected($event, 'Firma')">
+                    </app-general-upload-input-img>
+                  </div>
+                
+                </div>
+            </div>
+
+            <div class="section-container col-md-8">
+
+              <div class="row mb-3 datos-container">
+
+                <div class="text-start col-md-4">
+                    <label for="nombre" class="form-label ">Nombre</label>
+                    <input class="form-control" id="nombre" formControlName="Nombre" />
+                </div>
+
+                <div class="text-start col-md-4">
+                      <label for="RUC" class="form-label ">RUC</label>
+                      <input class="form-control" id="RUC" type="number" formControlName="RUC" />
+                </div>
+                <div class="text-start col-md-4">
+                  <label for="razonSocial" class="form-label ">Razón Social</label>
+                  <input class="form-control" id="razonSocial" formControlName="Razon_Social"   />
+                </div>
+
+
+                <div class="text-start col-md-6">
+                    <label for="nombreCorto" class="form-label ">Nombre Corto</label>
+                    <input class="form-control" id="nombreCorto" formControlName="Nombre_Corto" />
+                </div>
+
+                <div class="text-start col-md-6">
+                    <label for="agente" class="form-label ">Agente</label>
+                    <input class="form-control" id="agente" formControlName="Agente" />
+                </div>
+
+
+
+
+                <div class="text-start col-md-4">
+                    <label class="form-label fw-bold">Direccion</label>
+                    <input class="form-control" formControlName="Direccion" />
+                </div>
+                <div class="text-start col-md-4">
+                  <label class="form-label fw-bold">Descripción</label>
+                  <input class="form-control" formControlName="Descripcion" />
+                </div>
+
+                <div class="col-md-4 text-start">
+                  <label class="form-label">Estado</label>
+                  <div class="d-flex py-2 gap-2 align-items-center">
+                      <app-general-plus-check-btn 
+                      tipo="toggle" 
+                      [currentValue]="empresaForm.get('Estado')?.value" 
+                      [onToggle]="updateEstado">
+                      </app-general-plus-check-btn>
+                      <input type="hidden" formControlName="Estado">
+                      <span class="form-label mb-0">{{ empresaForm.get('Estado')?.value == 1 ? 'Activo' : 'Inactivo' }}</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="d-flex justify-content-end">
+            <app-submit-form 
+            [form]="empresaForm" 
+            [submitFn]="submitFn.bind(this)" 
+            label="Actualizar Empresa">
+            </app-submit-form>
+          </div>
+      </form>
+    </div>
+  </div>
+  
+  <ng-template #noData>
+    <p>No se encontraron datos para esta Empresa.</p>
+  </ng-template>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

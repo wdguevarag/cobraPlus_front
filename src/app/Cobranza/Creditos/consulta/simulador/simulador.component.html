@@ -1,0 +1,262 @@
+<div class="section-container-title">
+  <h3 class="title">Simulador de Crédito</h3>
+</div>
+
+<div class="section-container">
+  <div class="row mb-4 datos-container">
+    <div class="col-md-3 text-start">
+      <label for="prestamo" class="form-label">Préstamo</label>
+      <input
+        type="number"
+        class="form-control"
+        id="prestamo"
+        [(ngModel)]="prestamo"
+        name="prestamo"
+        [ngClass]="{ 'input-error': errores.prestamo }"
+      />
+      <small class="text-danger" *ngIf="errores.prestamo">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="periodicidad" class="form-label">Periodicidad</label>
+      <select
+        id="periodicidad"
+        class="form-control"
+        [(ngModel)]="periodicidadSeleccionado"
+        name="periodicidad"
+        [ngClass]="{ 'input-error': errores.periodicidad }"
+      >
+        <option value="" disabled selected>-- Selecciona periodicidad --</option>
+        <option *ngFor="let p of periodicidades" [value]="p.Nombre">{{ p.Nombre }}</option>
+      </select>
+      <small class="text-danger" *ngIf="errores.periodicidad">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="nro_periodos" class="form-label">N° Periodos</label>
+      <input
+        type="number"
+        class="form-control"
+        id="nro_periodos"
+        [(ngModel)]="nro_periodos"
+        name="nro_periodos"
+        [ngClass]="{ 'input-error': errores.nro_periodos }"
+      />
+      <small class="text-danger" *ngIf="errores.nro_periodos">Debe ser mayor a 0</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="tipo_p_gracia" class="form-label">Tipo P. Gracia</label>
+      <select
+        name="tipo_p_gracia"
+        id="tipo_p_gracia"
+        class="form-control"
+        [(ngModel)]="tipo_p_gracia"
+        [ngClass]="{ 'input-error': errores.tipo_p_gracia }"
+      >
+        <option value="total">Total</option>
+        <option value="absoluto">Absoluto</option>
+      </select>
+      <small class="text-danger" *ngIf="errores.tipo_p_gracia">Campo obligatorio</small>
+    </div>
+  </div>
+ 
+  <div class="row mb-4 datos-container">
+    <div class="col-md-3 text-start">
+      <label for="nro_periodo_gracia" class="form-label">N° P. Gracia</label>
+      <input
+        type="number"
+        class="form-control"
+        id="nro_periodo_gracia"
+        [(ngModel)]="nro_periodo_gracia"
+        name="nro_periodo_gracia"
+        [ngClass]="{ 'input-error': errores.nro_periodo_gracia }"
+      />
+      <small class="text-danger" *ngIf="errores.nro_periodo_gracia">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="fecha_desembolso" class="form-label">F.Desembolso</label>
+      <input
+        type="date"
+        class="form-control"
+        id="fecha_desembolso"
+        [(ngModel)]="fecha_desembolso"
+        name="fecha_desembolso"
+        [ngClass]="{ 'input-error': errores.fecha_desembolso }"
+      />
+      <small class="text-danger" *ngIf="errores.fecha_desembolso">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="gasto_mensual" class="form-label">Gasto Mensual %</label>
+      <input
+        type="number"
+        id="gasto_mensual"
+        class="form-control"
+        [(ngModel)]="gasto_mensual"
+        name="gasto_mensual"
+        [ngClass]="{ 'input-error': errores.gasto_mensual }"
+      />
+      <small class="text-danger" *ngIf="errores.gasto_mensual">Campo obligatorio</small>
+    </div>
+    <div class="col-md-3 text-start mb-3 btn-generar-creditos mt-3">
+      <button mat-raised-button class="btn-letras" color="primary" (click)="generarDatosCredito()">Generar Cuotas</button>
+    </div>
+  </div>
+
+  <div class="row mb-4 datos-container">
+    <div class="col-md-3 text-start">
+      <label for="fecha_inicio" class="form-label">Primer Día de Pago</label>
+      <input type="date" class="form-control" id="fecha_inicio" [value]="fecha_inicio" readonly />
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="fecha_final" class="form-label">Último Día de Pago</label>
+      <input type="date" class="form-control" id="fecha_final" [value]="fecha_final" readonly />
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="tem_oficial" class="form-label">TEM Oficial %</label>
+      <input type="number" id="tem_oficial" class="form-control" [value]="tem_oficial" readonly />
+    </div>
+    <div class="col-md-3 text-start">
+      <label for="tea_oficial" class="form-label">TEA Oficial %</label>
+      <input type="number" id="tea_oficial" class="form-control" [(ngModel)]="tea_oficial" readonly />
+    </div>
+  </div>
+</div>
+
+<div class="section-container" *ngIf="cronogramaPrincipal.length > 0">
+  <div class="table-responsive">
+    <!-- Contenedor responsive -->
+    <table class="table table-bordered mt-3 tabla-cronograma">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th class="text-end">N° Cuota</th>
+          <th class="text-end" style="min-width: 60px;">Fecha</th>
+          <th class="text-end">Capital</th>
+          <th class="text-end">Interés</th>
+          <th class="text-end">IGV</th>
+          <th class="text-end">GAdm</th>
+          <th class="text-end">Cuota Total</th>
+          <th class="text-end">Saldo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of cronogramaPrincipal">
+          <td class="text-end">{{ c.nro_cuota }}</td>
+          <td class="text-end">{{ c.fecha_pago | date: 'dd-MM-yyyy' }}</td>
+          <td class="text-end">{{ c.amortizado | number: '1.2-2' : 'en-US' }}</td>
+          <td class="text-end">{{ c.interes | number: '1.2-2' : 'en-US' }}</td>
+          <td class="text-end">{{ c.igv | number: '1.2-2' : 'en-US' }}</td>
+          <td class="text-end">{{ c.gastos_adm | number: '1.2-2' : 'en-US' }}</td>
+          <td class="text-end">{{ c.cuota_total | number: '1.2-2' : 'en-US' }}</td>
+          <td class="text-end">{{ c.capital | number: '1.2-2' : 'en-US' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 
+
+<div class="section-container-title">
+    <h3>Simulador de Creditos</h3>
+</div>
+<div class="section-container">
+    <div>
+        <div class="row mb-4">
+            <div class="col-md-3 text-start">
+                <label for="prestamo" class="form-label">Prestamo</label>
+                <input type="number" class="form-control" id="prestamo" [(ngModel)]="prestamo" [ngClass]="{'input-error': errores.prestamo}">
+                <small class="text-danger" *ngIf="errores.prestamo">Campo obligatorio</small>
+            </div>
+            <div class="col-md-3 text-start">
+                <label for="periodicidad" class="form-label">Periodicidad</label>
+                <app-general-select-filter [service]="GrupoDeDatoService" method="getDetalleGrupoDatos"
+                    [idGrupo]="periodicidadCreditoID" fieldValue="ID" fieldContent="Nombre" name="periodicidad"
+                    [(ngModel)]="periodicidadSeleccionado" [ngClass]="{'input-error': errores.periodicidad}">
+                </app-general-select-filter>
+                <small class="text-danger" *ngIf="errores.periodicidad">Campo obligatorio</small>
+            </div>
+            <div class="col-md-3 text-start">
+                <label for="nro_periodos" class="form-label">N° Periodos</label>
+                <input type="number" class="form-control" id="nro_periodos" [(ngModel)]="nro_periodos" [ngClass]="{'input-error': errores.nro_periodos}">
+                <small class="text-danger" *ngIf="errores.nro_periodos">Debe ser mayor a 0</small>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-3 text-start">
+                <label for="tipo_p_gracia" class="form-label">Tipo P. Gracia</label>
+                <select name="tipo_p_gracia" id="tipo_p_gracia" class="form-control" [(ngModel)]="tipo_p_gracia" [ngClass]="{'input-error': errores.tipo_p_gracia}">
+                    <option value="total">Total</option>
+                    <option value="absoluto">Absoluto</option>
+                </select>
+                <small class="text-danger" *ngIf="errores.tipo_p_gracia">Campo obligatorio</small>
+            </div>
+            <div class="col-md-3 text-start">
+                <label for="nro_periodo_gracia" class="form-label">N° P. Gracia</label>
+                <input type="number" class="form-control" id="nro_periodo_gracia" [(ngModel)]="nro_periodo_gracia" [ngClass]="{'input-error': errores.nro_periodo_gracia}">
+                <small class="text-danger" *ngIf="errores.nro_periodo_gracia">Campo obligatorio</small>
+            </div>
+            <div class="col-md-3 text-start">
+                <label for="fecha_desembolso" class="form-label">F.Desembolso</label>
+                <input type="date" class="form-control" id="fecha_desembolso" [(ngModel)]="fecha_desembolso" [ngClass]="{'input-error': errores.fecha_desembolso}">
+                <small class="text-danger" *ngIf="errores.fecha_desembolso">Campo obligatorio</small>
+            </div>
+            <div class="col-md-3 text-start">
+                <label for="gasto_mensual" class="form-label">Gasto Mensual %</label>
+                <input type="number" id="gasto_mensual" class="form-control" [(ngModel)]="gasto_mensual" [ngClass]="{'input-error': errores.gasto_mensual}">
+                <small class="text-danger" *ngIf="errores.gasto_mensual">Campo obligatorio</small>
+            </div>
+        </div>
+        <div class="row mb-5 pt-1">
+            <div class="col-md-3 text-start mb-3 btn-generar-creditos">
+                <button mat-raised-button color="primary" (click)="generarDatosCredito()">
+                    Generar Cuotas
+                </button>
+            </div>
+        </div>
+        <div class="row mb-4 pt-1">
+            <div class="col-md-3 text-start">
+                <label for="fecha_inicio" class="form-label">Primer Día de Pago</label>
+                <input type="date" class="form-control" id="fecha_inicio" [(ngModel)]="fecha_inicio" readonly>
+            </div>
+            <div class="col-md-3 text-start">
+                <label for="fecha_final" class="form-label">Ultimo Día de Pago</label>
+                <input type="date" class="form-control" id="fecha_final" [(ngModel)]="fecha_final" readonly>
+            </div>
+            <div class="col-md-3 text-start">
+                <label for="tem_oficial" class="form-label">TEM Oficial %</label>
+                <input type="number" id="tem_oficial" class="form-control" value="2.50" readonly>
+            </div>
+            <div class="col-md-3 text-start">
+                <label for="tea_oficial" class="form-label">TEA Oficial %</label>
+                <input type="number" id="tea_oficial" class="form-control" [(ngModel)]="tea_oficial" readonly>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered mt-3 tabla-cronograma" *ngIf="cronogramaPrincipal.length > 0">
+        <thead>
+            <tr>
+                <th>N° Cuota</th>
+                <th>Fecha</th>
+                <th>Capital</th>
+                <th>Interés</th>
+                <th>IGV</th>
+                <th>GAdm</th>
+                <th>Amortizado</th>
+                <th>Cuota Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of cronogramaPrincipal">
+                <td>{{ item.nro_cuota }}</td>
+                <td>{{ item.fecha_pago | date: 'dd-MM-yyyy' }}</td>
+                <td>{{ item.capital }}</td>
+                <td>{{ item.interes }}</td>
+                <td>{{ item.igv }}</td>
+                <td>{{ item.gastos_adm }}</td>
+                <td>{{ item.amortizado }}</td>
+                <td>{{ item.cuota_total }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+-->

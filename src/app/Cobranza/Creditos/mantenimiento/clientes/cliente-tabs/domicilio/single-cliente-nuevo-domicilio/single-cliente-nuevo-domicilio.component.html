@@ -1,0 +1,261 @@
+<div> 
+  <div class="d-flex justify-content-between align-items-center">
+  <h4 class="subtitle mb-4">Nuevo Domicilio Cliente: {{singleClienteData?.Nombre}} {{singleClienteData?.Apellido_Paterno}}</h4>
+    
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+
+  </div>
+
+  <form [formGroup]="clienteDomicilioForm" (ngSubmit)="submitFn(clienteDomicilioForm.value)">
+    <div class="section-container p-0 mb-0">
+      <div class="row datos-container">
+        <div class="col-md-12 text-start d-flex py-2 align-items-center gap-2">
+            <app-general-plus-check-btn 
+              tipo="toggle" 
+              [currentValue]="clienteDomicilioForm.get('Principal')?.value" 
+              [onToggle]="updatePrincipal">
+            </app-general-plus-check-btn>
+            <input type="hidden" formControlName="Principal">
+            <span class="form-label mb-0">{{ clienteDomicilioForm.get('Principal')?.value == 1 ? 'Principal' : 'No Principal' }}</span>
+        </div> 
+      </div>
+      <div class="row mb-3 datos-container" style="margin-bottom: 1rem !important;">
+        <div class="col-md-3">
+          <label for="tipoZona" class="form-label">Tipo Zona</label>
+            <app-dynamic-select 
+            formControlName="Tipo_Zona"
+            [groupId]="12"
+            [valueField]="'ID'"
+            [displayField]="'Nombre'"
+            placeholder="Seleccionar"
+            >
+            </app-dynamic-select>
+        </div>
+        <div class="col-md-3">
+          <label for="zona" class="form-label">Zona</label>
+          <input type="text" class="form-control" id="zona" formControlName="Zona" onlyMayus>
+        </div>
+        
+        <div class="col-md-3">
+          <label for="tipoVia" class="form-label">Tipo Vía</label>
+          <app-dynamic-select 
+          formControlName="Tipo_Via"
+          [groupId]="11"
+          [valueField]="'ID'"
+          [displayField]="'Nombre'"
+          placeholder="Seleccionar"
+          >
+          </app-dynamic-select>
+        </div>
+        <div class="col-md-3">
+          <label for="via" class="form-label">Vía</label>
+          <input type="text" class="form-control" id="via" formControlName="Via" onlyMayus>
+        </div>
+
+
+        <div class="col-md-12">
+          <label for="direccion" class="form-label">Dirección</label>
+          <input type="text" class="form-control" id="direccion" formControlName="Direccion" onlyMayus>
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Nro</label>
+          <input type="text" class="form-control" formControlName="Nro" onlyNumbers>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Dpto</label>
+          <input type="text" class="form-control" formControlName="Dpto" onlyNumbers >
+        </div>
+        <div class="col-md-1">
+          <label class="form-label">Int</label>
+          <input type="text" class="form-control" formControlName="Interior" onlyNumbers>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Parcela</label>
+          <input type="text" class="form-control" formControlName="Parcela" onlyNumbers>
+        </div>
+        <div class="col-md-1">
+          <label class="form-label">Mz</label>
+          <input type="text" class="form-control" formControlName="Mz" >
+        </div>
+        <div class="col-md-1">
+          <label class="form-label">Lote</label>
+          <input type="text" class="form-control" formControlName="Lote" onlyNumbers>
+        </div>
+        <div class="col-md-3">
+          <label for="etapa" class="form-label">Etapa</label>
+          <input type="text" class="form-control" formControlName="Etapa" onlyMayus>
+        </div>
+
+
+
+        <div class="col-md-3">
+          <label for="referencia" class="form-label">Referencia</label>
+          <input type="text" class="form-control" id="referencia" formControlName="Referencia" onlyMayus>
+        </div>
+        <div class="col-md-3">
+          <label for="tipoVivienda" class="form-label">Tipo de Vivienda</label>
+          <app-dynamic-select 
+          formControlName="Tipo_Vivienda"
+          [groupId]="13"
+          [valueField]="'ID'"
+          [displayField]="'Nombre'"
+          placeholder="Seleccionar"
+          >
+          </app-dynamic-select>
+        </div>
+        <div class="col-md-3">
+          <label for="material" class="form-label">Material</label>
+          <app-dynamic-select 
+                  formControlName="Material"
+                  [groupId]="14"
+                  [valueField]="'ID'"
+                  [displayField]="'Nombre'"
+                  placeholder="Seleccionar"
+                  >
+          </app-dynamic-select>
+        </div>
+        <div class="col-md-3">
+          <label for="Anios_Residencia" class="form-label">Años de Residencia</label>
+          <input type="number" class="form-control" id="Anios_Residencia" formControlName="Anios_Residencia" onlyNumbers>
+        </div>
+
+
+        <div class="col-md-3">
+          <label for="Coordenada_Y" class="form-label ">Coordenada Y</label>
+          <input type="number" class="form-control" id="Coordenada_Y" formControlName="Coordenada_Y" >
+        </div> 
+        <div class="col-md-3">
+          <label for="Coordenada_X" class="form-label ">Coordenada X</label>
+          <input type="number" class="form-control" id="Coordenada_X" formControlName="Coordenada_X" >
+        </div> 
+        <div class="col-md-3">
+          <label for="ubicacion" class="form-label">Ubicación</label>
+          <app-general-input-ubicacion  formControlName="Ubicacion">
+          </app-general-input-ubicacion>
+        </div>
+
+
+        <div class="col-md-1 text-start">
+          <label class="form-label">Agua</label>
+          <div class="d-flex py-0 align-items-center gap-2">
+            <app-general-plus-check-btn 
+              tipo="toggle" 
+              [currentValue]="clienteDomicilioForm.get('Agua')?.value" 
+              [onToggle]="updateAgua">
+            </app-general-plus-check-btn>
+            <input type="hidden" formControlName="Agua">
+            <span class="form-label mb-0">{{ clienteDomicilioForm.get('Agua')?.value == 1 ? 'Si' : 'No' }}</span>
+          </div>
+        </div>
+        <div class="col-md-1 text-start">
+          <label class="form-label">Luz</label>
+          <div class="d-flex py-0 align-items-center gap-2">
+            <app-general-plus-check-btn 
+              tipo="toggle" 
+              [currentValue]="clienteDomicilioForm.get('Luz')?.value" 
+              [onToggle]="updateLuz">
+            </app-general-plus-check-btn>
+            <input type="hidden" formControlName="Luz">
+            <span class="form-label mb-0">{{ clienteDomicilioForm.get('Luz')?.value == 1 ? 'Si' : 'No' }}</span>
+          </div>
+        </div>
+        <div class="col-md-1 text-start">
+          <label class="form-label">Desague</label>
+          <div class="d-flex py-0 align-items-center gap-2">
+            <app-general-plus-check-btn 
+              tipo="toggle" 
+              [currentValue]="clienteDomicilioForm.get('Desague')?.value" 
+              [onToggle]="updateDesague">
+            </app-general-plus-check-btn>
+            <input type="hidden" formControlName="Desague">
+            <span class="form-label mb-0">{{ clienteDomicilioForm.get('Desague')?.value == 1 ? 'Si' : 'No' }}</span>
+          </div>
+        </div>
+        <div class="col-md-1 text-start">
+          <label class="form-label">Telefono</label>
+          <div class="d-flex py-0 align-items-center gap-2">
+            <app-general-plus-check-btn 
+              tipo="toggle" 
+              [currentValue]="clienteDomicilioForm.get('Telefono')?.value" 
+              [onToggle]="updateTelefono">
+            </app-general-plus-check-btn>
+            <input type="hidden" formControlName="Telefono">
+            <span class="form-label mb-0">{{ clienteDomicilioForm.get('Telefono')?.value == 1 ? 'Si' : 'No' }}</span>
+          </div>
+        </div>
+        <div class="col-md-1 text-start">
+          <label class="form-label">Cable</label>
+          <div class="d-flex py-0 align-items-center gap-2">
+            <app-general-plus-check-btn 
+              tipo="toggle" 
+              [currentValue]="clienteDomicilioForm.get('Cable')?.value" 
+              [onToggle]="updateCable">
+            </app-general-plus-check-btn>
+            <input type="hidden" formControlName="Cable">
+            <span class="form-label mb-0">{{ clienteDomicilioForm.get('Cable')?.value == 1 ? 'Si' : 'No' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6" style="min-height: 200px;">
+          <app-general-upload-input-img 
+          type="new" 
+          [aspectRatio]="11/9"  
+          [width]="'100%'"
+          [height]="'100%'"        
+          (fileSelected)="onFileSelected($event, 'Foto_Domicilio')
+          ">
+          </app-general-upload-input-img>
+        </div> 
+
+        <div class="col-md-6">
+          <iframe 
+            width="100%" 
+            height="350" 
+            style="border:0"
+            class="iframe-maps"
+            [src]="mapUrl"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center mt-5">
+      <app-submit-form 
+      [form]="clienteDomicilioForm" 
+      [submitFn]="submitFn.bind(this)" 
+      label="Crear Domicilio"
+      [requiredFields]="
+      [
+        'Cliente_ID',
+        'Tipo_Zona',
+        'Zona',
+        'Tipo_Via',
+        'Via',
+        'Direccion',
+        'Referencia',
+        'Tipo_Vivienda',
+        'Material',
+        'Anios_Residencia',
+        'Agua',
+        'Luz',
+        'Desague',
+        'Telefono',
+        'Cable',
+        'Foto_Domicilio',
+        'Coordenada_Y',
+        'Coordenada_X',
+        'Ubicacion',
+      ]"
+      [reload]="true">
+    </app-submit-form>      
+    </div>
+  </form>
+</div>
+  

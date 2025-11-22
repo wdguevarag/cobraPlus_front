@@ -1,0 +1,97 @@
+<div class="pt-5">
+    <app-general-tab-container [tabs]="consultasCreditosTabs" [type]="'top'">
+
+        <ng-template>
+            <div class="section-container">
+                <h4 class="subtitle mb-5">Consulta Credito</h4>
+                <div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-start">
+                            <label for="id" class="form-label">N° Crédito</label>
+                            <input type="text" class="form-control" id="id" value="{{creditoClientData.ID_Credito}}"
+                                readonly>
+                        </div>
+                        <div class="col-md-4 text-start">
+                            <label for="analista" class="form-label">Asesor</label>
+                            <input type="text" class="form-control" id="analista" value="{{creditoClientData.Asesor}}"
+                                readonly>
+                        </div>
+                        <div class="col-md-4 text-start">
+                            <label class="form-label">Tipo de Credito</label>
+                            <input type="text" class="form-control" value="{{creditoClientData.Tipo_Solicitud}}"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2 text-start">
+                            <label for="doc" class="form-label">Tipo Documento</label>
+                            <input type="text" class="form-control" id="doc"
+                                value="{{creditoClientData.Tipo_Documento_Nombre}}" readonly>
+                        </div>
+                        <div class="col-md-3 text-start">
+                            <label for="doc" class="form-label">{{creditoClientData.Tipo_Documento_Nombre}}</label>
+                            <input type="text" class="form-control" id="doc" value="{{creditoClientData.Documento}}"
+                                readonly>
+                        </div>
+                        <div class="col-md-7 text-start">
+                            <label for="cliente" class="form-label">Cliente</label>
+                            <input type="text" class="form-control" id="cliente"
+                                [value]="creditoClientData?.Nombres + ' ' + creditoClientData?.Apellido_Paterno + ' ' + creditoClientData?.Apellido_Materno"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3 text-start">
+                            <label for="atraso" class="form-label">Atraso</label>
+                            <input type="text" class="form-control" id="atraso"
+                                value="{{creditoClientData.Atraso_Primera_Cuota}}" readonly>
+                        </div>
+                        <div class="col-md-3 text-start">
+                            <label for="estado" class="form-label">Estado</label>
+                            <input type="text" class="form-control" id="estado"
+                                [value]="creditoClientData.Estado_Deuda === '0' ? 'Vigente' : 'Cancelado'" readonly>
+                        </div>
+                        <div class="col-md-3 text-start">
+                            <label for="prestamo" class="form-label">Saldo K</label>
+                            <input type="text" class="form-control" id="prestamo" value="{{creditoClientData.Prestamo}}"
+                                readonly>
+                        </div>
+                        <div class="col-md-3 text-start">
+                            <label for="prestamoActual" class="form-label">Deuda Act.</label>
+                            <input type="text" class="form-control" id="prestamoActual"
+                                value="{{creditoClientData.Prestamo_Actual}}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <mat-tab-group>
+                    <mat-tab label="Datos">
+                        <app-datos [credito_id]="creditoClientData.ID_Credito"></app-datos>
+                    </mat-tab>
+                    <mat-tab label="Cuotas Canceladas">
+                        <app-cuotas-canceladas [credito_id]="creditoClientData.ID_Credito"></app-cuotas-canceladas>
+                    </mat-tab>
+                    <mat-tab label="Deuda Calendario">
+                        <app-deuda-calendario [credito_id]="creditoClientData.ID_Credito"></app-deuda-calendario>
+                    </mat-tab>
+                    <mat-tab label="Deuda Fecha">
+                        <app-deuda-fecha [credito_id]="creditoClientData.ID_Credito"></app-deuda-fecha>
+                    </mat-tab>
+                    <mat-tab label="Kardex">
+                        <app-kardex [credito_id]="creditoClientData.ID_Credito"></app-kardex>
+                    </mat-tab>
+                    <mat-tab label="Estado Cuenta">
+                        <app-estado-cuenta [credito_id]="creditoClientData.ID_Credito"></app-estado-cuenta>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </ng-template>
+
+        <ng-template>
+            <div class="section-container">
+                <app-single-cliente [type]="'fic'" [singleClienteIdInput]="creditoClientData.ID_Cliente"></app-single-cliente>
+                <app-cliente-tabs [singleClienteId]="creditoClientData.ID_Cliente" tipo="view"></app-cliente-tabs>
+            </div>
+        </ng-template>
+
+    </app-general-tab-container>
+</div>

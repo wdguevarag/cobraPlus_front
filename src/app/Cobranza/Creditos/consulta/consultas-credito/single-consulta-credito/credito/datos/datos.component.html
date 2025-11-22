@@ -1,0 +1,99 @@
+<div class="datos-component py-4">
+    <h4 class="mb-3">Condiciones</h4>
+    <div class="row pb-3">
+        <div class="col-md-6 text-start">
+            <label for="tipo_solicitud" class="form-label">Tipo Solicitud</label>
+            <input type="text" class="form-control" id="tipo_solicitud"  [(ngModel)]="creditoData[0].Tipo_Solicitud" readonly>
+        </div>
+    </div>
+    <div class="row pb-3">
+        <div class="col-md-3 text-start">
+            <label for="destino" class="form-label">Destino</label>
+            <input type="text" class="form-control" id="destino" [(ngModel)]="creditoData[0].Destino" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="periodicidad" class="form-label">Periodicidad</label>
+            <input type="text" class="form-control" id="periodicidad" [(ngModel)]="creditoData[0].Periodicidad" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="prestamo" class="form-label">Prestamo</label>
+            <input type="text" class="form-control" id="prestamo" [(ngModel)]="creditoData[0].Prestamo" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="nro_periodos" class="form-label">Nro. Periodos</label>
+            <input type="text" class="form-control" id="nro_periodos" [(ngModel)]="creditoData[0].Nro_Periodos" readonly>
+        </div>
+    </div>
+    <div class="row pb-3">
+        <div class="col-md-3 text-start">
+            <label for="tipo_p_gracia" class="form-label">Tipo P. Gracia</label>
+            <input type="text" class="form-control" id="tipo_p_gracia" [(ngModel)]="creditoData[0].Tipo_P_Gracia" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="nro_p_gracia" class="form-label">Nro_P_Gracia</label>
+            <input type="text" class="form-control" id="nro_p_gracia" [(ngModel)]="creditoData[0].Nro_P_Gracia" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="desembolso" class="form-label">F. Desembolso</label>
+            <input type="text" class="form-control" id="desembolso" [(ngModel)]="creditoData[0].Fecha_Desembolso" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="gasto_mensual" class="form-label">Gasto_Mensual %</label>
+            <input type="text" class="form-control" id="gasto_mensual" [(ngModel)]="creditoData[0].Gasto_Mensual" readonly>
+        </div>
+    </div>
+    <div class="row pb-3">
+        <div class="col-md-3 text-start">
+            <label for="nro_creditos" class="form-label">N° Creditos</label>
+            <input type="text" class="form-control" id="nro_creditos" value="1" readonly>
+        </div>
+
+
+
+        <div class="col-md-3 text-start">
+            <label for="tem" class="form-label">TEM %</label>
+            <input type="text" class="form-control" id="tem"
+                [value]="creditoData[0].TEM_Oficial | number:'1.0-2'" readonly>
+        </div>
+
+        <div class="col-md-3 text-start">
+            <label for="tea" class="form-label">TEA %</label>
+            <input type="text" class="form-control" id="tea"
+                [value]="creditoData[0].TEA_Oficial | number:'1.0-2'" readonly>
+        </div>
+
+        <div class="col-md-3 text-start">
+            <label for="monto_cuota" class="form-label">Monto Cuota</label>
+            <input type="text" class="form-control" id="monto_cuota" [(ngModel)]="creditoData[0].Monto_Cuota" readonly>
+        </div>    
+    </div>
+    <h4 class="mb-3 mt-2">Importes</h4>
+    <div class="row pb-3">
+        <div class="col-md-3 text-start">
+            <label for="nro_op" class="form-label">Nro OP.</label>
+            <input type="text" class="form-control" id="nro_op" [(ngModel)]="creditoData[0].ID_Desembolso" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="monto_transferido" class="form-label">Monto</label>
+            <input type="text" class="form-control" id="monto_transferido" [(ngModel)]="creditoData[0].Total_Entregar" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="banco_transferencia" class="form-label">Banco</label>
+            <input type="text" class="form-control" id="banco_transferencia" [(ngModel)]="creditoData[0].Banco_Destino" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="cancelaciones_transferencia" class="form-label">Cancelaciones</label>
+            <input type="text" class="form-control" id="cancelaciones_transferencia" [(ngModel)]="creditoData[0].Cancelaciones" readonly>
+        </div>    
+    </div>
+    <div class="row pb-3">
+        <div class="col-md-3 text-start">
+            <label for="pago_adelantado" class="form-label">Pag. Adelantado</label>
+            <input type="text" class="form-control" id="pago_adelantado" [(ngModel)]="creditoData[0].Pago_Adelantado" readonly>
+        </div>
+        <div class="col-md-3 text-start">
+            <label for="pago_voluntario" class="form-label">Pag. Voluntario</label>
+            <input type="text" class="form-control" id="pago_voluntario" [(ngModel)]="creditoData[0].Pago_Voluntario" readonly>
+        </div>    
+    </div>
+</div>

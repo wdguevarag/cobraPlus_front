@@ -1,0 +1,10 @@
+.row {
+    row-gap: 1rem;
+    @media(max-width: 767px) {
+        width: 100%; 
+        display: flex !important;
+        .col-md-6 , .col-md-2 , .col-md-4 , .col-md-3{
+            width: 50% !important;
+        }
+    }
+}

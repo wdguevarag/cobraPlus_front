@@ -1,0 +1,47 @@
+<div class="input-general-container " [style.width]="width" [style.height]="height">
+  <div class="input-file-container"
+       (dragover)="onDragOver($event)"
+       (drop)="onDrop($event)"
+       (click)="isCropMode ? null : fileInput.click()">
+
+    <!-- Modo recorte -->
+    <div *ngIf="isCropMode" class="cropper-container">
+      <image-cropper 
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="false"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+          [style.width]="width"
+          [style.height]="height">
+      </image-cropper>
+      <div class="crop-buttons">
+        <button (click)="applyCrop()" class="btn-save">Aplicar Recorte</button>
+        <button (click)="cancelCrop()" class="btn-cancel">Cancelar Recorte</button>
+      </div>
+    </div>
+
+    <!-- Modo visualización -->
+    <ng-container *ngIf="!isCropMode">
+      <ng-container *ngIf="previewUrl">
+        <img [src]="previewUrl" alt="Previsualización" class="image-preview" />
+      </ng-container>
+      <ng-container *ngIf="!previewUrl && type === 'edit' && currentImage">
+        <img [src]="currentImage" alt="Imagen actual" class="image-preview" />
+      </ng-container>
+      <ng-container *ngIf="!previewUrl && (!currentImage || type === 'new')">
+        <div class="placeholder">
+          <i class="bi bi-camera fs-1"></i>
+          <p>Arrastra o haz click para seleccionar imagen</p>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <!-- Botones superpuestos -->
+  <div *ngIf="previewUrl && !isCropMode" class="overlay-buttons">
+    <button (click)="saveImage()" class="btn-save">Guardar</button>
+    <button (click)="enableCrop()" class="btn-crop">Recortar</button>
+  </div>
+
+  <input type="file" #fileInput (change)="onFileChange($event)" hidden />
+</div>

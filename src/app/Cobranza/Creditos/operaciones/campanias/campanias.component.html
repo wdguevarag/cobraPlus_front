@@ -1,0 +1,295 @@
+<div>
+    <div class="section-container-title d-flex justify-content-between align-items-center">
+      <h3 class="title">Campañas</h3>
+    </div> 
+   
+
+    <app-general-tab-container [tabs]="campaniasTabs">
+
+
+
+      <ng-template>
+
+        <div class="section-container">
+
+          <div>
+            <div class="row mb-3 datos-container">
+         
+              <div class="col-md-3">
+                <label class="form-label">Analista:</label>
+                <select #selectAsesor class="form-control" (change)="filtrarPorAsesor(selectAsesor.value)">
+                  <option value="">TODOS</option>
+                  <option *ngFor="let asesor of asesores" [value]="asesor">
+                    {{ asesor }}
+                  </option>
+                </select>
+              </div>
+              
+
+              <div class="col-md-3">
+                <label class="form-label">Estado:</label>
+                <select #estadoSelect class="form-control" (change)="filtrarPorEstado(estadoSelect.value)">
+                  <option value="0">TODOS</option>
+                  <option value="1">APROBADA</option>
+                  <option value="2">ANULADA</option>
+                  <option value="3">POR VALIDAR</option>
+                </select>
+              </div>
+              
+    
+              <div class="col-md-2 d-flex justify-content-center align-items-center container-datos">
+                <label class="form-label fs-4 fw-semibold me-2 mb-0">Total:</label>
+                <span class="form-label fs-5 mb-0">{{TotalClientes}}</span>
+              </div>
+
+              <div class="col-md-2 d-flex justify-content-center align-items-center container-datos">
+                <label class="form-label fs-4 fw-semibold me-2 mb-0">Monto:</label>
+                <span class="form-label fs-5 mb-0">{{MontoTotal}}</span>
+              </div>
+
+              <div class="col-md-2 m-0 d-flex align-items-center justify-content-start gap-2 container-buttons">
+                <!-- Botón: Campañas Aprobadas -->
+                <button 
+                  class="btn btn-style"
+                  title="Campañas Aprobadas"
+                  (click)="filtrarCampaniasAprobadas()">
+                  <i 
+                    [ngClass]="ordenCampaniasAprobadas ? 'bi bi-check-lg' : 'bi bi-x-lg'" 
+                    class="fs-4">
+                  </i>
+                </button>
+    
+                <!-- Botón: Ordenar por Monto -->
+                  <button 
+                  class="btn btn-style"
+                  title="Ordenar por Monto"
+                  (click)="ordenarPorMonto()">
+                  <i 
+                    [ngClass]="ordenAscendente ? 'bi bi-sort-numeric-up-alt' : 'bi bi-sort-numeric-down-alt'" 
+                    class="fs-4">
+                  </i>
+                </button>
+    
+    
+              </div>
+
+            </div>
+    
+            <div class="table-responsive">
+              <table class="table table-white table-bordered">
+                <thead class="table-secondary">
+                  <tr>
+                    <th>ID Campania</th>
+                    <th style="min-width: 60px;">Cliente</th>
+                    <th style="min-width: 60px;">Asesor</th>
+                    <th style="min-width: 60px;">Fecha Oferta</th>
+
+                    <th>Credito_ID Anterior</th>
+
+                    <th>Monto</th>
+
+                    <th>Periodicidad</th>
+                    <th>Cuotas Pendientes</th>
+
+                    
+                    <th>Estado</th>
+                    <th>Anular</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let campania of campaniasData"  (click)="irADetalleCampania(campania.ID)" >
+
+                    <td>{{ campania.ID }}</td>
+                    <td>{{ campania.Cliente_Nombre + ' ' +  campania.Cliente_Apellido_Paterno }}</td>
+                    <td>{{ campania.Cliente_Asesor_Nombre + ' ' + campania.Cliente_Asesor_Apellido }}</td>
+                    <td>{{ campania.Fecha_Oferta }}</td>
+
+                    <td>{{ campania.Credito_ID }}</td>
+
+                    <td>{{ campania.Monto }}</td>
+
+                    <td>{{ campania.Credito_Periodicidad }}</td>
+                    <td>{{ campania.Cuotas_Pendientes }}</td>
+
+
+                    <td>
+                      {{
+                        campania.Estado_Anulado == 1
+                          ? 'ANULADO'
+                          : (campania.Estado == 1 ? 'APROBADO' : 'POR VALIDAR')
+                      }}
+                    </td>
+                    
+                    <td>
+
+                      <button 
+                      class="btn text-white btn-anular btn-letras" 
+                      (click)="showConfirm(campania); $event.stopPropagation()" 
+                      [disabled]="campania.isAnulando" 
+                      [style.opacity]="campania.isAnulando ? 0.8 : 1">
+                      Anular
+                    </button>
+
+                    
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              
+            </div>
+    
+      
+          </div>
+        </div>
+
+
+      </ng-template>
+      
+      
+
+
+      <ng-template>
+        <div class="section-container">
+          <div class="row mb-4">
+            <div class="col-md-4">
+              <label class="form-label">Analista</label>
+              <!-- Usamos una referencia de template para obtener el value del select -->
+              <select #selectAsesorResumen class="form-control" (change)="filtrarResumenPorAsesor(selectAsesorResumen.value)">
+                <option value="">Seleccione un Analista</option>
+                <option *ngFor="let asesor of asesoresResumen" [value]="asesor.id">
+                  {{ asesor.nombre }}
+                </option>
+              </select>
+            </div>
+          </div>
+        
+
+            <!-- Tabla de Resumen Campaña -->
+            <div *ngIf="resumenCampaniaData" class="table-responsive">
+              <table class="table table-white table-bordered">
+                <thead class="table-secondary">
+                  <tr>
+                    <th></th>
+                    <th>Cantidad</th>
+                    <th>% Part.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>HPV</td>
+                    <td>{{ resumenCampaniaData.Asesor_Clientes_Numero }}</td>
+                    <td>{{ porcentajeHPV | number:'1.1-1' }}%</td>
+                  </tr>
+                  <tr>
+                    <td>{{ resumenCampaniaData.Nombre + ' ' + resumenCampaniaData.Apellido }}</td>
+                    <td>{{ resumenCampaniaData.Asesor_Clientes_Numero }}</td>
+                    <td>{{ porcentajeAsesor | number:'1.1-1' }}%</td>
+                  </tr>
+                  <tr>
+                    <td>TOTAL</td>
+                    <td>{{ totalClientes }}</td>
+                    <td>100%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+        </div>
+
+      </ng-template>
+      
+      
+
+      <ng-template>
+          <div class="section-container">
+            <div class="mb-4">
+              <div class="col-md-4">
+                <label class="form-label">Buscar Cliente Apto</label>
+                <div class="search-cliente-container">
+                  <input 
+                  class="form-control" 
+                  type="search" 
+                  [(ngModel)]="searchQuery" 
+                  (input)="onSearch($event)" 
+                  (keydown.enter)="seleccionarCliente(clientesFiltrados[0])">
+                
+                  <div *ngIf="clientesFiltrados.length > 0" class="search-list">
+                    <ul class="list-group">
+                      <li 
+                        *ngFor="let cliente of clientesFiltrados" 
+                        class="list-group-item" style="cursor: pointer;" 
+                        (click)="seleccionarCliente(cliente)">
+                        {{ cliente.Cliente_Nombre + ' ' + cliente.Cliente_Apellido_Paterno + ' ' + cliente.Cliente_Apellido_Materno }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+               
+              
+              </div>
+              <!-- Mostrar la lista de clientes filtrados -->
+            
+            </div>
+      
+      
+             
+            <div *ngIf="searchQuery && campaniasData.length > 0" class="table-responsive">
+              <table class="table table-white table-bordered">
+                <thead class="table-secondary">
+                  <tr>
+                    <th>Campaña ID</th>
+                    <th>Tipo Doc</th>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let campania of campaniasData" (click)="irADetalleCampania(campania.ID)" >
+                    <td>{{ campania.ID }}</td>
+                    <td>{{ campania.Cliente_Tipo_Doc_Nombre }}</td>
+                    <td>{{ campania.Cliente_Documento }}</td>
+                    <td>{{ campania.Cliente_Nombre }}</td>
+                    <td>{{ campania.Cliente_Apellido_Paterno }}</td>
+                    <td>{{ campania.Cliente_Apellido_Materno }}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+
+      </ng-template>
+      
+      
+      
+    </app-general-tab-container>
+      
+  </div>
+
+
+
+
+
+
+
+<div class="modal fade pop-pup-visible"
+     [ngClass]="{'show d-block': showConfirmModal}"
+     tabindex="-1"
+     [ngStyle]="{ 'background': 'rgba(0, 0, 0, 0.5)' }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+    <button type="button" class="btn-cerrar" (click)="hideConfirm()">X</button>
+        <h5 class="modal-title">Confirmar Anulación</h5>
+        <p>¿Desea Anular esta Campaña?</p>
+        <button type="button" class="btn btn-primary" (click)="confirmAnular()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

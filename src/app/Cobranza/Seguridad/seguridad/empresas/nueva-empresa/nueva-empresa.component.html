@@ -1,0 +1,69 @@
+<div class="section-container-title">
+  <h3 class="title">Nueva Empresa</h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+<form [formGroup]="empresaForm" class="form">
+  <div class="section-container-img-form row">
+    <div class="section-container-img col-md-4">
+      <div class="contenedor-images">
+        <div class="contenedor-image">
+          <label>Firma de la Empresa:</label>
+          <app-general-upload-input-img type="new" (fileSelected)="onFileSelected($event, 'Firma')"></app-general-upload-input-img>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-container col-md-8">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="Nombre" class="form-label">Nombre</label>
+          <input type="text" id="Nombre" class="form-control" formControlName="Nombre" name="Nombre" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="Nombre_Corto" class="form-label">Nombre Corto</label>
+          <input type="text" id="Nombre_Corto" class="form-control" formControlName="Nombre_Corto" name="Nombre_Corto" />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="Direccion" class="form-label">Direccion</label>
+          <app-general-input-ubicacion formControlName="Direccion"></app-general-input-ubicacion>
+        </div>
+        <div class="col-md-6">
+          <label for="RUC" class="form-label">RUC</label>
+          <input type="text" class="form-control" formControlName="RUC" onlyNumbers />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="Razon_Social" class="form-label">Razón Social</label>
+          <input type="text" id="Razon_Social" class="form-control" formControlName="Razon_Social" name="Razon_Social" />
+        </div>
+        <div class="col-md-6">
+          <label for="Descripcion" class="form-label">Descripción</label>
+          <input type="text" id="Descripcion" class="form-control" formControlName="Descripcion" name="Descripcion" />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="Agente" class="form-label">Agente</label>
+          <input type="text" id="Agente" class="form-control" formControlName="Agente" name="Agente" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end align-items-center">
+    <app-submit-form
+      [form]="empresaForm"
+      [submitFn]="submitFn.bind(this)"
+      label="Crear Empresa"
+      [requiredFields]="['Nombre', 'Nombre_Corto', 'Descripcion', 'Direccion', 'Razon_Social', 'RUC', 'Agente', 'Estado']"
+    ></app-submit-form>
+  </div>
+</form>

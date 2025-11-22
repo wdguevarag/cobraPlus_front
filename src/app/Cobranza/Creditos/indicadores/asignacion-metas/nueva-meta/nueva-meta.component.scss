@@ -1,0 +1,40 @@
+
+.tabla-vertical {
+  width: 100%;
+  border-collapse: collapse;
+  max-width: 600px;
+  margin: 0 auto;
+
+  th {
+    width: 40%;
+    text-align: left;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    font-weight: 600;
+    vertical-align: middle;
+    border: 1px solid #dee2e6;
+  }
+
+  td {
+    width: 60%;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+  }
+
+  input.form-control {
+    width: 100%;
+  }
+}
+
+
+
+table {
+  tr {
+    th , td {
+      @media(max-width: 767px) {
+        font-size: 10px !important;
+        padding: 0.5rem !important;
+      }
+    }
+  }
+}

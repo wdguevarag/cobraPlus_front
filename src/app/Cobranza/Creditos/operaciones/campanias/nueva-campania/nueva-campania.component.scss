@@ -1,0 +1,23 @@
+.search-box {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.custom-input {
+    border: none;
+    border-bottom: 1px solid #000;
+    border-radius: 0;
+    outline: none;
+}
+
+.custom-input:focus {
+    box-shadow: none;
+}

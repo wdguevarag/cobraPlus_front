@@ -1,0 +1,109 @@
+<div *ngIf="usuarioNivel === 'nivel1'" class="section-container-menu row">
+  <div class="row mb-3 justify-content-center">
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/aplicacion']" class="card-body">
+            <i class="bi bi-laptop display-5" style="color: #00B5AD"></i>
+            <h5 class="card-title mt-3">Aplicaciones</h5>
+            <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/modulo']" class="card-body">
+          <i class="bi bi-boxes display-5" style="color: #00B5AD"></i>
+          <h5 class="card-title mt-3">Modulos</h5>
+          <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/acceso']" class="card-body">
+          <i class="bi bi-door-closed display-5" style="color: #00B5AD"></i>
+          <h5 class="card-title mt-3">Accesos/ SubModulos</h5>
+          <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/rol']" class="card-body">
+          <i class="bi bi-person-badge display-5" style="color: #00B5AD"></i>
+          <h5 class="card-title mt-3">Rol</h5>
+          <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/empresa']" class="card-body">
+          <i class="bi bi-bank display-5" style="color: #00B5AD"></i>
+          <h5 class="card-title mt-3">Empresa</h5>
+          <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="usuarioNivel === 'nivel2'" class="section-container-menu row">
+  <div class="row mb-3 justify-content-center">
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/oficina']" class="card-body">
+          <i class="bi bi-key display-5" style="color: #00B5AD"></i>
+          <h5 class="card-title mt-3">Oficina</h5>
+          <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/rol']" class="card-body">
+          <i class="bi bi-person-badge display-5" style="color: #00B5AD"></i>
+          <h5 class="card-title mt-3">Rol</h5>
+          <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/usuario']" class="card-body">
+          <i class="bi bi-person-circle display-5" style="color: #00B5AD"></i>
+          <h5 class="card-title mt-3">Usuarios</h5>
+          <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card text-center shadow">
+        <a [routerLink]="['/seguridad/seguridad/empresa']" class="card-body">
+          <i class="bi bi-bank display-5" style="color: #00B5AD"></i>
+          <h5 class="card-title mt-3">Empresa</h5>
+          <i class="bi bi-arrow-right" style="color: #00B5AD"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="usuarioNivel === 'nivel3'" class="section-container-menu row">
+</div>
+
+
+
+
+
+

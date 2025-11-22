@@ -1,0 +1,89 @@
+<div class="section-container-title">
+  <h3 class="title">Nuevo Depósito a Banco</h3>
+  <app-general-back-btn [tipo]="'cancel'"></app-general-back-btn>
+</div>
+
+<form [formGroup]="depositoForm" class="form">
+  <div class="section-container">
+    <div class="row mb-3 justify-content-center">
+      <div class="col-md-2">
+        <label for="Fecha_Operacion" class="form-label">Fecha de operación</label>
+        <input type="date" id="Fecha_Operacion" class="form-control"
+               formControlName="v_Fecha_Operacion"  >
+        <small class="text-danger" *ngIf="errores['v_Fecha_Operacion']">
+          {{ errores['v_Fecha_Operacion'] }}
+        </small>
+      </div>
+
+      <div class="col-md-2">
+        <label for="Banco" class="form-label">Banco</label>
+
+      <app-dynamic-select 
+          formControlName="v_Banco"
+          [groupId]="8"
+          [valueField]="'ID'"
+          [displayField]="'Nombre'"
+          placeholder="Seleccionar">
+        </app-dynamic-select>
+    
+        <small class="text-danger" *ngIf="errores['v_Banco']">
+          {{ errores['v_Banco'] }}
+        </small>
+      </div>
+
+      <div class="col-md-2">
+        <label for="Monto" class="form-label">Monto</label>
+        <input type="number" id="Monto" class="form-control"
+               formControlName="v_Monto">
+        <small class="text-danger" *ngIf="errores['v_Monto']">
+          {{ errores['v_Monto'] }}
+        </small>
+      </div>
+
+      <div class="col-md-2">
+        <label for="Nro_Operacion" class="form-label">Nº de Operación</label>
+        <input type="text" id="Nro_Operacion" class="form-control"
+               formControlName="v_Nro_Operacion">
+        <small class="text-danger" *ngIf="errores['v_Nro_Operacion']">
+          {{ errores['v_Nro_Operacion'] }}
+        </small>
+      </div>
+
+      <div class="col-md-2">
+        <label for="Fecha_Voucher" class="form-label">Fecha de Voucher</label>
+        <input type="date" id="Fecha_Voucher" class="form-control"
+               formControlName="v_Fecha_Voucher"
+                >
+        <small class="text-danger" *ngIf="errores['v_Fecha_Voucher']">
+          {{ errores['v_Fecha_Voucher'] }}
+        </small>
+      </div>
+
+    </div>
+
+    <div class="row mb-3 justify-content-center">
+      <div class="col-md-6 d-flex flex-column align-items-center">
+        <div class="contenedor-image d-flex flex-column justify-content-center align-items-center p-3 h-100 w-100">
+          <label>Foto del voucher</label>
+          <app-general-upload-input-img
+            type="new"
+            [width]="'400px'"
+            [height]="'500px'"
+            [aspectRatio]="8/10"
+            (fileSelected)="onFileSelected($event, 'v_url_foto')">
+          </app-general-upload-input-img>
+          <small class="text-danger" *ngIf="errores['v_url_foto']">
+            {{ errores['v_url_foto'] }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="d-flex justify-content-end align-items-center mt-5">
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="isSubmitting || depositoForm.invalid">
+    <span *ngIf="!isSubmitting">Crear Depósito</span>
+    <span *ngIf="isSubmitting">Creando Depósito...</span>
+  </button>
+</div>

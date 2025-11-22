@@ -1,0 +1,14 @@
+<div class="section-container-title">
+    <h4 class="title">Lista de Parámetros</h4> 
+</div> 
+
+<div class="section-container">
+    <app-general-table 
+    [columns]="parametrosColumns" 
+    [data]="parametrosData" 
+    (rowClick)="onRowClick($event)" 
+    >
+    </app-general-table>
+</div>
+
+

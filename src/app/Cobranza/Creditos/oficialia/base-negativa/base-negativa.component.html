@@ -1,0 +1,38 @@
+<div>
+  <div class="section-container-title d-flex justify-content-between align-items-center">
+    <h3 class="title">Lista de Bases Negativas</h3>
+  </div> 
+  <div class="section-container">
+    <app-general-table 
+      [columns]="basesNegativasColumns" 
+      [data]="BasesNegativasData" 
+      (rowClick)="onRowClick($event)"
+      (buttonClick)="onButtonAction($event)">
+    </app-general-table>
+  </div>
+  
+  <div class="d-flex justify-content-end mt-5">
+    <app-general-plus-check-btn [tipo]="'plus'" [routerLink]="'./nueva-base-negativa'"></app-general-plus-check-btn>
+  </div>
+
+  <!-- Modal de comentario -->
+  <div *ngIf="showCommentModal" class="modal-backdrop-custom" (click)="closeModal()">
+    <div class="modal-custom p-4" (click)="$event.stopPropagation()">
+      <h5 class="modal-title">Comentario de levantamiento</h5>
+      <form [formGroup]="commentForm" (ngSubmit)="submitComment()">
+        <div class="form-group">
+          <textarea id="comentario" class="form-control" rows="4"
+            formControlName="comentario"
+            placeholder="Ingresa tu comentario..."></textarea>
+          <div *ngIf="commentForm.get('comentario')?.invalid && commentForm.get('comentario')?.touched" class="text-danger">
+            El comentario es obligatorio.
+          </div>
+        </div>
+        <div class="modal-footer mt-3 d-flex">
+          <button type="submit" class="btn btn-primary" [disabled]="commentForm.invalid">Enviar</button>
+        </div>
+      </form>
+      <button type="button" class="btn-cerrar" (click)="closeModal()">x</button>
+    </div>
+  </div>
+</div>

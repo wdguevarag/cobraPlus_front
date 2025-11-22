@@ -1,0 +1,282 @@
+<div *ngIf="singleCondonacionData">
+
+  <div class="section-container-title d-flex justify-content-between align-items-center">
+      <h3 class="title">Nueva Condonacion: Cliente {{singleCondonacionData.Nombres + ' ' + singleCondonacionData.Apellido_Paterno}} (Cod {{singleCondonacionData.ID}})</h3>
+  </div> 
+
+  <app-general-tab-container [type]="'top'" [tabs]="condonacionTabs">
+
+      <ng-template> 
+          <form [formGroup]="condonacionForm" class="form">
+              <div class="section-container">
+                  <div class="row mb-4">
+                      <div class="col-md-2">
+                          <h6 class="form-label">Credito ID: <span>{{singleCondonacionData.Credito_ID}}</span></h6>
+                      </div>
+                      <div class="col-md-5">
+                        <h6 class="form-label">
+                          Deuda Total del Cliente:
+                          <span>{{ deudaTotalPendiente | number:'1.2-2' }}</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-5">
+                        <h6  class="form-label" *ngIf="primeraCuotaPendiente; else noAtraso">
+                          Días de Atraso:
+                          <span>
+                            {{ primeraCuotaPendiente!.Atraso }}
+                            de la cuota N° {{ primeraCuotaPendiente!.Nro_Cuota }}
+                          </span>
+                        </h6>
+                        <ng-template #noAtraso>
+                          <h6 class="form-label">No hay cuotas pendientes</h6>
+                        </ng-template>
+                      </div>
+
+
+                  </div>
+
+                  <div class="row mb-4">
+                      <div class="col-md-6">
+                        <label class="form-label">Motivos de Condonación</label>
+                        <select class="form-control" formControlName="Motivo">
+                          <option value="FALLECIMIENTO">FALLECIMIENTO</option>
+                          <option value="ENFERMEDAD">ENFERMEDAD</option>
+                        </select>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="form-label">Tipo de Condonación</label>
+                        <select
+                          class="form-control"
+                          formControlName="Tipo"
+                          [disabled]="tipoDisabled"
+                        >
+                          <option
+                            *ngFor="let opt of tipoOptions"
+                            [value]="opt.value"
+                          >
+                            {{ opt.label }}
+                          </option>
+                        </select>
+                      </div>
+
+                    </div>
+                      
+          
+          
+                  <div class="row">
+                      <div class="col-md-6">
+                          <label class="form-label">Monto que pagará el Cliente</label>
+                          <input type="text" class="form-control" formControlName="Monto_Pagado" readonly>
+                      </div>
+                      <div class="col-md-6">
+                          <label class="form-label">Monto a Condonar</label>
+                          <input type="text" class="form-control" formControlName="Monto_Condonado" readonly>
+                      </div>
+                  </div>
+              </div>
+          
+                    
+            <div class="section-container">
+              <h4 class="subtitle mb-3">Cuotas del crédito a condonar</h4>
+              <div class="table-responsive">
+                <table class="table  table-bordered">
+                        
+                  <thead class="table-light">
+                    <tr>
+                      <th>
+                        <input
+                          type="checkbox"
+                          (change)="masterToggle()"
+                          [checked]="isAllSelected()"
+                          [indeterminate]="
+                            selectedCuotas.size > 0 && !isAllSelected()
+                          "
+                          [disabled]="!manualSelectionAllowed"
+                        >
+                      </th>
+                      <th>N°</th>
+                      <th style="min-width: 60px;">Fecha Prog.</th>
+                      <th>Cuota Total</th>
+                      <th>Capital</th>
+                      <th>Interés</th>
+                      <th>Mora</th>
+                      <th>Días Atraso</th>
+                      <th>Saldo Pendiente</th>
+                      <th style="min-width: 60px;">Fecha Pago</th>
+                      <th>Pagado</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+            
+                  <tbody>
+                      <tr *ngIf="cronogramaData.length === 0">
+                        <td colspan="12" class="text-center">No hay cuotas para mostrar.</td>
+                      </tr>
+                      <tr
+                        *ngFor="let cuota of cronogramaData"
+                        [class.table-active]="isSelected(cuota.Nro_Cuota)"
+                      >
+                        <td>
+                          <input
+                            type="checkbox"
+                            [disabled]="
+                              cuota.Estado_Cuota === '1'
+                              || !manualSelectionAllowed
+                            "
+                            [checked]="isSelected(cuota.Nro_Cuota)"
+                            (change)="toggleSelection(cuota)"
+                          >
+                        </td>
+                        <td>{{ cuota.Nro_Cuota }}</td>
+                        <td>{{ cuota.Fecha_Programada }}</td>
+                        <td>{{ cuota.Cuota_Total  | number:'1.2-2' }}</td>
+                        <td>{{ cuota.Amortizado   | number:'1.2-2' }}</td>
+                        <td>{{ cuota.Interes      | number:'1.2-2' }}</td>
+                        <td>{{ cuota.Mora         | number:'1.2-2' }}</td>
+                        <td>{{ cuota.Atraso }}</td>
+                        <td>{{ cuota.Cuota_Actual | number:'1.2-2' }}</td>
+                        <td>{{ cuota.Fecha_Pago ? cuota.Fecha_Pago : '-' }}</td>
+                        <td>{{ cuota.Total_Pagar  | number:'1.2-2' }}</td>
+                        <td>
+                          <span class="fw-bold" [ngClass]="{
+                              'text-success': cuota.Estado_Cuota == '1',
+                              'text-danger' : cuota.Estado_Cuota == '0'
+                            }">
+                            {{ cuota.Estado_Cuota == '1' ? 'Pagado' : 'Pendiente' }}
+                          </span>
+                        </td>
+                      </tr>
+                  </tbody>
+
+                  <tfoot class="table-primary">
+                    <tr>
+                      <td></td>
+                      <td colspan="2"><strong>TOTALES</strong></td>
+                      <td>{{ getTotal('Cuota_Total')  | number:'1.2-2' }}</td>
+                      <td>{{ getTotal('Amortizado')   | number:'1.2-2' }}</td>
+                      <td>{{ getTotal('Interes')      | number:'1.2-2' }}</td>
+                      <td>{{ getTotal('Mora')         | number:'1.2-2' }}</td>
+                      <td></td>
+                      <td>{{ getTotal('Cuota_Actual') | number:'1.2-2' }}</td>
+                      <td></td>
+                      <td>{{ getTotal('Total_Pagar')  | number:'1.2-2' }}</td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+
+                </table>
+              </div>
+            </div>
+
+              <div class="section-container">
+                
+                  <div class="row d-flex">
+                      <div class="col-md-6">
+                        <div class="row mb-3">
+                          <div class="col-md-6">
+                            <label class="form-label">Tipo de Pago</label>
+                            <select class="form-control" formControlName="Tipo_Pago">
+                              <option value="EFECTIVO">EFECTIVO</option>
+                              <option value="TRANSFERENCIA">TRANSFERENCIA</option>
+                            </select>
+                          </div>
+                        </div>
+                        
+                        <div class="row mb-3" *ngIf="showFotoTransferencia">
+                          <div class="col-md-4">
+                            <label class="form-label">Banco</label>
+                            <select name="" id=""  class="form-control" formControlName="Banco">
+                              <option value="BCP">BCP</option>
+                              <option value="ScotiaBank">ScotiaBank</option>
+                              <option value="BBVA">BBVA</option>
+                              <option value="Interbank">Interbank</option>
+                            </select>
+                          </div>
+
+                          <div class="col-md-4">
+                            <label class="form-label" >N° Operación</label>
+                            <input class="form-control" type="number" formControlName="Transaccion" >
+                          </div>
+
+
+                          <div class="col-md-4">
+                            <label class="form-label" >Fecha Voucher</label>
+                            <input class="form-control" type="date" formControlName="Fecha_Voucher">
+                          </div>
+
+                        </div>
+
+                        <div class="row g-2">
+                          <label class="form-label">Foto del Pago</label>
+                          <app-general-upload-input-img
+                            [aspectRatio]="8/12" 
+                            [width]="'400px'" 
+                            [height]="'500px'" 
+                            type="new"
+                            width="100%"
+                            (fileSelected)="onFileSelected($event, 'Foto_Transferencia')">
+                          </app-general-upload-input-img>
+                        </div>
+                      </div>
+              
+                      <div class="col-md-6">
+                        <div class="row mb-3">
+                          <div class="col-md-12"> 
+                            <label class="form-label">Comentario</label>
+                            <input type="text" class="form-control" formControlName="Comentario">
+                          </div>
+                        </div>
+              
+                        <div class="row g-2">
+                          <label class="form-label">Foto de Sustento</label>
+                          <app-general-upload-input-img
+                            [aspectRatio]="8/12"
+                            [width]="'400px'" 
+                            [height]="'500px'" 
+                            type="new"
+                            width="100%"
+                            (fileSelected)="onFileSelected($event, 'Foto_Sustento')">
+                          </app-general-upload-input-img>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+
+          
+
+          
+              
+              <div class="d-flex justify-content-end align-items-center mt-5">
+                  <app-submit-form 
+                  [form]="condonacionForm" 
+                  [submitFn]="submitFn.bind(this)" 
+                  label="Condonar Crédito"
+                  >
+                </app-submit-form>
+              </div>
+          </form>
+      </ng-template>
+
+      
+      <ng-template> 
+          <div class="section-container">
+    
+              <app-single-cliente 
+                [type]="'fic'" 
+                [singleClienteIdInput]="singleCondonacionData.ID">
+              </app-single-cliente>
+            
+
+              <app-cliente-tabs 
+                [singleClienteId]="singleCondonacionData.ID" 
+                tipo="view" >
+              </app-cliente-tabs>  
+          </div>   
+      </ng-template>
+
+  </app-general-tab-container>        
+
+</div>
+
+

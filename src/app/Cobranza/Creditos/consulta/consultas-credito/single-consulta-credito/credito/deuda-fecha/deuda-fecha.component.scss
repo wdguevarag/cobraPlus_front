@@ -1,0 +1,19 @@
+.tabla-cronograma{
+    padding: 0px 15px;
+    table{
+        margin: 25px 0px;
+    }
+    thead{
+        background: #1E2A38;
+        th{
+            color: white;
+        }
+    }
+}
+
+thead tr th , tbody tr td , tfoot tr td {
+    @media (max-width: 500px){
+     font-size: 8px !important;
+     padding: 5px !important;
+    }
+}

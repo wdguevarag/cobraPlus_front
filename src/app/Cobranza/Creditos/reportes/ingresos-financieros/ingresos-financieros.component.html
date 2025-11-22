@@ -1,0 +1,100 @@
+<div class="section-container-title d-flex justify-content-between align-items-center">
+  <h3 class="title">Ingresos Financieros</h3>
+</div>
+
+<div class="section-container">
+  <div class="mb-3 d-flex gap-3">
+    <!-- Filtro por fechas -->
+    <div>
+      <label for="fechaInicio">Fecha Inicio:</label>
+      <input
+        id="fechaInicio"
+        type="date"
+        [(ngModel)]="fechaInicio"
+        (ngModelChange)="cargarDatos()"
+        [disabled]="loading"
+        class="form-control"
+      />
+    </div>
+    <div>
+      <label for="fechaFin">Fecha Fin:</label>
+      <input
+        id="fechaFin"
+        type="date"
+        [(ngModel)]="fechaFin"
+        (ngModelChange)="cargarDatos()"
+        [disabled]="loading"
+        class="form-control"
+      />
+    </div>
+    <!-- Filtro por oficina -->
+ 
+    <div>
+      <label for="selectOffice">Oficina:</label>
+      <select
+        id="selectOffice"
+        [(ngModel)]="selectedOffice"
+        (ngModelChange)="onOfficeChange()"
+        [disabled]="loading"
+        class="form-control"
+        style="min-width: 200px;"
+      >
+        <option value="">Todas</option>
+        <option *ngFor="let office of offices" [value]="office">
+          {{ office }}
+        </option>
+      </select>
+    </div>
+
+
+  </div>
+
+  <!-- Contenedor de tabla con overlay de spinner -->
+  <div class="table-responsive position-relative">
+    <!-- Tabla SIEMPRE renderizada -->
+    <table class="table table-bordered table-striped table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Agencia</th>
+          <th>Analista</th>
+          <th>Interés</th>
+          <th>G Adm</th>
+          <th>IGV</th>
+          <th>Mora</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of filteredIngresosData">
+          <td>{{ row.Oficina_Nombre }}</td>
+          <td>{{ row.Usuario_Nombre }}</td>
+          <td>{{ row.Interes_Pagado    | number:'1.2-2' }}</td>
+          <td>{{ row.Gastos_Admin_Pagado| number:'1.2-2' }}</td>
+          <td>{{ row.IGV_Pagado        | number:'1.2-2' }}</td>
+          <td>{{ row.Monto_Mora_Pagado | number:'1.2-2' }}</td>
+          <td>{{ row.Total_Sumatoria   | number:'1.2-2' }}</td>
+        </tr>
+        <!-- Fila de totales -->
+        <tr class="fw-bold">
+          <td colspan="2" class="text-end">Totales:</td>
+          <td>{{ totalInteres    | number:'1.2-2' }}</td>
+          <td>{{ totalGastoAdm   | number:'1.2-2' }}</td>
+          <td>{{ totalIGV        | number:'1.2-2' }}</td>
+          <td>{{ totalMora       | number:'1.2-2' }}</td>
+          <td>{{ totalSumatoria  | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Overlay de spinner mientras carga -->
+    <div
+      *ngIf="loading"
+      class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+      style="background: rgba(255,255,255,0.7);"
+    >
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+</div>

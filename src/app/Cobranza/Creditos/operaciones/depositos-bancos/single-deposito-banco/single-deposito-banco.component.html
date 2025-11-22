@@ -1,0 +1,44 @@
+<div *ngIf="!isLoading">
+  <div class="section-container-title d-flex justify-content-between align-items-center">
+    <h3 class="title">Depósitos a Banco (Cod: {{ depositoForm.get('ID')?.value }})</h3>
+  </div>
+
+  <div class="section-container">
+    <form [formGroup]="depositoForm">
+      <div class="row mb-2">
+        <div class="col-md-4">
+          <label for="banco" class="form-label">Banco</label>
+          <input type="text" id="banco" class="form-control" value="{{singleDeposioBancoData.Banco_Nombre}}" readonly>
+
+          <input style="display: none;" type="text" id="banco" class="form-control" formControlName="Banco" readonly>
+        </div>
+
+        <div class="col-md-4">
+          <label for="fechaVoucher" class="form-label">Fecha Voucher</label>
+          <input type="date" id="fechaVoucher" class="form-control" formControlName="Fecha_Voucher" readonly>
+        </div>
+
+        <div class="col-md-2">
+          <label for="monto" class="form-label">Monto</label>
+          <input type="number" id="monto" class="form-control" formControlName="Monto" readonly>
+        </div>
+
+        <div class="col-md-2">
+          <label for="operacion" class="form-label">Nº Operación</label>
+          <input type="number" id="operacion" class="form-control" formControlName="Nro_Operacion" readonly>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="section-container-img-form row justify-content-center">
+    <div class="section-container-img col-md-12">
+      <div class="contenedor-image">
+        <label>Foto del voucher</label>
+        <img [src]="page_url + singleDeposioBancoData.url_foto" alt="Foto Voucher" style="min-width: 300px;height: auto;
+        ">
+      </div>
+    </div>
+  </div>
+
+</div>

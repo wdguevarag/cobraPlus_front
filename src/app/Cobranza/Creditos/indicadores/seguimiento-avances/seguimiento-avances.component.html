@@ -1,0 +1,152 @@
+<div class="section-container-title d-flex justify-content-between align-items-center">
+  <h3 class="title">Seguimiento de Avances</h3>
+</div>
+
+<div class="section-container">
+  <div class="row mb-4 datos-container">
+    <div class="col-md-4">
+      <label for="fecha" class="form-label">Fecha:</label>
+      <input
+        [type]="activeTab === 'mensual' ? 'month' : 'week'"
+        id="fecha"
+        class="form-control"
+        [(ngModel)]="fechaSeleccionada"
+        (change)="onFilterChange()"
+      >
+    </div>
+
+    <div class="col-md-4">
+      <label for="analista" class="form-label">Analista:</label>
+      <select
+        id="analista"
+        class="form-control"
+        [(ngModel)]="analistaSeleccionado"
+        (change)="onFilterChange()"
+      >
+        <option [ngValue]="null">Todos</option>
+        <option *ngFor="let anal of analistas" [ngValue]="anal.ID">
+          {{ anal.Nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-1">
+      <div class="d-flex justify-content-center align-items-center h-100 btn-resume-container">
+        <button class="btn btn-primary w-100" style="max-width: 60px" (click)="mostrarResumen()">
+          <i class="bi" [ngClass]="{ 'bi-list': !isResumen, 'bi-x-lg': isResumen }"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-container pt-4">
+  <!-- Tabs principal -->
+  <ul class="nav nav-tabs justify-content-center mb-4">
+    <li class="nav-item w-50">
+      <button
+        class="nav-link py-3"
+        [ngClass]="{ 'activo': activeTab === 'mensual', 'inactivo': activeTab !== 'mensual' }"
+        (click)="setActiveTab('mensual')"
+      >
+        MENSUAL
+      </button>
+    </li>
+    <li class="nav-item w-50">
+      <button
+        class="nav-link py-3"
+        [ngClass]="{ 'activo': activeTab === 'semanal', 'inactivo': activeTab !== 'semanal' }"
+        (click)="setActiveTab('semanal')"
+      >
+        SEMANAL
+      </button>
+    </li>
+  </ul>
+
+  <!-- Vista normal -->
+  <div *ngIf="rows.length > 0 && !isResumen" class="table-responsive">
+    <table class="table table-bordered table-hover align-middle text-center shadow-sm">
+      <thead class="thead-class">
+        <tr>
+          <th>Métrica</th>
+          <th>Meta</th>
+          <th>Avance</th>
+          <th>% Cumplimiento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows">
+          <th>{{ row.label }}</th>
+          <td>{{ row.meta | number: '1.0-2' }}</td>
+          <td>{{ row.avance | number: '1.0-2' }}</td>
+          <td>
+            <ng-container *ngIf="row.cumplimiento !== null; else naTpl">
+              <span [ngClass]="{
+                'text-success fw-bold': row.cumplimiento >= 100,
+                'text-warning fw-bold': row.cumplimiento < 100 && row.cumplimiento >= 50,
+                'text-danger fw-bold': row.cumplimiento < 50
+              }">
+                {{ row.cumplimiento | number: '1.0-2' }}%
+              </span>
+            </ng-container>
+            <ng-template #naTpl>—</ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Vista resumen -->
+  <div *ngIf="rows.length > 0 && isResumen">
+    <!-- Sub-tabs -->
+    <ul class="nav nav-tabs justify-content-center mb-4">
+      <li class="nav-item nav-sub-item" *ngFor="let key of metricKeys">
+        <button
+          class="nav-link"
+          [ngClass]="{ 'activo': selectedMetricKey === key, 'inactivo': selectedMetricKey !== key }"
+          (click)="selectedMetricKey = key"
+        >
+          {{ metricLabels[key] }}
+        </button>
+      </li>
+    </ul>
+
+    <!-- Tabla resumen para la métrica seleccionada -->
+    <div *ngIf="selectedMetricKey" class="table-responsive">
+      <table class="table table-bordered table-hover align-middle text-center shadow-sm">
+        <thead class="thead-class">
+          <tr>
+            <th>Gestor</th>
+            <th>Meta</th>
+            <th>Avance</th>
+            <th>% Cumplimiento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>{{ getAnalistaNombre() }}</th>
+            <td>{{ getRowValue(selectedMetricKey, 'meta') | number: '1.0-2' }}</td>
+            <td>{{ getRowValue(selectedMetricKey, 'avance') | number: '1.0-2' }}</td>
+            <td>
+              <ng-container *ngIf="getRowValue(selectedMetricKey, 'cumplimiento') !== null; else naTpl2">
+                <span [ngClass]="{
+                  'text-success fw-bold': getRowValue(selectedMetricKey, 'cumplimiento') >= 100,
+                  'text-warning fw-bold': getRowValue(selectedMetricKey, 'cumplimiento') < 100 && getRowValue(selectedMetricKey, 'cumplimiento') >= 50,
+                  'text-danger fw-bold': getRowValue(selectedMetricKey, 'cumplimiento') < 50
+                }">
+                  {{ getRowValue(selectedMetricKey, 'cumplimiento') | number: '1.0-2' }}%
+                </span>
+              </ng-container>
+              <ng-template #naTpl2>—</ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Mensaje si no hay data -->
+  <p *ngIf="rows.length === 0" class="text-center text-muted">
+    No hay datos disponibles para los filtros seleccionados.
+  </p>
+</div>
