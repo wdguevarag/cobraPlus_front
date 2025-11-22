@@ -1,7 +1,7 @@
 <!-- Debajo del logo -->
 
 <div class="logo_container" (click)="redirectHome()">
-  <img src="../../../../../assets/images/Cobrix-Logo.png" alt="Logo">
+  <img src="assets/images/logo2.0.png" alt="Logo">
 </div>
 
 <div class="container-nav">
@@ -37,7 +37,8 @@
              class="nav-link menu-sub-item"
              routerLinkActive="active">
             <span><i class="{{ acceso.Icono }}"></i></span>
-            <span>{{ acceso.Nombre }}</span>
+            <!-- <span>{{ acceso.Nombre }}</span> -->
+             <span>{{ acceso.Nombre === 'Roles' ? 'Perfiles' : acceso.Nombre }}</span>
           </a>
         </ng-container>
       </div>

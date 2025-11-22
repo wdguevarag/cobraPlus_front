@@ -50,16 +50,17 @@ export class NavigationComponent implements OnInit {
   
           const accesos = rol.accesos || [];
   
-          const aplicacionIDs = [...new Set(accesos.map((a: any) => +a.Aplicacion_ID))];
+          const aplicacionIDs = [...new Set(accesos.map((a: any) => +a.Aplicacion_ID))].slice(0, 1);
           const moduloIDs = [...new Set(accesos.map((a: any) => +a.Modulo_ID))];
           const accesoIDs = [...new Set(accesos.map((a: any) => +a.Acceso_ID))];
   
-          /*
-          console.log('🎯 Accesos del rol:', accesos);
-          console.log('✅ Aplicacion IDs:', aplicacionIDs);
-          console.log('✅ Modulo IDs:', moduloIDs);
-          console.log('✅ Acceso IDs:', accesoIDs);
-          */
+          // console.log('🎯 ROLLLL del rol:', rol);
+
+          // console.log('🎯 Accesos del rol:', accesos);
+          // console.log('✅ Aplicacion IDs:', aplicacionIDs);
+          // console.log('✅ Modulo IDs:', moduloIDs);
+          // console.log('✅ Acceso IDs:', accesoIDs);
+          
           this.aplicacionService.getAplicaciones().subscribe(apps => {
            // console.log('📦 Todas las aplicaciones:', apps);
   
@@ -75,8 +76,17 @@ export class NavigationComponent implements OnInit {
               this.accesoService.getAccesos().subscribe(accs => {
                // console.log('📦 Todos los accesos:', accs);
   
-                this.accesos = accs.filter((acc: any) => accesoIDs.includes(+acc.ID));
-               // console.log('✅ Accesos filtrados:', this.accesos);
+                this.accesos = accs;
+                //console.log('✅ Accesos filtrados:', this.accesos);
+
+                // this.accesos = accs
+                //   .filter((acc: any) => accesoIDs.includes(+acc.ID))
+                //   .map((acc: any) => {
+                //     if (+acc.ID === 6) {
+                //       return { ...acc, Nombre: 'Perfiles' };
+                //     }
+                //     return acc;
+                //   });
               });
             });
           });

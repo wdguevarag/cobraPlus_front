@@ -48,7 +48,8 @@ export class InicioComponent implements OnInit {
   
     // Obtener todas las aplicaciones y luego filtrarlas según el nivel
     this.aplicacionService.getAplicaciones().subscribe(response => {
-      this.aplicacionData = this.filtrarAplicacionesPorNivel(response);
+      this.aplicacionData = this.filtrarAplicacionesPorNivel(response).slice(0, 1);
+      console.log('🎯 Aplicaciones filtradas para el nivel', this.usuarioNivel, ':', this.aplicacionData);
     }, error => {
       console.error('Error al obtener las Empresas', error);
     });
