@@ -31,6 +31,7 @@
     "@mui/material": "^6.4.6",
     "@ng-bootstrap/ng-bootstrap": "^17.0.0",
     "@popperjs/core": "^2.11.8",
+    "angular-cli-ghpages": "^2.0.3",
     "apexcharts": "^3.49.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
@@ -41,7 +42,6 @@
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "leaflet": "^1.9.4",
-    "sistema-cobranza": "file:",
     "ng-apexcharts": "1.11.0",
     "ng2-charts": "^4.1.1",
     "ngx-image-cropper": "^9.1.5",
@@ -49,6 +49,7 @@
     "primeicons": "^7.0.0",
     "primeng": "^18.0.2",
     "rxjs": "~7.8.1",
+    "sistema-cobranza": "file:",
     "tslib": "^2.6.3",
     "xlsx": "^0.18.5",
     "zone.js": "~0.14.7"
