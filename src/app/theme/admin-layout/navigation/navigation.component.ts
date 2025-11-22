@@ -50,7 +50,7 @@ export class NavigationComponent implements OnInit {
   
           const accesos = rol.accesos || [];
   
-          const aplicacionIDs = [...new Set(accesos.map((a: any) => +a.Aplicacion_ID))].slice(0, 1);
+          const aplicacionIDs = [...new Set(accesos.map((a: any) => +a.Aplicacion_ID))];
           const moduloIDs = [...new Set(accesos.map((a: any) => +a.Modulo_ID))];
           const accesoIDs = [...new Set(accesos.map((a: any) => +a.Acceso_ID))];
   
