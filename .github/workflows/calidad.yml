@@ -1,0 +1,64 @@
+name: Deploy CobrixPlus
+
+on:
+  push:
+    branches:
+      - calidad
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Compilar Angular
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar aplicación
+        run: npm run build -- --configuration production --base-href /cobraPlus_front/
+
+      - name: Verificar compilación
+        run: |
+          find dist -maxdepth 3 -type f | head -100
+          test -f dist/CobrixPlus/index.html
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir aplicación compilada
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist/CobrixPlus
+
+  deploy:
+    name: Publicar aplicación
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Desplegar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
