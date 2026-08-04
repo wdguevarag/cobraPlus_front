@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CreditoService } from 'src/app/Services/creditos.service';
 
 @Component({
@@ -9,7 +9,9 @@ import { CreditoService } from 'src/app/Services/creditos.service';
 export class DatosComponent {
 
   @Input() credito_id!: number;
+  @Output() loaded = new EventEmitter<void>();
   creditoData: any = {};
+  isLoading: boolean = true;
 
   constructor(private creditoService: CreditoService) {}
 
@@ -22,9 +24,13 @@ export class DatosComponent {
       (data) => {
         this.creditoData = data;
         console.log("creditoData", this.creditoData);
+        this.isLoading = false;
+        this.loaded.emit();
       },
       (error) => {
         console.error('Error al obtener los datos del cronograma', error);
+        this.isLoading = false;
+        this.loaded.emit();
       }
     );
   }

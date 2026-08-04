@@ -11,6 +11,7 @@ export class DeudaFechaComponent {
   @Input() credito_id!: number;
   cronogramaData: any = {};
   estadoCronograma: number = 2;
+  isLoading: boolean = true;
 
   deudaProyectada: string;
   fechaPago: string = new Date().toISOString().split('T')[0];
@@ -19,21 +20,22 @@ export class DeudaFechaComponent {
 
   ngOnInit(): void {
     this.obtenerDatosCuotas();
-    console.log(this.getTotalSecond())
   }
 
   obtenerDatosCuotas(): void {
     this.cuotasCronogramaService.getCreditoCronogramaByFecha(this.fechaPago, this.credito_id, 2).subscribe(
       (data) => {
         //this.cronogramaData = data;
-        this.cronogramaData =  Array.isArray(data) 
+        this.cronogramaData =  Array.isArray(data)
                   ? data.sort((a, b) => Number(a.Nro_Cuota) - Number(b.Nro_Cuota))
                   : [];
 
         console.log(this.cronogramaData);
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error al obtener los datos del cronograma', error);
+        this.isLoading = false;
       }
     );
   }
@@ -100,18 +102,18 @@ export class DeudaFechaComponent {
   onFechaPagoChange() {
     if (this.fechaPago) {
       console.log('Fecha seleccionada:', this.fechaPago);
-      console.log(this.getTotalSecond())
+      this.isLoading = true;
       this.cuotasCronogramaService.getCreditoCronogramaByFecha(this.fechaPago, this.credito_id, 1).subscribe(
         (data) => {
           //this.cronogramaData = data;
-          this.cronogramaData =  Array.isArray(data) 
+          this.cronogramaData =  Array.isArray(data)
                     ? data.sort((a, b) => Number(a.Nro_Cuota) - Number(b.Nro_Cuota))
                     : [];
-
-
+          this.isLoading = false;
         },
         (error) => {
           console.error('Error al actualizar la fecha de pago', error);
+          this.isLoading = false;
         }
       );
     } else {

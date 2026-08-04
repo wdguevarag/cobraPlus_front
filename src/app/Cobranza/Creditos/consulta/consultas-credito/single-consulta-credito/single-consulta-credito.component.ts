@@ -13,6 +13,7 @@ import { DatosComponent } from './credito/datos/datos.component';
 export class SingleConsultaCreditoComponent implements OnInit {
 
   creditoClientData: any;
+  isLoading: boolean = true;
 
   consultasCreditosTabs = [
     { title: 'CREDITO', value: 'Credito' },
@@ -24,14 +25,27 @@ export class SingleConsultaCreditoComponent implements OnInit {
   ngOnInit(): void {
     const creditoId = Number(this.route.snapshot.paramMap.get('id'));
     if (creditoId) {
-      this.creditoService.getCreditosAndDataClientByIdCredito(creditoId).subscribe(credito => {
-        if (Array.isArray(credito) && credito.length > 0) {
-          this.creditoClientData = credito[0];
-        } else {
-          console.log('No se encontraron datos');
+      this.creditoService.getCreditosAndDataClientByIdCredito(creditoId).subscribe({
+        next: credito => {
+          if (Array.isArray(credito) && credito.length > 0) {
+            this.creditoClientData = credito[0];
+            // El loader se mantiene hasta que la pestaña "Datos" (visible por defecto) también termine de cargar
+          } else {
+            console.log('No se encontraron datos');
+            this.isLoading = false;
+          }
+        },
+        error: () => {
+          this.isLoading = false;
         }
       });
+    } else {
+      this.isLoading = false;
     }
+  }
+
+  onDatosLoaded(): void {
+    this.isLoading = false;
   }
 
 }

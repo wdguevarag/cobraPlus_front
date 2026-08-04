@@ -5,7 +5,7 @@
 </div>
 
 <div class="container-nav">
-<nav *ngFor="let aplicacion of aplicaciones" class="nav flex-column">
+<nav *ngFor="let aplicacion of aplicacionesVisibles" class="nav flex-column">
   <div class="menu-group">
     <span>{{ aplicacion.Nombre }}</span>
   </div>
@@ -38,7 +38,7 @@
              routerLinkActive="active">
             <span><i class="{{ acceso.Icono }}"></i></span>
             <!-- <span>{{ acceso.Nombre }}</span> -->
-             <span>{{ acceso.Nombre === 'Roles' ? 'Perfiles' : acceso.Nombre }}</span>
+             <span>{{ acceso.Nombre === 'Roles' ? 'Perfiles' : (acceso.Nombre === 'Fic' ? 'Ficha cliente' : acceso.Nombre) }}</span>
           </a>
         </ng-container>
       </div>

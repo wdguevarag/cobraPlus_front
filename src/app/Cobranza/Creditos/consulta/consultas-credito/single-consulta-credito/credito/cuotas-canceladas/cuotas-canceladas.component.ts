@@ -10,6 +10,7 @@ export class CuotasCanceladasComponent {
   @Input() credito_id!: number;
   cronogramaData: any = {};
   estadoCronograma: number = 1;
+  isLoading: boolean = true;
 
   constructor(private cuotasCronogramaService : CuotasCronogramaService) {}
 
@@ -22,9 +23,11 @@ export class CuotasCanceladasComponent {
       (data) => {
         this.cronogramaData = data;
         console.log(this.cronogramaData);
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error al obtener los datos del cronograma', error);
+        this.isLoading = false;
       }
     );
   }

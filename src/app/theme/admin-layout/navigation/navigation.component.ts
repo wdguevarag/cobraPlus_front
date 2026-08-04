@@ -31,6 +31,17 @@ export class NavigationComponent implements OnInit {
 
   menuStates: { [key: string]: boolean } = {};
 
+  // Restricción temporal: solo estas aplicaciones/módulos/accesos quedan habilitados en el menú
+  private allowedAplicaciones = ['Créditos'];
+  private allowedModulosPorAplicacion: { [aplicacion: string]: string[] } = {
+    'Créditos': ['Mantenimiento', 'Consulta', 'Créditos']
+  };
+  private allowedAccesosPorModulo: { [modulo: string]: string[] } = {
+    'Mantenimiento': ['Clientes'],
+    'Consulta': ['Simulador', 'Fic', 'Consultas Crédito'],
+    'Créditos': ['Solicitud Créditos']
+  };
+
   constructor(
     private authService: AuthService,
     private rolService: RolService,
@@ -54,39 +65,29 @@ export class NavigationComponent implements OnInit {
           const moduloIDs = [...new Set(accesos.map((a: any) => +a.Modulo_ID))];
           const accesoIDs = [...new Set(accesos.map((a: any) => +a.Acceso_ID))];
   
-          // console.log('🎯 ROLLLL del rol:', rol);
-
-          // console.log('🎯 Accesos del rol:', accesos);
-          // console.log('✅ Aplicacion IDs:', aplicacionIDs);
-          // console.log('✅ Modulo IDs:', moduloIDs);
-          // console.log('✅ Acceso IDs:', accesoIDs);
-          
+          /*
+          console.log('🎯 Accesos del rol:', accesos);
+          console.log('✅ Aplicacion IDs:', aplicacionIDs);
+          console.log('✅ Modulo IDs:', moduloIDs);
+          console.log('✅ Acceso IDs:', accesoIDs);
+          */
           this.aplicacionService.getAplicaciones().subscribe(apps => {
            // console.log('📦 Todas las aplicaciones:', apps);
   
-            this.aplicaciones = apps.filter((a: any) => aplicacionIDs.includes(+a.ID));
+            this.aplicaciones = apps;
            // console.log('✅ Aplicaciones filtradas:', this.aplicaciones);
   
             this.moduloService.getModulos().subscribe(mods => {
              // console.log('📦 Todos los módulos:', mods);
   
-              this.modulos = mods.filter((m: any) => moduloIDs.includes(+m.ID));
+              this.modulos = mods;
              // console.log('✅ Módulos filtrados:', this.modulos);
   
               this.accesoService.getAccesos().subscribe(accs => {
                // console.log('📦 Todos los accesos:', accs);
   
                 this.accesos = accs;
-                //console.log('✅ Accesos filtrados:', this.accesos);
-
-                // this.accesos = accs
-                //   .filter((acc: any) => accesoIDs.includes(+acc.ID))
-                //   .map((acc: any) => {
-                //     if (+acc.ID === 6) {
-                //       return { ...acc, Nombre: 'Perfiles' };
-                //     }
-                //     return acc;
-                //   });
+               // console.log('✅ Accesos filtrados:', this.accesos);
               });
             });
           });
@@ -105,12 +106,22 @@ export class NavigationComponent implements OnInit {
     this.menuStates[key] = !this.menuStates[key];
   }
 
-  getModulosByAplicacion(aplicacionId: number): any[] {
-    return this.modulos.filter(m => +m.Aplicacion_ID === +aplicacionId);
+  get aplicacionesVisibles(): any[] {
+    return this.aplicaciones.filter(a => this.allowedAplicaciones.includes(a.Nombre));
   }
-  
+
+  getModulosByAplicacion(aplicacionId: number): any[] {
+    const aplicacion = this.aplicaciones.find(a => +a.ID === +aplicacionId);
+    const modulos = this.modulos.filter(m => +m.Aplicacion_ID === +aplicacionId);
+    const allowed = aplicacion ? this.allowedModulosPorAplicacion[aplicacion.Nombre] : null;
+    return allowed ? modulos.filter(m => allowed.includes(m.Nombre)) : modulos;
+  }
+
   getAccesosByModulo(moduloId: number): any[] {
-    return this.accesos.filter(a => +a.Modulo_ID === +moduloId);
+    const modulo = this.modulos.find(m => +m.ID === +moduloId);
+    const accesos = this.accesos.filter(a => +a.Modulo_ID === +moduloId);
+    const allowed = modulo ? this.allowedAccesosPorModulo[modulo.Nombre] : null;
+    return allowed ? accesos.filter(a => allowed.includes(a.Nombre)) : accesos;
   }
 
   getRuta(baseRoute: string, nombre: string): string {

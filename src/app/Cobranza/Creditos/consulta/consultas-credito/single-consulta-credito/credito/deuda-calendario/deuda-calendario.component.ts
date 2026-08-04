@@ -10,6 +10,7 @@ export class DeudaCalendarioComponent {
   @Input() credito_id!: number;
   cronogramaData: any = {};
   estadoCronograma: number = 0;
+  isLoading: boolean = true;
 
   constructor(private cuotasCronogramaService : CuotasCronogramaService) {}
 
@@ -27,9 +28,11 @@ obtenerDatosCuotas(): void {
           ? data.sort((a, b) => a.Nro_Cuota - b.Nro_Cuota) // Orden de 1 a 12
           : [];
         console.log(this.cronogramaData);
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error al obtener los datos del cronograma', error);
+        this.isLoading = false;
       }
     );
 }

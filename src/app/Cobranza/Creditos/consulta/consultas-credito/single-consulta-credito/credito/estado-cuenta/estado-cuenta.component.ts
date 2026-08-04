@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { CreditoService } from 'src/app/Services/creditos.service';
 import { CuotasCronogramaService } from 'src/app/Services/cuotas-cronograma.service';
 
@@ -10,6 +12,7 @@ import { CuotasCronogramaService } from 'src/app/Services/cuotas-cronograma.serv
 export class EstadoCuentaComponent {
   @Input() credito_id!: number;
   cronogramaData: any = {};
+  isLoading: boolean = true;
 
   creditoClientData : any ;
 
@@ -19,30 +22,29 @@ export class EstadoCuentaComponent {
   ) {}
 
   ngOnInit(): void {
-  this.creditoService.getCreditosAndDataClientByIdCredito(this.credito_id).subscribe(credito => {
-    if (Array.isArray(credito) && credito.length > 0) {
-      this.creditoClientData = credito[0];
-    } else {
-      console.log('No se encontraron datos');
-    }
-  });
-
-  
-    this.obtenerKardexCronograma();
-  }
-
-
-
-  obtenerKardexCronograma(): void {
-    this.cuotasCronogramaService.getEstadoCuentaCronogramaByCreditoId(this.credito_id).subscribe(
-      (data) => {
-        this.cronogramaData = data;
-        console.log(this.cronogramaData);
-      },
-      (error) => {
-        console.error('Error al obtener los datos del kardex', error);
+    forkJoin({
+      credito: this.creditoService.getCreditosAndDataClientByIdCredito(this.credito_id).pipe(
+        catchError((error) => {
+          console.error('Error al obtener el cliente del credito', error);
+          return of(null);
+        })
+      ),
+      cronograma: this.cuotasCronogramaService.getEstadoCuentaCronogramaByCreditoId(this.credito_id).pipe(
+        catchError((error) => {
+          console.error('Error al obtener los datos del kardex', error);
+          return of({});
+        })
+      )
+    }).subscribe(({ credito, cronograma }) => {
+      if (Array.isArray(credito) && credito.length > 0) {
+        this.creditoClientData = credito[0];
+      } else {
+        console.log('No se encontraron datos');
       }
-    );
+      this.cronogramaData = cronograma;
+      console.log(this.cronogramaData);
+      this.isLoading = false;
+    });
   }
 
   getTotal(field: string): number {

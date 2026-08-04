@@ -188,10 +188,11 @@
     </form>
   
     <div *ngIf="type !== 'fic' && !isEditing">
-        <app-cliente-tabs 
-          [singleClienteId]="singleClienteId" 
+        <app-cliente-tabs
+          [singleClienteId]="singleClienteId"
+          [visibleTabIndices]="[0,1,2,3]"
           tipo="edit">
-        </app-cliente-tabs>          
+        </app-cliente-tabs>
     </div>
   
 </div>

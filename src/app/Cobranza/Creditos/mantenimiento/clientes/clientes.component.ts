@@ -39,7 +39,7 @@ export class ClientesComponent implements OnInit {
         this.currentUser = user;
       });
       this.clienteService.getClientes().subscribe(response => {
-        this.clientesData = response.filter(cliente => cliente.Empresa_ID == this.currentUser.Empresa_ID);
+        this.clientesData = response;
         console.log(this.clientesData)
       }, error => {
         console.error('Error al obtener los accesos', error);

@@ -1,4 +1,10 @@
-<div class="table-responsive tabla-cronograma">
+<div *ngIf="isLoading" class="spinner-container">
+    <div style="width: 100%; height: 200px; display: flex; justify-content: center; align-items: center;">
+        <span class="spinner-border"></span>
+    </div>
+</div>
+
+<div *ngIf="!isLoading" class="table-responsive tabla-cronograma">
   <div class="row align-items-end mb-3 mt-4">
     <div class="col-md-6 col-lg-4">
       <label for="deudaProyectada" class="form-label fw-bold">Deuda Proyectada</label>

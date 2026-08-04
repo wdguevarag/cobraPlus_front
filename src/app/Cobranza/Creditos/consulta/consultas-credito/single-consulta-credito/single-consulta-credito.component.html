@@ -1,4 +1,9 @@
-<div class="pt-5">
+<div *ngIf="isLoading" class="spinner-container"
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 2000; display: flex; justify-content: center; align-items: center;">
+    <span class="spinner-border"></span>
+</div>
+
+<div *ngIf="creditoClientData" class="pt-5">
     <app-general-tab-container [tabs]="consultasCreditosTabs" [type]="'top'">
 
         <ng-template>
@@ -65,7 +70,7 @@
                 </div>
                 <mat-tab-group>
                     <mat-tab label="Datos">
-                        <app-datos [credito_id]="creditoClientData.ID_Credito"></app-datos>
+                        <app-datos [credito_id]="creditoClientData.ID_Credito" (loaded)="onDatosLoaded()"></app-datos>
                     </mat-tab>
                     <mat-tab label="Cuotas Canceladas">
                         <app-cuotas-canceladas [credito_id]="creditoClientData.ID_Credito"></app-cuotas-canceladas>
@@ -89,7 +94,7 @@
         <ng-template>
             <div class="section-container">
                 <app-single-cliente [type]="'fic'" [singleClienteIdInput]="creditoClientData.ID_Cliente"></app-single-cliente>
-                <app-cliente-tabs [singleClienteId]="creditoClientData.ID_Cliente" tipo="view"></app-cliente-tabs>
+                <app-cliente-tabs [singleClienteId]="creditoClientData.ID_Cliente" [visibleTabIndices]="[0,1,2,3]" tipo="view"></app-cliente-tabs>
             </div>
         </ng-template>
 
